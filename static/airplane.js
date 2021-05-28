@@ -66,7 +66,7 @@ function drawTrace() {
 function pauseMovement() {
   airplane.paused = !airplane.paused;
   messagePause.visible = !messagePause.visible;
-  drawTrace();d
+  drawTrace();
 }
 
 /* KEYBINDS */
