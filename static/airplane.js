@@ -10,13 +10,7 @@ let airplane = {
     FAST_LEFT: -1,
     FAST_RIGHT: 1,
   },
-  trace: {
-    objects: [],
-    startPoint: {
-      x: 0,
-      y: 0
-    }
-  },
+  trail: null,
 };
 
 const keyBinds = {
@@ -42,23 +36,13 @@ function rotateAirplane() {
     airplane.obj.rotation += airplane.rotation * (Math.PI / 180);
 }
 
-/* AIRPLANE TRACE */
+/* AIRPLANE TRAIL */
 
-function drawTrace() {
+function drawTrail() {
   if (airplane.paused) { return false };
 
-  let trace = airplane.trace;
-  let line = new Graphics();
-  line.lineStyle(1, 0xFFFFFF, 1);
-
-  line.moveTo(trace.startPoint.x, trace.startPoint.y);
-  line.lineTo(airplane.obj.x, airplane.obj.y);
-
-  trace.startPoint.x = airplane.obj.x;
-  trace.startPoint.y = airplane.obj.y;
-
-  app.stage.addChild(line);
-  trace.objects.push(line);
+  airplane.trail.lineStyle(1, 0xFFFFFF, 1);
+  airplane.trail.lineTo(airplane.obj.x, airplane.obj.y);
 }
 
 /* PAUSE MOVEMENT */

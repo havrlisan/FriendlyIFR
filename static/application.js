@@ -21,9 +21,9 @@ function setup() {
   airplane.obj.anchor.set(0.5, 0.5);
   airplane.obj.position.set((app.renderer.view.width / 2) - (airplane.obj.width / 2), (app.renderer.view.height / 2) - (airplane.obj.height / 2));
 
-  // Trace starting point
-  airplane.trace.startPoint.x = (app.renderer.view.width / 2) - (airplane.obj.width / 2);
-  airplane.trace.startPoint.y = (app.renderer.view.height / 2) - (airplane.obj.height / 2);
+  // Airplane trail
+  airplane.trail = new Graphics();
+  airplane.trail.moveTo(airplane.obj.x, airplane.obj.y);
 
   // Pause message
   messagePause = new Text("Paused", messageStyle);
@@ -32,13 +32,14 @@ function setup() {
 
   // Add contents to stage 
   app.stage.addChild(airplane.obj);
+  app.stage.addChild(airplane.trail);
   app.stage.addChild(messagePause);
 
   // create a loop (called 60 times per second)
   app.ticker.add(delta => renderLoop(delta));
 
-  // create another loop for trace
-  setInterval(drawTrace, TRACE_INTERVAL);
+  // create another loop for trace  
+  setInterval(drawTrail, TRAIL_INTERVAL);
 
   // Enable controls
   appLoaded = true;

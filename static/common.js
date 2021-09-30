@@ -2,7 +2,7 @@
 
 // CONSTANTS
 
-const TRACE_INTERVAL = 10; // draw trace line every 0.1 second (SHOULD BE CHANGEABLE in case of memory consumption)
+const TRAIL_INTERVAL = 10; // TODO: make dependent of airplane speed
 const PAUSE_KEY = "P";
 
 /* DEFINITIONS */
