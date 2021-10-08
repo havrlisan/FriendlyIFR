@@ -1,6 +1,6 @@
 /* DEFINITIONS */
 
-let airplane = {
+const airplane = {
   obj: null,
   paused: false,
   rotation: null,
@@ -11,6 +11,10 @@ let airplane = {
     FAST_RIGHT: 1,
   },
   trail: null,
+  lastPosition: {
+    x: 0,
+    y: 0,
+  },
 };
 
 const keyBinds = {
@@ -24,8 +28,8 @@ const keyBinds = {
 
 function advanceAirplane() {
   // TODO: Implement custom velocity
-  airplane.obj.vx = 0.4;
-  airplane.obj.vy = 0.4;
+  airplane.obj.vx = 0.5;
+  airplane.obj.vy = 0.5;
 
   airplane.obj.x += airplane.obj.vx * Math.cos(airplane.obj.rotation);
   airplane.obj.y += airplane.obj.vy * Math.sin(airplane.obj.rotation);
@@ -40,9 +44,13 @@ function rotateAirplane() {
 
 function drawTrail() {
   if (airplane.paused) { return false };
+  airplane.trail
+    .lineStyle(1, 0xFFFFFF, 1)
+    .moveTo(airplane.lastPosition.x, airplane.lastPosition.y)
+    .lineTo(airplane.obj.x, airplane.obj.y);
 
-  airplane.trail.lineStyle(1, 0xFFFFFF, 1);
-  airplane.trail.lineTo(airplane.obj.x, airplane.obj.y);
+  airplane.lastPosition.x = airplane.obj.x;
+  airplane.lastPosition.y = airplane.obj.y;
 }
 
 /* PAUSE MOVEMENT */
@@ -50,7 +58,17 @@ function drawTrail() {
 function pauseMovement() {
   airplane.paused = !airplane.paused;
   messagePause.visible = !messagePause.visible;
-  drawTrace();
+  drawTrail();
+}
+
+/* VISIBILITY */
+
+function toggleAircraftVisibility(visible = true) {
+  console.log(airplane.obj.visible);
+  if (visible === false)
+    airplane.obj.visible = false;
+  else
+    airplane.obj.visible = !airplane.obj.visible;
 }
 
 /* KEYBINDS */
@@ -62,6 +80,8 @@ function onKeyDown(event) {
     pauseMovement();
   else if (keyBinds.hasOwnProperty(key))
     airplane.rotation = keyBinds[key];
+  else if (key == VISIBILITY_KEY)
+    toggleAircraftVisibility();
 }
 
 function onKeyUp(event) {

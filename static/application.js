@@ -2,44 +2,42 @@
 
 appParent.appendChild(app.view);
 
-loader
+PIXI.Loader.shared.onProgress.add(loadProgressHandler);
+PIXI.Loader.shared
   .add("airplaneImage", "static/images/airplane.png")
-  .on("progress", loadProgressHandler)
   .load(setup);
 
 /* SETUP */
 
 function setup() {
   // App
-  app.renderer.view.width = appParent.offsetWidth;
-  app.renderer.view.height = appParent.offsetHeight;
+  app.renderer.view.style.position = "absolute";
+  app.renderer.view.style.display = "block";
+  app.renderer.autoDensity = true;
+  app.resizeTo = window;
 
   // Airplane
-  airplane.obj = new Sprite(loader.resources.airplaneImage.texture);
+  airplane.obj = new PIXI.Sprite(PIXI.Loader.shared.resources.airplaneImage.texture);
   airplane.obj.width = 30;
   airplane.obj.height = 30;
   airplane.obj.anchor.set(0.5, 0.5);
   airplane.obj.position.set((app.renderer.view.width / 2) - (airplane.obj.width / 2), (app.renderer.view.height / 2) - (airplane.obj.height / 2));
+  app.stage.addChild(airplane.obj);
 
   // Airplane trail
-  airplane.trail = new Graphics();
-  airplane.trail.moveTo(airplane.obj.x, airplane.obj.y);
+  airplane.trail = new PIXI.Graphics();
+  app.stage.addChild(airplane.trail);
+  airplane.lastPosition.x = airplane.obj.x;
+  airplane.lastPosition.y = airplane.obj.y;
 
   // Pause message
-  messagePause = new Text("Paused", messageStyle);
+  messagePause = new PIXI.Text("Paused", messageStyle);
   messagePause.visible = false;
   messagePause.position.set((app.renderer.view.width / 2) - (messagePause.width / 2), (app.renderer.view.height / 2) - (messagePause.height / 2));
-
-  // Add contents to stage 
-  app.stage.addChild(airplane.obj);
-  app.stage.addChild(airplane.trail);
   app.stage.addChild(messagePause);
 
   // create a loop (called 60 times per second)
   app.ticker.add(delta => renderLoop(delta));
-
-  // create another loop for trace  
-  setInterval(drawTrail, TRAIL_INTERVAL);
 
   // Enable controls
   appLoaded = true;
@@ -55,23 +53,25 @@ function loadProgressHandler(loader, resource) {
 /* WINDOW RESIZING */
 
 function resize() {
-  if (!airplane.paused)
-    pauseMovement(); // TEMP (should not be possible in test mode)
-
-  app.renderer.view.width = appParent.offsetWidth;
-  app.renderer.view.height = appParent.offsetHeight;
+  let scale = scaleToWindow(app.renderer.view); // scale can be used to get proper position of an object after resizing
 }
 
 /* RENDER LOOP */
-
+let trailCounter = 0;
 function renderLoop(delta) {
   rotateAirplane();
   if (airplane.paused) { return false };
   advanceAirplane();
+
+  trailCounter++;
+  if (trailCounter > TRAIL_INTERVAL) {
+    drawTrail();
+    trailCounter = 0;
+  }
 }
 
 /* EVENT LISTENERS */
 
 window.addEventListener('resize', resize);
-window.addEventListener('keydown', onKeyDown)
-window.addEventListener('keyup', onKeyUp)
+window.addEventListener('keydown', onKeyDown);
+window.addEventListener('keyup', onKeyUp);

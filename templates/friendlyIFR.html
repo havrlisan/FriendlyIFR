@@ -1,12 +1,7 @@
 {% extends 'layout.html' %}
 
 {% block body %}
-
-<main class="col-md-9 ms-sm-auto col-lg-11">
-  <div class="w-100" id="pixi-app-container" width="1522" height="642"
-    style="display: block; height: 642px; width: 1218px;"></div>
-</main>
-
+<script type="text/javascript" src="{{url_for('static', filename='misc.js')}}"></script>
 <script type="text/javascript" src="{{url_for('static', filename='common.js')}}"></script>
 <script type="text/javascript" src="{{url_for('static', filename='airplane.js')}}"></script>
 <script type="text/javascript" src="{{url_for('static', filename='application.js')}}"></script>

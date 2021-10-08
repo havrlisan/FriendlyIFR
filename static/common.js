@@ -2,34 +2,23 @@
 
 // CONSTANTS
 
-const TRAIL_INTERVAL = 10; // TODO: make dependent of airplane speed
+const TRAIL_INTERVAL = 30; // TODO: make dependent of airplane speed
 const PAUSE_KEY = "P";
+const VISIBILITY_KEY = "V";
 
-/* DEFINITIONS */
+// utils.skipHello();
 
-let Application = PIXI.Application,
-  loader = PIXI.loader,
-  resources = PIXI.loader.resources,
-  Sprite = PIXI.Sprite,
-  Graphics = PIXI.Graphics,
-  Text = PIXI.Text,
-  TextStyle = PIXI.TextStyle,
-  utils = PIXI.utils;
-
-utils.skipHello();
-
-let app = new Application({
-  // autoResize: true, /* TEMP SOLUTION - should resize all the time */
-  resolution: devicePixelRatio,
+let app = new PIXI.Application({
   backgroundColor: 0xA9A9A9,
 });
 
 let appLoaded = false;
-let appParent = document.getElementById("pixi-app-container");
+let appParent = document.body;
+// let appParent = document.getElementById("pixi-app-container");
 
 let messagePause;
 
-let messageStyle = new TextStyle({
+let messageStyle = new PIXI.TextStyle({
   fontFamily: "Arial",
   fontSize: 42,
   fill: "white",
