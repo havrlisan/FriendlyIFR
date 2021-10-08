@@ -17,18 +17,13 @@ function setup() {
     app.resizeTo = window;
 
     // Airplane
-    airplane.obj = new PIXI.Sprite(PIXI.Loader.shared.resources.airplaneImage.texture);
-    airplane.obj.width = 30;
-    airplane.obj.height = 30;
-    airplane.obj.anchor.set(0.5, 0.5);
-    airplane.obj.position.set((app.renderer.view.width / 2) - (airplane.obj.width / 2), (app.renderer.view.height / 2) - (airplane.obj.height / 2));
-    app.stage.addChild(airplane.obj);
+    player = new Airplane(PIXI.Loader.shared.resources.airplaneImage.texture);
+    player.setPosition((app.renderer.view.width / 2) - (player.width / 2), (app.renderer.view.height / 2) - (player.height / 2));
+    app.stage.addChild(player);
 
     // Airplane trail
-    airplane.trail = new PIXI.Graphics();
-    app.stage.addChild(airplane.trail);
-    airplane.lastPosition.x = airplane.obj.x;
-    airplane.lastPosition.y = airplane.obj.y;
+    player.trail = new PIXI.Graphics();
+    app.stage.addChild(player.trail);
 
     // Pause message
     messagePause = new PIXI.Text("Paused", messageStyle);
@@ -59,12 +54,12 @@ function resize() {
 /* RENDER LOOP */
 let trailCounter = 0;
 function renderLoop(delta) {
-    rotateAirplane();
-    if (airplane.paused) { return false };
-    advanceAirplane();
+    player.rotate();
+    if (player.paused) { return false };
+    player.advance();
 
     trailCounter++;
-    if (trailCounter > (TRAIL_INTERVAL / airplane.speed) * 150) {
+    if (trailCounter > (TRAIL_INTERVAL / player.speed) * 150) {
         drawTrail();
         trailCounter = 0;
     }
