@@ -17,6 +17,7 @@ class Airplane extends PIXI.Sprite {
         this.speed = 120;
         this.rotationSpeed = 0;
         this.paused = false;
+        this.setStartPosition();
     };
 
     /* METHODS */
@@ -26,6 +27,10 @@ class Airplane extends PIXI.Sprite {
             x: x,
             y: y,
         };
+    }
+
+    setStartPosition() {
+        this.setPosition((app.renderer.view.width / 2) - (this.width / 2), (app.renderer.view.height / 2) - (this.height / 2));
     }
 
     advance() {
@@ -47,12 +52,25 @@ class Airplane extends PIXI.Sprite {
     }
 
     toggleVisibility() {
-        player.visible = !player.visible;
+        this.visible = !this.visible;
+        this.trail.visible = this.visible;
         return this;
+    }
+
+    reset() {
+        this.speed = 120;
+        this.rotationSpeed = 0;
+        this.rotation = 0;
+        this.visible = true;
+        this.trail.visible = true;
+        this.clearTrail();
+        this.setStartPosition();
     }
 
     /* TRAIL METHODS */
     drawTrail() {
+        if ((this.lastPosition.x === this.x) && (this.lastPosition.y === this.y)) { return this };
+
         this.trail
             .lineStyle(2, 0xFFFFFF, 1)
             .moveTo(this.lastPosition.x, this.lastPosition.y)
