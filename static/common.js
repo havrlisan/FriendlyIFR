@@ -8,8 +8,12 @@ const TRAIL_INTERVAL = 60;
 
 let app;
 let appLoaded = false;
+
 let player;
 let wind;
+
+let instrDG;
+
 let messagePause;
 
 /* METHODS */

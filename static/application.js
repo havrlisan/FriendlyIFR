@@ -10,6 +10,7 @@ document.body.appendChild(app.view);
 PIXI.Loader.shared.onProgress.add((loader, resource) => { console.log("Loading: " + resource.url + " (" + loader.progress + "%)") });
 PIXI.Loader.shared
     .add("airplaneImage", "static/images/airplane.png")
+    .add("DirectionalGyro", "static/images/DG.bmp")
     .load(setup);
 
 /* SETUP */
@@ -23,13 +24,13 @@ function setup() {
 
     // Airplane
     player = new Airplane(PIXI.Loader.shared.resources.airplaneImage.texture);
-    player.setPosition((app.renderer.view.width / 2) - (player.width / 2), (app.renderer.view.height / 2) - (player.height / 2));
-
     // Airplane trail
     player.trail = new PIXI.Graphics();
-
     // Wind
     wind = new Wind(0, 0);
+
+    // Directional Gyro
+    instrDG = new DirectionalGyro(PIXI.Loader.shared.resources.DirectionalGyro.texture);
     
     // Pause message
     messagePause = new PIXI.Text("Paused", new PIXI.TextStyle({
@@ -45,6 +46,7 @@ function setup() {
     // Add objects to stage
     app.stage.addChild(player);
     app.stage.addChild(player.trail);
+    app.stage.addChild(instrDG);
     app.stage.addChild(messagePause);
 
     // create a loop (called 60 times per second)
