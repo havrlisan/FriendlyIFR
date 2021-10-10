@@ -1,28 +1,17 @@
 /* common.js contains root classes that should be accessible to everyone */
 
-// CONSTANTS
+/* CONSTANTS */
 
 const TRAIL_INTERVAL = 60;
-const PAUSE_KEY = "P";
-const VISIBILITY_KEY = "V";
 
-// utils.skipHello();
+/* VARS */
 
-let app = new PIXI.Application({
-    backgroundColor: 0xA9A9A9,
-});
-
+let app;
 let appLoaded = false;
-let appParent = document.body;
-// let appParent = document.getElementById("pixi-app-container");
-
 let player;
+let wind;
 let messagePause;
 
-let messageStyle = new PIXI.TextStyle({
-    fontFamily: "Arial",
-    fontSize: 42,
-    fill: "white",
-    stroke: 'black',
-    strokeThickness: 4,
-});
+/* METHODS */
+
+const degrees_to_radians = deg => (deg * Math.PI) / 180;
