@@ -1,24 +1,25 @@
-/* DEFINITIONS */
-
+/* AIRPLANE CLASS */
 class Airplane extends PIXI.Sprite {
-    // vars
+
+    /* VARS */
     #_speed;
     #_rotationSpeed;
-    #_paused = false;
+    #_paused;
     #_trail;
     #_lastPosition;
 
-    // constructor
+    /* CONSTRUCTOR */
     constructor(texture) {
         super(texture);
         this.width = 30;
         this.height = 30;
         this.anchor.set(0.5, 0.5);
         this.speed = 120;
+        this.rotationSpeed = 0;
         this.paused = false;
     };
 
-    // methods
+    /* METHODS */
     setPosition(x, y) {
         this.position.set(x, y);
         this.lastPosition = {
@@ -28,19 +29,46 @@ class Airplane extends PIXI.Sprite {
     }
 
     advance() {
-        this.x += Math.cos(this.rotation) * this.speed / 3000;
-        this.y += Math.sin(this.rotation) * this.speed / 3000;
+        if (!this.paused) {
+            // move depending on airplane rotation (Heading)
+            this.x += Math.cos(this.rotation) * this.speed / 3000;
+            this.y += Math.sin(this.rotation) * this.speed / 3000;
+
+            // move depending on wind
+            this.x += Math.sin(degrees_to_radians(-wind.direction)) * wind.speed / 3000;
+            this.y += Math.cos(degrees_to_radians(-wind.direction)) * wind.speed / 3000;
+        }
         return this;
     }
 
     rotate() {
-        if (this.rotationSpeed != null)
-            this.rotation += this.rotationSpeed * (Math.PI / 180);
-
+        this.rotation += this.rotationSpeed * (Math.PI / 180);
         return this;
     }
 
-    // getters and setters
+    toggleVisibility() {
+        player.visible = !player.visible;
+        return this;
+    }
+
+    /* TRAIL METHODS */
+    drawTrail() {
+        this.trail
+            .lineStyle(2, 0xFFFFFF, 1)
+            .moveTo(this.lastPosition.x, this.lastPosition.y)
+            .lineTo(this.x, this.y);
+
+        this.lastPosition.x = this.x;
+        this.lastPosition.y = this.y;
+        return this;
+    }
+
+    clearTrail() {
+        this.trail.clear();
+        return this;
+    }
+
+    /* PROPERTIES */
     get speed() { return this._speed };
     set speed(value) { this._speed = value };
     get rotationSpeed() { return this._rotationSpeed };
@@ -52,63 +80,11 @@ class Airplane extends PIXI.Sprite {
     get trail() { return this._trail };
     set trail(value) { this._trail = value };
 
-    // class methods
+    /* STATIC VARS */
     static rotations = {
         LEFT: -0.05,
         RIGHT: 0.05,
         FAST_LEFT: -1,
         FAST_RIGHT: 1,
     };
-}
-
-const keyBinds = {
-    'B': Airplane.rotations.LEFT,
-    'M': Airplane.rotations.RIGHT,
-    'A': Airplane.rotations.FAST_LEFT,
-    'D': Airplane.rotations.FAST_RIGHT,
-};
-
-/* AIRPLANE TRAIL */
-
-function drawTrail() {
-    if (player.paused) { return false };
-    player.trail
-        .lineStyle(2, 0xFFFFFF, 1)
-        .moveTo(player.lastPosition.x, player.lastPosition.y)
-        .lineTo(player.x, player.y);
-
-    player.lastPosition.x = player.x;
-    player.lastPosition.y = player.y;
-}
-
-function clearTrail() {
-    player.trail.clear();
-}
-/* PAUSE MOVEMENT */
-
-function pauseMovement() {
-    player.paused = !player.paused;
-    messagePause.visible = !messagePause.visible;
-    drawTrail();
-}
-
-/* KEYBINDS */
-function onKeyDown(event) {
-    if (!appLoaded) { return false };
-
-    let key = event.key.toUpperCase();
-    if (key == PAUSE_KEY)
-        pauseMovement()
-    else if (keyBinds.hasOwnProperty(key))
-        player.rotationSpeed = keyBinds[key]
-    else if (key == VISIBILITY_KEY)
-        player.visible = !player.visible;
-}
-
-function onKeyUp(event) {
-    if (!appLoaded) { return false };
-
-    let key = event.key.toUpperCase();
-    if (keyBinds.hasOwnProperty(key) && player.rotationSpeed === keyBinds[key]) // prevents short pause when two keys are pressed
-        player.rotationSpeed = null;
 }
