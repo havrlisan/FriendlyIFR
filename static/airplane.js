@@ -14,7 +14,7 @@ class Airplane extends PIXI.Sprite {
         this.width = 30;
         this.height = 30;
         this.anchor.set(0.5, 0.5);
-        this.speed = 120;
+        this.speed = 50;
         this.rotationSpeed = 0;
         this.paused = false;
         this.setStartPosition();
@@ -31,13 +31,14 @@ class Airplane extends PIXI.Sprite {
 
     setStartPosition() {
         this.setPosition((app.renderer.view.width / 2) - (this.width / 2), (app.renderer.view.height / 2) - (this.height / 2));
+        this.angle = 0//90;
     }
 
     advance() {
         if (!this.paused) {
             // move depending on airplane rotation (Heading)
-            this.x += Math.cos(this.rotation) * this.speed / 3000;
-            this.y += Math.sin(this.rotation) * this.speed / 3000;
+            this.x += Math.sin(this.rotation) * this.speed / 3000;
+            this.y -= Math.cos(this.rotation) * this.speed / 3000;
 
             // move depending on wind
             this.x += Math.sin(degrees_to_radians(-wind.direction)) * wind.speed / 3000;
@@ -47,7 +48,7 @@ class Airplane extends PIXI.Sprite {
     }
 
     rotate() {
-        this.rotation += this.rotationSpeed * (Math.PI / 180);
+        this.angle += this.rotationSpeed;
         return this;
     }
 
@@ -60,7 +61,6 @@ class Airplane extends PIXI.Sprite {
     reset() {
         this.speed = 120;
         this.rotationSpeed = 0;
-        this.rotation = 0;
         this.visible = true;
         this.trail.visible = true;
         this.clearTrail();
@@ -100,9 +100,9 @@ class Airplane extends PIXI.Sprite {
 
     /* STATIC VARS */
     static rotations = {
-        LEFT: -0.05,
-        RIGHT: 0.05,
-        FAST_LEFT: -1,
-        FAST_RIGHT: 1,
+        LEFT: () => { return -(3 / 144) }, // We turn 3°/s, and divide that by our FPS
+        RIGHT: () => { return (3 / 144) },
+        FAST_LEFT: () => { return -1 },
+        FAST_RIGHT: () => { return 1 },
     };
 }

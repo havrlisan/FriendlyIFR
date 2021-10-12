@@ -33,21 +33,30 @@ function setup() {
     instrDG = new DirectionalGyro(PIXI.Loader.shared.resources.DirectionalGyro.texture);
     
     // Pause message
-    messagePause = new PIXI.Text("Paused", new PIXI.TextStyle({
+    lblPause = new PIXI.Text("Paused", new PIXI.TextStyle({
         fontFamily: "Arial",
         fontSize: 40,
         fill: "white",
         stroke: 'black',
         strokeThickness: 4,
     }));
-    messagePause.visible = false;
-    messagePause.position.set((app.renderer.view.width / 2) - (messagePause.width / 2), (app.renderer.view.height / 2) - (messagePause.height / 2));
+    lblPause.visible = false;
+    lblPause.position.set((app.renderer.view.width / 2) - (lblPause.width / 2), (app.renderer.view.height / 2) - (lblPause.height / 2));
+
+    lblStopwatch = new Stopwatch("", new PIXI.TextStyle({
+        fontFamily: "Arial",
+        fontSize: 20,
+        fill: "black",
+        stroke: 'black',
+        strokeThickness: 1,
+    }));
 
     // Add objects to stage
     app.stage.addChild(player);
     app.stage.addChild(player.trail);
     app.stage.addChild(instrDG);
-    app.stage.addChild(messagePause);
+    app.stage.addChild(lblPause);
+    app.stage.addChild(lblStopwatch);
 
     // create a loop (called 60 times per second)
     app.ticker.add(delta => renderLoop(delta));
@@ -82,7 +91,7 @@ function renderTrail() {
 
 function pauseMovement() {
     player.paused = !player.paused;
-    messagePause.visible = !messagePause.visible;
+    lblPause.visible = !lblPause.visible;
 }
 
 /* EVENT LISTENERS */
@@ -95,10 +104,10 @@ window.addEventListener('resize', () => {
 const PAUSE_KEY = 'P';
 const VISIBILITY_KEY = 'V';
 const keyBinds = {
-    'B': Airplane.rotations.LEFT,
-    'M': Airplane.rotations.RIGHT,
-    'A': Airplane.rotations.FAST_LEFT,
-    'D': Airplane.rotations.FAST_RIGHT,
+    'B': Airplane.rotations.LEFT(),
+    'M': Airplane.rotations.RIGHT(),
+    'A': Airplane.rotations.FAST_LEFT(),
+    'D': Airplane.rotations.FAST_RIGHT(),
 };
 
 window.addEventListener('keydown', (event) => {

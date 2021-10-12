@@ -1,4 +1,4 @@
-
+/* INSTRUMENT CLASS */
 class Instrument extends PIXI.Sprite {
     /* VARS */
     #_canMove = false;

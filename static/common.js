@@ -14,7 +14,8 @@ let wind;
 
 let instrDG;
 
-let messagePause;
+let lblPause;
+let lblStopwatch;
 
 /* METHODS */
 
