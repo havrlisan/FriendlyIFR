@@ -2,10 +2,11 @@
 
 // utils.skipHello();
 
+appLoaded = false;
 app = new PIXI.Application({ backgroundColor: 0xA9A9A9 });
-
-// document.getElementById("pixi-app-container").appendChild(app.view);
-document.body.appendChild(app.view);
+appParent = document.getElementById("pixi-app-container");
+appParent.appendChild(app.view);
+// document.body.appendChild(app.view);
 
 PIXI.Loader.shared.onProgress.add((loader, resource) => { console.log("Loading: " + resource.url + " (" + loader.progress + "%)") });
 PIXI.Loader.shared
@@ -20,7 +21,7 @@ function setup() {
     app.renderer.view.style.position = "absolute";
     app.renderer.view.style.display = "block";
     app.renderer.autoDensity = true;
-    app.resizeTo = window;
+    app.resizeTo = appParent;
 
     // Airplane
     player = new Airplane(PIXI.Loader.shared.resources.airplaneImage.texture);

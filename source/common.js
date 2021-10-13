@@ -7,7 +7,8 @@ const TRAIL_INTERVAL = 60;
 /* VARS */
 
 let app;
-let appLoaded = false;
+let appParent;
+let appLoaded;
 
 let player;
 let wind;

@@ -1,10 +1,10 @@
 {% extends 'layout.html' %}
 
-{% block navbar %}
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+{% block body %}
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark header">
     <div class="container-fluid">
         <a class="navbar-brand" href="#">
-            <img src="{{ url_for('static', filename='favicon.ico') }}" alt="" width="30" height="24"
+            <img src="../static/favicon.ico" alt="" width="30" height="24"
                 class="d-inline-block align-text-top">
             FriendlyIFR
         </a>
@@ -20,16 +20,59 @@
         </div>
     </div>
 </nav>
-{% endblock %}
 
-{% block body %}
+<div class="container-fluid content">
+    <div class="row" style="height:100%">
+        <div class="col" id="pixi-app-container" style="z-index:1">
+        </div>
+        <div class="col col-lg-2 bg-light" style="z-index:2">
+            <h1 class="h5 pt-3 pb-3 mb-3 border-bottom">Controls</h1>
+            <nav class="small" id="toc">
+                <ul class="list-unstyled">
+                    <li class="my-2">
+                        <button class="btn d-inline-flex align-items-center" data-bs-toggle="collapse"
+                            aria-expanded="true" data-bs-target="#contents-collapse"
+                            aria-controls="contents-collapse">Contents</button>
+                        <ul class="list-unstyled ps-3 collapse show" id="contents-collapse">
+                            <li><a class="d-inline-flex align-items-center rounded" href="#typography">Typography</a>
+                            </li>
+                            <li><a class="d-inline-flex align-items-center rounded" href="#images">Images</a></li>
+                            <li><a class="d-inline-flex align-items-center rounded" href="#tables">Tables</a></li>
+                            <li><a class="d-inline-flex align-items-center rounded" href="#figures">Figures</a></li>
+                        </ul>
+                    </li>
+                    <li class="my-2">
+                        <button class="btn d-inline-flex align-items-center" data-bs-toggle="collapse"
+                            aria-expanded="true" data-bs-target="#forms-collapse"
+                            aria-controls="forms-collapse">Forms</button>
+                        <ul class="list-unstyled ps-3 collapse show" id="forms-collapse">
+                            <li><a class="d-inline-flex align-items-center rounded active" href="#overview">Overview</a>
+                            </li>
+                            <li><a class="d-inline-flex align-items-center rounded" href="#disabled-forms">Disabled
+                                    forms</a>
+                            </li>
+                            <li><a class="d-inline-flex align-items-center rounded" href="#sizing">Sizing</a></li>
+                            <li><a class="d-inline-flex align-items-center rounded" href="#input-group">Input
+                                    group</a>
+                            </li>
+                            <li><a class="d-inline-flex align-items-center rounded" href="#floating-labels">Floating
+                                    labels</a>
+                            </li>
+                            <li><a class="d-inline-flex align-items-center rounded" href="#validation">Validation</a>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
 <script type="text/javascript" src="../source/misc.js"></script>
 <script type="text/javascript" src="../source/common.js"></script>
-
 <script type="text/javascript" src="../source/wind.js"></script>
 <script type="text/javascript" src="../source/airplane.js"></script>
 <script type="text/javascript" src="../source/instruments.js"></script>
 <script type="text/javascript" src="../source/labels.js"></script>
-
 <script type="text/javascript" src="../source/application.js"></script>
 {% endblock %}
