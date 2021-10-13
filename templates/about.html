@@ -3,7 +3,7 @@
 {% block navbar %}
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
     <div class="container-fluid">
-        <a class="navbar-brand" href="#">
+        <a class="navbar-brand" href="/">
             <img src="{{ url_for('static', filename='favicon.ico') }}" alt="" width="30" height="24"
                 class="d-inline-block align-text-top">
             FriendlyIFR
@@ -15,7 +15,7 @@
         <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
             <div class="navbar-nav">
                 <a class="nav-link" href="/docs">Documentation</a>
-                <a class="nav-link" href="/about">About</a>
+                <a class="nav-link active" href="#">About</a>
             </div>
         </div>
     </div>
@@ -23,13 +23,5 @@
 {% endblock %}
 
 {% block body %}
-<script type="text/javascript" src="../source/misc.js"></script>
-<script type="text/javascript" src="../source/common.js"></script>
-
-<script type="text/javascript" src="../source/wind.js"></script>
-<script type="text/javascript" src="../source/airplane.js"></script>
-<script type="text/javascript" src="../source/instruments.js"></script>
-<script type="text/javascript" src="../source/labels.js"></script>
-
-<script type="text/javascript" src="../source/application.js"></script>
+<h1>Hi!</h1>
 {% endblock %}

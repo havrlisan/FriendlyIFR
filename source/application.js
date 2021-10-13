@@ -9,8 +9,8 @@ document.body.appendChild(app.view);
 
 PIXI.Loader.shared.onProgress.add((loader, resource) => { console.log("Loading: " + resource.url + " (" + loader.progress + "%)") });
 PIXI.Loader.shared
-    .add("airplaneImage", "static/images/airplane.png")
-    .add("DirectionalGyro", "static/images/DG.bmp")
+    .add("airplaneImage", "static/airplane.png")
+    .add("DirectionalGyro", "static/DG.bmp")
     .load(setup);
 
 /* SETUP */
