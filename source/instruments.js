@@ -1,12 +1,14 @@
 /* INSTRUMENT CLASS */
 class Instrument extends PIXI.Sprite {
+
     /* VARS */
     #_canMove = false;
+    #_switchElement;
 
     /* CONSTRUCTOR */
     constructor(texture) {
         super(texture);
-        this.visible = true; // set to false for default
+        this.visible = true; // should be false
         this.interactive = true;
         this.width = 200;
         this.height = 200;
@@ -25,14 +27,27 @@ class Instrument extends PIXI.Sprite {
             }
         });
     }
+
+    /* PROPERTIES */
+    get switchElement() {
+        return this._switchElement
+    };
+    set switchElement(value) {
+        this._switchElement = value;
+
+        this._switchElement.checked = this.visible;
+        this._switchElement.onchange = () => {
+            this.visible = this._switchElement.checked;
+        }
+    };
 }
 
 class DirectionalGyro extends Instrument {
 
+    /* CONSTRUCTOR */
     constructor(texture) {
         super(texture);
+        this.switchElement = swInstrumentDG;
     }
-
-
 
 }

@@ -16,13 +16,27 @@ class Wind {
     }
 
     /* PROPERTIES */
-    get speed() { return this._speed };
+    get speed() {
+        return this._speed
+    };
     set speed(value) {
-        this._speed = value // TODO: EnsureRange from 0 to 50 (?)
+        if (!isNaN(value)) {
+            if (value >= 0 && value <= MAX_WIND_SPEED) {
+                this._speed = value;
+                edWindSpeed.value = value;
+            }
+        };
     };
 
-    get direction() { return this._direction };
-    set direction(value) {
-        this._direction = value // TODO: EnsureRange from 0 to 360
+    get direction() {
+        return this._direction
+    };
+    set direction(value) {        
+        if (!isNaN(value)) {
+            if (value >= 0 && value <= MAX_ANGLE) {
+                this._direction = value;
+                edWindDirection.value = value;
+            }
+        };
     };
 }

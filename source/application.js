@@ -4,7 +4,6 @@
 
 appLoaded = false;
 app = new PIXI.Application({ backgroundColor: 0xA9A9A9 });
-appParent = document.getElementById("pixi-app-container");
 appParent.appendChild(app.view);
 // document.body.appendChild(app.view);
 
@@ -44,20 +43,11 @@ function setup() {
     lblPause.visible = false;
     lblPause.position.set((app.renderer.view.width / 2) - (lblPause.width / 2), (app.renderer.view.height / 2) - (lblPause.height / 2));
 
-    lblStopwatch = new Stopwatch("", new PIXI.TextStyle({
-        fontFamily: "Arial",
-        fontSize: 20,
-        fill: "black",
-        stroke: 'black',
-        strokeThickness: 1,
-    }));
-
     // Add objects to stage (the latter ones added are on top layer, hence we first add trail and then the player)
     app.stage.addChild(player.trail);
     app.stage.addChild(player);
     app.stage.addChild(instrDG);
     app.stage.addChild(lblPause);
-    app.stage.addChild(lblStopwatch);
 
     // create a loop (called 60 times per second)
     app.ticker.add(delta => renderLoop(delta));
@@ -96,6 +86,7 @@ function pauseMovement(value) {
 
     player.paused = value;
     lblPause.visible = value;
+    swPaused.checked = value;
 }
 
 /* KEYBINDS */
@@ -111,12 +102,13 @@ const keyBinds = {
 
 window.addEventListener('keydown', (event) => {
     if (!appLoaded) { return false };
+    if (document.activeElement.nodeName === 'INPUT') { return false };
 
     let key = event.key.toUpperCase();
     if (key == PAUSE_KEY)
         pauseMovement()
     else if (key == VISIBILITY_KEY)
-        player.toggleVisibility()
+        player.setVisible(!player.visible)
     else if (keyBinds.hasOwnProperty(key))
         player.rotationSpeed = keyBinds[key];
 });

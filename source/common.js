@@ -3,11 +3,14 @@
 /* CONSTANTS */
 
 const TRAIL_INTERVAL = 60;
+const MAX_SPEED = 999;
+const MAX_WIND_SPEED = 500;
+const MIN_SPEED = 0;
+const MAX_ANGLE = 360;
 
 /* VARS */
 
 let app;
-let appParent;
 let appLoaded;
 
 let player;
@@ -16,7 +19,6 @@ let wind;
 let instrDG;
 
 let lblPause;
-let lblStopwatch;
 
 /* METHODS */
 

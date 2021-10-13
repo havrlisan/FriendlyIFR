@@ -4,8 +4,7 @@
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark header">
     <div class="container-fluid">
         <a class="navbar-brand" href="#">
-            <img src="../static/favicon.ico" alt="" width="30" height="24"
-                class="d-inline-block align-text-top">
+            <img src="../static/favicon.ico" alt="" width="30" height="30" class="d-inline-block align-text-top">
             FriendlyIFR
         </a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup"
@@ -23,56 +22,257 @@
 
 <div class="container-fluid content">
     <div class="row" style="height:100%">
-        <div class="col" id="pixi-app-container" style="z-index:1">
-        </div>
-        <div class="col col-lg-2 bg-light" style="z-index:2">
-            <h1 class="h5 pt-3 pb-3 mb-3 border-bottom">Controls</h1>
-            <nav class="small" id="toc">
-                <ul class="list-unstyled">
-                    <li class="my-2">
-                        <button class="btn d-inline-flex align-items-center" data-bs-toggle="collapse"
-                            aria-expanded="true" data-bs-target="#contents-collapse"
-                            aria-controls="contents-collapse">Contents</button>
-                        <ul class="list-unstyled ps-3 collapse show" id="contents-collapse">
-                            <li><a class="d-inline-flex align-items-center rounded" href="#typography">Typography</a>
+
+        <!-- Pixi.js container -->
+        <div class="col" id="pixi-app-container"></div>
+
+        <!-- Controls container -->
+        <div class="col col-lg-3 bg-light m-2">
+
+            <!-- Current time -->
+            <div class="row justify-content-center align-items-center mb-2 border-bottom">
+                <!--div class="col-auto">
+                    <h1 class="h6 fw-bolder">Current time:</h1>
+                </div-->
+                <div class="col-auto">
+                    <h1 class="h5 fw-normal" id="lblCurrentTime">13.10.2021. 13:00:00</h1>
+                </div>
+            </div>
+
+            <!-- Stopwatch -->
+            <div class="row justify-content-center align-items-center pb-2 mb-2 border-bottom">
+                <h1 class="h5 mb-2 text-centered" id="lblStopwatch">00:00:00</h1>
+                <div class="row justify-content-center">
+                    <div class="col-auto">
+                        <button type="button" class="btn btn-dark btn-sm" id="btnStartStopwatch">Start</button>
+                    </div>
+                    <div class="col-auto">
+                        <button type="button" class="btn btn-outline-danger btn-sm" id="btnResetStopwatch">Reset</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Inputs -->
+            <div class="row justify-content-evenly pb-2 mb-2 border-bottom">
+
+                <!-- Airplane speed -->
+                <div class="row justify-content-start align-items-center">
+                    <div class="col col-sm-5">
+                        <label for="edSpeed" class="h5 col-form-label text-centered">Airplane speed:</label>
+                    </div>
+                    <div class="col col-sm-3">
+                        <input type="text" id="edSpeed" class="form-control form-control-sm text-centered">
+                    </div>
+                    <div class="col col-sm-3">
+                        <label for="edSpeed" id="edSpeedHint" class="col-form-label text-black-50">(0-999)</label>
+                    </div>
+                </div>
+
+                <!-- Wind speed -->
+                <div class="row justify-content-start align-items-center">
+                    <div class="col col-sm-5">
+                        <label for="edWindSpeed" class="h5 col-form-label">Wind speed:</label>
+                    </div>
+                    <div class="col col-sm-3">
+                        <input type="text" id="edWindSpeed" class="form-control form-control-sm text-centered">
+                    </div>
+                    <div class="col col-sm-3">
+                        <label for="edWindSpeed" id="edWindSpeedHint" class="col-form-label text-black-50">(0-500)</label>
+                    </div>
+                </div>
+
+                <!-- Wind direction -->
+                <div class="row justify-content-start align-items-center">
+                    <div class="col col-sm-5">
+                        <label for="edWindDirection" class="h5 col-form-label">Wind direction:</label>
+                    </div>
+                    <div class="col col-sm-3">
+                        <input type="text" id="edWindDirection" class="form-control form-control-sm text-centered">
+                    </div>
+                    <div class="col col-sm-3">
+                        <label for="edWindDirection" id="edWindDirectionHint" class="col-form-label text-black-50">(0-360)</label>
+                    </div>
+                </div>
+            </div>
+
+            <!-- General and editor controls -->
+            <div class="row">
+                <div class="col">
+
+                    <!-- General controls -->
+                    <div class="row">
+                        <ul class="list-unstyled small">
+                            <div class="d-grid gap-2">
+                                <button class="btn btn-outline-dark mb-1 btn-block" data-bs-toggle="collapse" aria-expanded="true"
+                                    data-bs-target="#general-collapse" aria-controls="general-collapse">
+                                    General
+                                </button>
+                            </div>
+                            <li>
+                                <ul class="list-unstyled ps-3 collapse show" id="general-collapse">
+                                    <li>
+                                        <div class="form-check form-switch">
+                                            <input class="form-check-input" type="checkbox" id="swAirplaneVisible" checked>
+                                            <label class="form-check-label" for="swAirplaneVisible">Show airplane</label>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div class="form-check form-switch">
+                                            <input class="form-check-input" type="checkbox" id="swCourseLinesVisible" checked>
+                                            <label class="form-check-label" for="swCourseLinesVisible">Show course lines</label>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div class="form-check form-switch">
+                                            <input class="form-check-input" type="checkbox" id="swPaused">
+                                            <label class="form-check-label" for="swPaused">Paused</label>
+                                        </div>
+                                    </li>
+                                </ul>
                             </li>
-                            <li><a class="d-inline-flex align-items-center rounded" href="#images">Images</a></li>
-                            <li><a class="d-inline-flex align-items-center rounded" href="#tables">Tables</a></li>
-                            <li><a class="d-inline-flex align-items-center rounded" href="#figures">Figures</a></li>
+
                         </ul>
-                    </li>
-                    <li class="my-2">
-                        <button class="btn d-inline-flex align-items-center" data-bs-toggle="collapse"
-                            aria-expanded="true" data-bs-target="#forms-collapse"
-                            aria-controls="forms-collapse">Forms</button>
-                        <ul class="list-unstyled ps-3 collapse show" id="forms-collapse">
-                            <li><a class="d-inline-flex align-items-center rounded active" href="#overview">Overview</a>
+                    </div>
+
+                    <!-- Editor controls -->
+                    <div class="row">
+                        <ul class="list-unstyled small">
+                            <div class="d-grid gap-2">
+                                <button class="btn btn-outline-dark mb-1 btn-block" data-bs-toggle="collapse" aria-expanded="true"
+                                    data-bs-target="#editor-collapse" aria-controls="editor-collapse">
+                                    Editor
+                                </button>
+                            </div>
+                            <li>
+                                <ul class="list-unstyled ps-3 collapse show" id="editor-collapse">
+                                    <li>
+                                        <div class="form-check form-switch">
+                                            <input class="form-check-input" type="checkbox" id="UNKNOWN_1" disabled>
+                                            <label class="form-check-label" for="UNKNOWN_1">Not implemented</label>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div class="form-check form-switch">
+                                            <input class="form-check-input" type="checkbox" id="UNKNOWN_2" disabled>
+                                            <label class="form-check-label" for="UNKNOWN_2">Not implemented</label>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div class="form-check form-switch">
+                                            <input class="form-check-input" type="checkbox" id="UNKNOWN_3" disabled>
+                                            <label class="form-check-label" for="UNKNOWN_3">Not implemented</label>
+                                        </div>
+                                    </li>
+                                </ul>
                             </li>
-                            <li><a class="d-inline-flex align-items-center rounded" href="#disabled-forms">Disabled
-                                    forms</a>
-                            </li>
-                            <li><a class="d-inline-flex align-items-center rounded" href="#sizing">Sizing</a></li>
-                            <li><a class="d-inline-flex align-items-center rounded" href="#input-group">Input
-                                    group</a>
-                            </li>
-                            <li><a class="d-inline-flex align-items-center rounded" href="#floating-labels">Floating
-                                    labels</a>
-                            </li>
-                            <li><a class="d-inline-flex align-items-center rounded" href="#validation">Validation</a>
-                            </li>
+
                         </ul>
-                    </li>
-                </ul>
-            </nav>
+                    </div>
+                </div>
+
+                <!-- Instrument controls -->
+                <div class="col">
+
+                    <!-- Instrument controls -->
+                    <div class="row">
+                        <ul class="list-unstyled small">
+                            <div class="d-grid gap-2">
+                                <button class="btn btn-outline-dark mb-1 btn-block" data-bs-toggle="collapse" aria-expanded="true"
+                                    data-bs-target="#instrument-collapse" aria-controls="instrument-collapse">
+                                    Instruments
+                                </button>
+                            </div>
+                            <li>
+                                <ul class="list-unstyled ps-3 collapse show" id="instrument-collapse">
+                                    <li>
+                                        <div class="form-check form-switch">
+                                            <input class="form-check-input" type="checkbox" id="swInstrumentDG" name="instrument">
+                                            <label class="form-check-label" for="swInstrumentDG">DG</label>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div class="form-check form-switch">
+                                            <input class="form-check-input" type="checkbox" id="swInstrumentRBI" name="instrument">
+                                            <label class="form-check-label" for="swInstrumentRBI">RBI</label>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div class="form-check form-switch">
+                                            <input class="form-check-input" type="checkbox" id="swInstrumentRMI" name="instrument">
+                                            <label class="form-check-label" for="swInstrumentRMI">RMI</label>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div class="form-check form-switch">
+                                            <input class="form-check-input" type="checkbox" id="swInstrumentHSI" name="instrument">
+                                            <label class="form-check-label" for="swInstrumentHSI">HSI</label>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div class="form-check form-switch">
+                                            <input class="form-check-input" type="checkbox" id="swInstrumentCDI" name="instrument">
+                                            <label class="form-check-label" for="swInstrumentCDI">CDI</label>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </li>
+
+                        </ul>
+                    </div>
+
+                    <!-- TODO -->
+                    <div class="row">
+                        <ul class="list-unstyled small">
+                            <div class="d-grid gap-2">
+                                <button class="btn btn-outline-dark mb-1 btn-block" data-bs-toggle="collapse" aria-expanded="true"
+                                    data-bs-target="#setup-collapse" aria-controls="setup-collapse">
+                                    Coming soon
+                                </button>
+                            </div>
+                            <li>
+                                <ul class="list-unstyled ps-3 collapse show" id="setup-collapse">
+                                    <li>
+                                        <div class="form-check form-switch">
+                                            <input class="form-check-input" type="checkbox" id="UNKNOWN_1" disabled>
+                                            <label class="form-check-label" for="UNKNOWN_1">Not implemented</label>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div class="form-check form-switch">
+                                            <input class="form-check-input" type="checkbox" id="UNKNOWN_2" disabled>
+                                            <label class="form-check-label" for="UNKNOWN_2">Not implemented</label>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div class="form-check form-switch">
+                                            <input class="form-check-input" type="checkbox" id="UNKNOWN_3" disabled>
+                                            <label class="form-check-label" for="UNKNOWN_3">Not implemented</label>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </li>
+
+                        </ul>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </div>
 
-<script type="text/javascript" src="../source/misc.js"></script>
+<!-- General -->
+<script type="text/javascript" src="../source/elements.js"></script>
 <script type="text/javascript" src="../source/common.js"></script>
+<script type="text/javascript" src="../source/misc.js"></script>
+
+<!-- Non-Pixi -->
+<script type="text/javascript" src="../source/time.js"></script>
+
+<!-- Pixi -->
 <script type="text/javascript" src="../source/wind.js"></script>
 <script type="text/javascript" src="../source/airplane.js"></script>
 <script type="text/javascript" src="../source/instruments.js"></script>
-<script type="text/javascript" src="../source/labels.js"></script>
+
+<script type="text/javascript" src="../source/events.js"></script>
 <script type="text/javascript" src="../source/application.js"></script>
 {% endblock %}

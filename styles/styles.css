@@ -1,8 +1,11 @@
 body, html {
-    height: 100%;
     margin: 0;
     padding: 0;
     overflow: hidden;
+}
+
+input {
+    outline-color: black;
 }
 
 .root {
@@ -22,4 +25,9 @@ body, html {
 
 .content {
     flex-grow: 1;
+    padding: 0;
+}
+
+.text-centered {
+    text-align: center;
 }

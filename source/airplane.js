@@ -2,6 +2,7 @@
 class Airplane extends PIXI.Sprite {
 
     /* VARS */
+
     #_speed;
     #_rotationSpeed;
     #_paused;
@@ -56,9 +57,9 @@ class Airplane extends PIXI.Sprite {
         return this;
     }
 
-    toggleVisibility() {
-        this.visible = !this.visible;
-        this.trail.visible = this.visible;
+    setVisible(value) {
+        this.visible = value;
+        this.trail.visible = value;
         return this;
     }
 
@@ -73,7 +74,9 @@ class Airplane extends PIXI.Sprite {
 
     /* TRAIL METHODS */
     drawTrail() {
-        if ((this.lastPosition.x === this.x) && (this.lastPosition.y === this.y)) { return this };
+        if ((this.lastPosition.x === this.x) && (this.lastPosition.y === this.y)) {
+            return this
+        };
 
         this.trail
             .lineStyle(2, 0xFFFFFF, 1)
@@ -91,22 +94,55 @@ class Airplane extends PIXI.Sprite {
     }
 
     /* PROPERTIES */
-    get speed() { return this._speed };
-    set speed(value) { this._speed = value };
-    get rotationSpeed() { return this._rotationSpeed };
-    set rotationSpeed(value) { this._rotationSpeed = value };
-    get paused() { return this._paused };
-    set paused(value) { this._paused = value };
-    get lastPosition() { return this._lastPosition };
-    set lastPosition(value) { this._lastPosition = value };
-    get trail() { return this._trail };
-    set trail(value) { this._trail = value };
+    get speed() {
+        return this._speed
+    };
+    set speed(value) {
+        if (!isNaN(value)) {
+            if (value >= 0 && value <= MAX_SPEED) {
+                this._speed = value;
+                edSpeed.value = value;
+            }
+        };
+    };
+    get rotationSpeed() {
+        return this._rotationSpeed
+    };
+    set rotationSpeed(value) {
+        this._rotationSpeed = value
+    };
+    get paused() {
+        return this._paused
+    };
+    set paused(value) {
+        this._paused = value
+    };
+    get lastPosition() {
+        return this._lastPosition
+    };
+    set lastPosition(value) {
+        this._lastPosition = value
+    };
+    get trail() {
+        return this._trail
+    };
+    set trail(value) {
+        this._trail = value
+    };
 
     /* STATIC VARS */
     static rotations = {
-        LEFT: () => { return -3 }, // 3°/s
-        RIGHT: () => { return 3 },
-        FAST_LEFT: () => { return -30 },
-        FAST_RIGHT: () => { return 30 },
+        LEFT: () => {
+            return -3 // 3°/s
+        },
+        RIGHT: () => {
+            return 3
+        },
+        FAST_LEFT: () => {
+            return -30
+        },
+        FAST_RIGHT: () => {
+            return 30
+        },
     };
 }
