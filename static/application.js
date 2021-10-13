@@ -31,7 +31,7 @@ function setup() {
 
     // Directional Gyro
     instrDG = new DirectionalGyro(PIXI.Loader.shared.resources.DirectionalGyro.texture);
-    
+
     // Pause message
     lblPause = new PIXI.Text("Paused", new PIXI.TextStyle({
         fontFamily: "Arial",
@@ -51,9 +51,9 @@ function setup() {
         strokeThickness: 1,
     }));
 
-    // Add objects to stage
-    app.stage.addChild(player);
+    // Add objects to stage (the latter ones added are on top layer, hence we first add trail and then the player)
     app.stage.addChild(player.trail);
+    app.stage.addChild(player);
     app.stage.addChild(instrDG);
     app.stage.addChild(lblPause);
     app.stage.addChild(lblStopwatch);
@@ -68,7 +68,7 @@ function setup() {
 /* RENDER LOOP */
 function renderLoop(delta) {
     player
-        .rotate()
+        .rotate(delta)
         .advance();
 
     renderTrail();
@@ -81,7 +81,7 @@ function renderTrail() {
     let trail_speed = (player.speed === 0) ? wind.speed : player.speed;
 
     trailCounter++;
-    if (trailCounter > (TRAIL_INTERVAL / trail_speed) * 150) {
+    if (trailCounter > (TRAIL_INTERVAL / trail_speed) * 3000) { // 3000 is scale
         player.drawTrail();
         trailCounter = 0;
     }
@@ -97,7 +97,7 @@ function pauseMovement() {
 /* EVENT LISTENERS */
 
 window.addEventListener('resize', () => {
-    let scale = scaleToWindow(app.renderer.view); // scale can be used to get proper position of an object after resizing
+    //let scale = scaleToWindow(app.renderer.view); // scale can be used to get proper position of an object after resizing
 });
 
 // key binds

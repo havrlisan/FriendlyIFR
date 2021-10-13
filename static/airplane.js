@@ -14,7 +14,7 @@ class Airplane extends PIXI.Sprite {
         this.width = 30;
         this.height = 30;
         this.anchor.set(0.5, 0.5);
-        this.speed = 50;
+        this.speed = 120;
         this.rotationSpeed = 0;
         this.paused = false;
         this.setStartPosition();
@@ -31,24 +31,24 @@ class Airplane extends PIXI.Sprite {
 
     setStartPosition() {
         this.setPosition((app.renderer.view.width / 2) - (this.width / 2), (app.renderer.view.height / 2) - (this.height / 2));
-        this.angle = 0//90;
+        this.angle = 90;
     }
 
     advance() {
         if (!this.paused) {
             // move depending on airplane rotation (Heading)
-            this.x += Math.sin(this.rotation) * this.speed / 3000;
-            this.y -= Math.cos(this.rotation) * this.speed / 3000;
+            this.x += Math.sin(this.rotation) * this.speed / 21000; // 21000 is scale
+            this.y -= Math.cos(this.rotation) * this.speed / 21000;
 
             // move depending on wind
-            this.x += Math.sin(degrees_to_radians(-wind.direction)) * wind.speed / 3000;
-            this.y += Math.cos(degrees_to_radians(-wind.direction)) * wind.speed / 3000;
+            this.x += Math.sin(degrees_to_radians(-wind.direction)) * wind.speed / 21000;
+            this.y += Math.cos(degrees_to_radians(-wind.direction)) * wind.speed / 21000;
         }
         return this;
     }
 
-    rotate() {
-        this.angle += this.rotationSpeed;
+    rotate(delta) {
+        this.angle += this.rotationSpeed / 60 * delta; // 60 fps multiplied by delta in case of display frame rate difference
         return this;
     }
 
@@ -100,9 +100,9 @@ class Airplane extends PIXI.Sprite {
 
     /* STATIC VARS */
     static rotations = {
-        LEFT: () => { return -(3 / 144) }, // We turn 3°/s, and divide that by our FPS
-        RIGHT: () => { return (3 / 144) },
-        FAST_LEFT: () => { return -1 },
-        FAST_RIGHT: () => { return 1 },
+        LEFT: () => { return -3 }, // 3°/s
+        RIGHT: () => { return 3 },
+        FAST_LEFT: () => { return -30 },
+        FAST_RIGHT: () => { return 30 },
     };
 }
