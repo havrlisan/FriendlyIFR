@@ -90,18 +90,16 @@ function renderTrail() {
 
 /* PAUSE MOVEMENT */
 
-function pauseMovement() {
-    player.paused = !player.paused;
-    lblPause.visible = !lblPause.visible;
+function pauseMovement(value) {
+    if (value === undefined)
+        value = !player.paused;
+
+    player.paused = value;
+    lblPause.visible = value;
 }
 
-/* EVENT LISTENERS */
+/* KEYBINDS */
 
-window.addEventListener('resize', () => {
-    //let scale = scaleToWindow(app.renderer.view); // scale can be used to get proper position of an object after resizing
-});
-
-// key binds
 const PAUSE_KEY = 'P';
 const VISIBILITY_KEY = 'V';
 const keyBinds = {

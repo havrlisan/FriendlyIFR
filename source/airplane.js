@@ -37,12 +37,16 @@ class Airplane extends PIXI.Sprite {
     advance() {
         if (!this.paused) {
             // move depending on airplane rotation (Heading)
-            this.x += Math.sin(this.rotation) * this.speed / 21000; // 21000 is scale
-            this.y -= Math.cos(this.rotation) * this.speed / 21000;
+            if (this.speed > 0) {
+                this.x += (Math.sin(this.rotation) * this.speed) / 21000; // 21000 is scale
+                this.y -= (Math.cos(this.rotation) * this.speed) / 21000;
+            }
 
-            // move depending on wind
-            this.x += Math.sin(degrees_to_radians(-wind.direction)) * wind.speed / 21000;
-            this.y += Math.cos(degrees_to_radians(-wind.direction)) * wind.speed / 21000;
+            if (wind.speed > 0) {
+                // move depending on wind
+                this.x += Math.sin(degrees_to_radians(-wind.direction)) * wind.speed / 21000;
+                this.y += Math.cos(degrees_to_radians(-wind.direction)) * wind.speed / 21000;
+            }
         }
         return this;
     }
