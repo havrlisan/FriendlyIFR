@@ -3,7 +3,7 @@
 // utils.skipHello();
 
 appLoaded = false;
-app = new PIXI.Application({ backgroundColor: 0xA9A9A9 });
+app = new PIXI.Application({ backgroundAlpha: 0 });
 appParent.appendChild(app.view);
 // document.body.appendChild(app.view);
 

@@ -4,30 +4,37 @@ body, html {
     overflow: hidden;
 }
 
-input {
-    outline-color: black;
-}
-
-.root {
-    display: flex;
-    flex-direction: column;
-    height: 100vh;
-    align-items: stretch;
-    align-content: stretch;
-}
-
-.header {
-    width: 100%;
-    display: flex;
-    height: 50px;
-    justify-content: space-between;
-}
-
-.content {
-    flex-grow: 1;
-    padding: 0;
-}
-
 .text-centered {
     text-align: center;
 }
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+    width: 4px;
+    height: 4px;
+}
+  
+::-webkit-scrollbar-track {
+    background: #f1f1f1;
+}
+  
+::-webkit-scrollbar-thumb {
+    background: rgb(87, 87, 87);
+    border-radius: 5px;
+}
+  
+::-webkit-scrollbar-thumb:hover {
+    background: rgb(41, 41, 41);
+}
+
+/* Scrollbar visible only on hover */
+/* .scrollbox {
+    overflow-y: auto;
+    overflow-x: hidden;
+    visibility: hidden;
+}
+
+.scrollbox-content,
+.scrollbox:hover {
+    visibility: visible;
+} */
