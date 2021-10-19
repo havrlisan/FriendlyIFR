@@ -2,8 +2,8 @@
 class Instrument extends PIXI.Sprite {
 
     /* VARS */
-    #_canMove = false;
-    #_switchElement;
+    #canMove = false;
+    #switchElement;
 
     /* CONSTRUCTOR */
     constructor(texture) {
@@ -19,10 +19,10 @@ class Instrument extends PIXI.Sprite {
 
     /* METHODS */
     assignEvents() {
-        this.on('mousedown', () => this._canMove = true);
-        this.on('mouseup', () => this._canMove = false);
+        this.on('mousedown', () => this.#canMove = true);
+        this.on('mouseup', () => this.#canMove = false);
         this.on('mousemove', (e) => {
-            if (this._canMove) {
+            if (this.#canMove) {
                 this.position.set(e.data.global.x, e.data.global.y);
             }
         });
@@ -30,14 +30,14 @@ class Instrument extends PIXI.Sprite {
 
     /* PROPERTIES */
     get switchElement() {
-        return this._switchElement
+        return this.#switchElement
     };
     set switchElement(value) {
-        this._switchElement = value;
+        this.#switchElement = value;
 
-        this._switchElement.checked = this.visible;
-        this._switchElement.onchange = () => {
-            this.visible = this._switchElement.checked;
+        this.#switchElement.checked = this.visible;
+        this.#switchElement.onchange = () => {
+            this.visible = this.#switchElement.checked;
         }
     };
 }

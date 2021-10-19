@@ -3,8 +3,8 @@
 class Wind {
 
     /* VARS */
-    #_speed;
-    #_direction;
+    #speed;
+    #direction;
 
     /* CONSTRUCTOR */
     constructor(speed, direction) {
@@ -17,24 +17,24 @@ class Wind {
 
     /* PROPERTIES */
     get speed() {
-        return this._speed
+        return this.#speed
     };
     set speed(value) {
         if (!isNaN(value)) {
             if (value >= 0 && value <= MAX_WIND_SPEED) {
-                this._speed = value;
+                this.#speed = value;
                 edWindSpeed.value = value;
             }
         };
     };
 
     get direction() {
-        return this._direction
+        return this.#direction
     };
     set direction(value) {        
         if (!isNaN(value)) {
             if (value >= 0 && value <= MAX_ANGLE) {
-                this._direction = value;
+                this.#direction = value;
                 edWindDirection.value = value;
             }
         };

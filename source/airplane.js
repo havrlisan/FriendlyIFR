@@ -3,11 +3,11 @@ class Airplane extends PIXI.Sprite {
 
     /* VARS */
 
-    #_speed;
-    #_rotationSpeed;
-    #_paused;
-    #_trail;
-    #_lastPosition;
+    #speed;
+    #rotationSpeed;
+    #paused;
+    #trail;
+    #lastPosition;
 
     /* CONSTRUCTOR */
     constructor(texture) {
@@ -95,39 +95,39 @@ class Airplane extends PIXI.Sprite {
 
     /* PROPERTIES */
     get speed() {
-        return this._speed
+        return this.#speed
     };
     set speed(value) {
         if (!isNaN(value)) {
             if (value >= 0 && value <= MAX_SPEED) {
-                this._speed = value;
+                this.#speed = value;
                 edSpeed.value = value;
             }
         };
     };
     get rotationSpeed() {
-        return this._rotationSpeed
+        return this.#rotationSpeed
     };
     set rotationSpeed(value) {
-        this._rotationSpeed = value
+        this.#rotationSpeed = value
     };
     get paused() {
-        return this._paused
+        return this.#paused
     };
     set paused(value) {
-        this._paused = value
+        this.#paused = value
     };
     get lastPosition() {
-        return this._lastPosition
+        return this.#lastPosition
     };
     set lastPosition(value) {
-        this._lastPosition = value
+        this.#lastPosition = value
     };
     get trail() {
-        return this._trail
+        return this.#trail
     };
     set trail(value) {
-        this._trail = value
+        this.#trail = value
     };
 
     /* STATIC VARS */
