@@ -36,6 +36,8 @@ function setup() {
     instrDG = new DirectionalGyro(PIXI.Loader.shared.resources.DirectionalGyro.texture);
     // RBI
     instrRBI = new RBIndicator(PIXI.Loader.shared.resources.RBIndicator.texture);
+    // RMI
+    instrRMI = new RMIndicator(PIXI.Loader.shared.resources.RBIndicator.texture);
 
     // Pause message
     lblPause = new PIXI.Text("Paused", new PIXI.TextStyle({
@@ -53,6 +55,7 @@ function setup() {
     app.stage.addChild(NDB);
     app.stage.addChild(instrDG);
     app.stage.addChild(instrRBI);
+    app.stage.addChild(instrRMI);
     app.stage.addChild(lblPause);
 
     // create a loop (called 60 times per second)
@@ -71,6 +74,7 @@ function renderLoop(delta) {
     renderTrail();
     instrDG.renderCompass();
     instrRBI.renderCompass();
+    instrRMI.renderCompass();
 }
 
 let trailCounter = 0;
