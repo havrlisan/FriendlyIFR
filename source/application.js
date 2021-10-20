@@ -10,8 +10,11 @@ appParent.appendChild(app.view);
 PIXI.Loader.shared.onProgress.add((loader, resource) => { console.log("Loading: " + resource.url + " (" + loader.progress + "%)") });
 PIXI.Loader.shared
     .add("airplaneImage", "static/airplane.png")
-    .add("DirectionalGyro", "static/DG.png")
+    .add("NonDirectionalBeacon", "static/NDB.png")
     .add("CompassRose", "static/compass_rose.png")
+    .add("CompassArrow", "static/compass_arrow.png")
+    .add("DirectionalGyro", "static/DG.png")
+    .add("RBIndicator", "static/RBI.png")
     .load(setup);
 
 /* SETUP */
@@ -25,13 +28,14 @@ function setup() {
 
     // Airplane
     player = new Airplane(PIXI.Loader.shared.resources.airplaneImage.texture);
-    // Airplane trail
-    player.trail = new PIXI.Graphics();
     // Wind
     wind = new Wind(0, 0);
-
+    // NDB
+    NDB = new NonDirectionalBeacon(PIXI.Loader.shared.resources.NonDirectionalBeacon.texture);
     // Directional Gyro
     instrDG = new DirectionalGyro(PIXI.Loader.shared.resources.DirectionalGyro.texture);
+    // RBI
+    instrRBI = new RBIndicator(PIXI.Loader.shared.resources.RBIndicator.texture);
 
     // Pause message
     lblPause = new PIXI.Text("Paused", new PIXI.TextStyle({
@@ -45,9 +49,10 @@ function setup() {
     lblPause.position.set((app.renderer.view.width / 2) - (lblPause.width / 2), (app.renderer.view.height / 2) - (lblPause.height / 2));
 
     // Add objects to stage (the latter ones added are on top layer, hence we first add trail and then the player)
-    app.stage.addChild(player.trail);
     app.stage.addChild(player);
+    app.stage.addChild(NDB);
     app.stage.addChild(instrDG);
+    app.stage.addChild(instrRBI);
     app.stage.addChild(lblPause);
 
     // create a loop (called 60 times per second)
@@ -65,6 +70,7 @@ function renderLoop(delta) {
 
     renderTrail();
     instrDG.renderCompass();
+    instrRBI.renderCompass();
 }
 
 let trailCounter = 0;

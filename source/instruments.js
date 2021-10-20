@@ -8,12 +8,12 @@ class Instrument extends PIXI.Sprite {
     /* CONSTRUCTOR */
     constructor(texture) {
         super(texture);
-        this.visible = true; // should be false
+        this.visible = false;
         this.interactive = true;
         this.width = 200;
         this.height = 200;
         this.anchor.set(0.5, 0.5);
-        this.position.set(200, 200);
+        this.position.set(100, 100);
         this.assignEvents();
     }
 
@@ -72,6 +72,43 @@ class DirectionalGyro extends Instrument {
     renderCompass() {
         if (this.#isReady)
             this.#compassRose.rotation = -player.rotation;
+    }
+
+}
+
+/* RELATIVE BEARING INDICATOR */
+class RBIndicator extends Instrument {
+
+    /* VARS */
+    #compassArrow;
+
+    /* CONSTRUCTOR */
+    constructor(texture) {
+        super(texture);
+        this.switchElement = swInstrumentRBI;
+        this.position.set(100, 300);
+        this.visible = true;
+
+        this.createCompassArrow();
+    }
+
+    /* METHODS */
+    createCompassArrow() {
+        this.#compassArrow = new PIXI.Sprite(PIXI.Loader.shared.resources.CompassArrow.texture);
+        this.#compassArrow.width = 10;
+        this.#compassArrow.height = 140;
+        this.#compassArrow.anchor = this.anchor;
+        this.#compassArrow.position.set(0, 0);
+
+        this.addChild(this.#compassArrow);
+    }
+
+    renderCompass() {
+        let deltaY = NDB.y - player.y;
+        let deltaX = NDB.x - player.x;
+        let rotation = Math.PI / 2 + Math.atan2(deltaY, deltaX) - player.rotation
+
+        this.#compassArrow.rotation = rotation;
     }
 
 }

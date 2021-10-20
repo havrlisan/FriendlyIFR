@@ -16,7 +16,10 @@ let appLoaded;
 let player;
 let wind;
 
+let NDB;
+
 let instrDG;
+let instrRBI;
 
 let lblPause;
 

@@ -2,26 +2,39 @@
 class Airplane extends PIXI.Sprite {
 
     /* VARS */
-
+    #mouseMove = false;
     #speed;
-    #rotationSpeed;
-    #paused;
+    #rotationSpeed = 0;
+    #paused = false;
     #trail;
     #lastPosition;
 
     /* CONSTRUCTOR */
     constructor(texture) {
         super(texture);
+        this.interactive = true;
         this.width = 30;
         this.height = 30;
         this.anchor.set(0.5, 0.5);
-        this.speed = 120;
-        this.rotationSpeed = 0;
-        this.paused = false;
+        this.assignEvents();
         this.setStartPosition();
+        this.speed = 120;
+
+        this.trail = new PIXI.Graphics();
+        app.stage.addChild(this.trail);
     };
 
     /* METHODS */
+    assignEvents() {
+        this.on('mousedown', () => this.#mouseMove = true);
+        this.on('mouseup', () => this.#mouseMove = false);
+        this.on('mousemove', (e) => {
+            if (this.#mouseMove) {
+                this.setPosition(e.data.global.x, e.data.global.y);
+            }
+        });
+    }
+
     setPosition(x, y) {
         this.position.set(x, y);
         this.lastPosition = {
@@ -32,11 +45,11 @@ class Airplane extends PIXI.Sprite {
 
     setStartPosition() {
         this.setPosition((app.renderer.view.width / 2) - (this.width / 2), (app.renderer.view.height / 2) - (this.height / 2));
-        this.angle = 90;
+        this.angle = 0 //90;
     }
 
     advance() {
-        if (!this.paused) {
+        if (!this.paused && !this.#mouseMove) {
             // move depending on airplane rotation (Heading)
             if (this.speed > 0) {
                 this.x += (Math.sin(this.rotation) * this.speed) / 21000; // 21000 is scale
@@ -74,7 +87,7 @@ class Airplane extends PIXI.Sprite {
 
     /* TRAIL METHODS */
     drawTrail() {
-        if ((this.lastPosition.x === this.x) && (this.lastPosition.y === this.y)) {
+        if ((this.#mouseMove) || ((this.lastPosition.x === this.x) && (this.lastPosition.y === this.y))) {
             return this
         };
 
