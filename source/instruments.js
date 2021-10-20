@@ -42,12 +42,36 @@ class Instrument extends PIXI.Sprite {
     };
 }
 
+/* DIRECTIONAL GYRO */
 class DirectionalGyro extends Instrument {
+
+    /* VARS */
+    #compassRose;
+    #isReady = false;
 
     /* CONSTRUCTOR */
     constructor(texture) {
         super(texture);
         this.switchElement = swInstrumentDG;
+
+        this.createCompassRose();
+        this.#isReady = true;
+    }
+
+    /* METHODS */
+    createCompassRose() {
+        this.#compassRose = new PIXI.Sprite(PIXI.Loader.shared.resources.CompassRose.texture);
+        this.#compassRose.width = this.width;
+        this.#compassRose.height = this.height;
+        this.#compassRose.anchor = this.anchor;
+        this.#compassRose.position.set(0, 0);
+
+        this.addChild(this.#compassRose);
+    }
+
+    renderCompass() {
+        if (this.#isReady)
+            this.#compassRose.rotation = -player.rotation;
     }
 
 }

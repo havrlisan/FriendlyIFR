@@ -10,7 +10,8 @@ appParent.appendChild(app.view);
 PIXI.Loader.shared.onProgress.add((loader, resource) => { console.log("Loading: " + resource.url + " (" + loader.progress + "%)") });
 PIXI.Loader.shared
     .add("airplaneImage", "static/airplane.png")
-    .add("DirectionalGyro", "static/DG.bmp")
+    .add("DirectionalGyro", "static/DG.png")
+    .add("CompassRose", "static/compass_rose.png")
     .load(setup);
 
 /* SETUP */
@@ -63,6 +64,7 @@ function renderLoop(delta) {
         .advance();
 
     renderTrail();
+    instrDG.renderCompass();
 }
 
 let trailCounter = 0;
