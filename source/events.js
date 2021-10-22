@@ -32,11 +32,12 @@ edWindDirection.oninput = (e) => {
 
 // Controls
 swAirplaneVisible.onchange = () => {
-    player.setVisible(swAirplaneVisible.checked)
+    player.setVisible(swAirplaneVisible.checked);
 };
 
 swCourseLinesVisible.onchange = () => {
-    // todo
+    VORa.setLineVisibility(swCourseLinesVisible.checked);
+    VORb.setLineVisibility(swCourseLinesVisible.checked);
 };
 
 swPaused.onchange = () => {

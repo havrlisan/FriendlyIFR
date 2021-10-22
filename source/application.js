@@ -1,18 +1,24 @@
 /* INITIALIZATION */
 
-// utils.skipHello();
+//utils.skipHello();
 
-appLoaded = false;
 app = new PIXI.Application({ backgroundAlpha: 0 });
 appParent.appendChild(app.view);
-// document.body.appendChild(app.view);
 
-PIXI.Loader.shared.onProgress.add((loader, resource) => { console.log("Loading: " + resource.url + " (" + loader.progress + "%)") });
+PIXI.Loader.shared.onProgress.add((loader, resource) => { console.log("Loading " + resource.url + " (" + Math.floor(loader.progress) + "%)") });
 PIXI.Loader.shared
+    .add('DigitalFont', 'static/digital-7.xml')
     .add("airplaneImage", "static/airplane.png")
     .add("NonDirectionalBeacon", "static/NDB.png")
+    .add("VORa", "static/VORa.png")
+    .add("VORb", "static/VORb.png")
     .add("CompassRose", "static/compass_rose.png")
     .add("CompassArrow", "static/compass_arrow.png")
+    .add("CompassArrowBroken", "static/compass_arrow_broken.png")
+    .add("CompassArrowCenter", "static/compass_arrow_center.png")
+    .add("DMEDisplay", "static/DME.bmp")
+    .add("CRSBackground", "static/CRS_background.png")
+    .add("CRSArrow", "static/CRS_arrow.png")
     .add("DirectionalGyro", "static/DG.png")
     .add("RBIndicator", "static/RBI.png")
     .load(setup);
@@ -32,12 +38,19 @@ function setup() {
     wind = new Wind(0, 0);
     // NDB
     NDB = new NonDirectionalBeacon(PIXI.Loader.shared.resources.NonDirectionalBeacon.texture);
+    // VORa
+    VORa = new VORBeacon(PIXI.Loader.shared.resources.VORa.texture);
+    // VORb
+    VORb = new VORBeacon(PIXI.Loader.shared.resources.VORb.texture);
+    VORb.position.set(500, 200);
     // Directional Gyro
     instrDG = new DirectionalGyro(PIXI.Loader.shared.resources.DirectionalGyro.texture);
     // RBI
-    instrRBI = new RBIndicator(PIXI.Loader.shared.resources.RBIndicator.texture);
+    instrRBI = new RBI(PIXI.Loader.shared.resources.RBIndicator.texture);
     // RMI
-    instrRMI = new RMIndicator(PIXI.Loader.shared.resources.RBIndicator.texture);
+    instrRMI = new RMI(PIXI.Loader.shared.resources.RBIndicator.texture);
+    // HSI
+    instrHSI = new HSI(PIXI.Loader.shared.resources.RBIndicator.texture);
 
     // Pause message
     lblPause = new PIXI.Text("Paused", new PIXI.TextStyle({
@@ -53,9 +66,12 @@ function setup() {
     // Add objects to stage (the latter ones added are on top layer, hence we first add trail and then the player)
     app.stage.addChild(player);
     app.stage.addChild(NDB);
+    app.stage.addChild(VORa);
+    app.stage.addChild(VORb);
     app.stage.addChild(instrDG);
     app.stage.addChild(instrRBI);
     app.stage.addChild(instrRMI);
+    app.stage.addChild(instrHSI);
     app.stage.addChild(lblPause);
 
     // create a loop (called 60 times per second)
@@ -75,6 +91,7 @@ function renderLoop(delta) {
     instrDG.renderCompass();
     instrRBI.renderCompass();
     instrRMI.renderCompass();
+    instrHSI.renderCompass();
 }
 
 let trailCounter = 0;

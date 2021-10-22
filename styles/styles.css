@@ -1,4 +1,15 @@
+@font-face {
+    font-family: 'Digital-7';
+    src: url('/static/digital-7.woff');
+}
+
+/* @font-face {
+    font-family: 'SF Pro Rounded';
+    src: url('/static/digital-7.woff');
+} */
+
 body, html {
+    /* font-family: 'SF Pro Rounded'; */
     margin: 0;
     padding: 0;
     overflow: hidden;
@@ -6,6 +17,16 @@ body, html {
 
 .text-centered {
     text-align: center;
+}
+
+.noselect {
+    -webkit-touch-callout: none;    /* iOS Safari */
+    -webkit-user-select: none;      /* Safari */
+    -khtml-user-select: none;       /* Konqueror HTML */
+    -moz-user-select: none;         /* Old versions of Firefox */
+    -ms-user-select: none;          /* Internet Explorer/Edge */
+    user-select: none;              /* Non-prefixed version, currently
+                                       supported by Chrome, Edge, Opera and Firefox */
 }
 
 /* Custom scrollbar */
