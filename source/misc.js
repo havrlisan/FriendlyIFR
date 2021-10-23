@@ -1,5 +1,4 @@
 /* DISABLE FOCUS AFTER CLICK */
-
 Array.from(document.getElementsByTagName("button"))
     .forEach(btn => btn.onmouseup = btn.blur);
 
@@ -9,16 +8,16 @@ Array.from(document.getElementsByTagName("input"))
             input.onmouseup = input.blur
     });
 
-/* AUTO PAUSE ON LOSE VISIBILITY */
 
+/* AUTO PAUSE ON LOSE VISIBILITY */
 document.addEventListener("visibilitychange", () => {
     if (document.hidden)
         pauseMovement(true); // TODO: Different approach for Test mode
 });
 
+
 /* ENSURE MAX SPEED NOT CROSSED */
 // returns checked value and boolean that's true if input was invalid
-
 function validateInput(value, max_value) {
     if (typeof value !== 'string' || value === '') { return [0, true] };
     if (value.includes('-'))
@@ -34,8 +33,8 @@ function validateInput(value, max_value) {
     return [newSpeed > max_value ? max_value : newSpeed, newSpeed > max_value];
 }
 
-/* BLINK ERROR */
 
+/* BLINK ERROR */
 function blinkInvalidInput(element) {
     if (element === undefined) { return false };
 

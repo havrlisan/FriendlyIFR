@@ -7,7 +7,6 @@ appParent.appendChild(app.view);
 
 PIXI.Loader.shared.onProgress.add((loader, resource) => { console.log("Loading " + resource.url + " (" + Math.floor(loader.progress) + "%)") });
 PIXI.Loader.shared
-    .add('DigitalFont', 'static/digital-7.xml')
     .add("airplaneImage", "static/airplane.png")
     .add("NonDirectionalBeacon", "static/NDB.png")
     .add("VORa", "static/VORa.png")
@@ -16,7 +15,11 @@ PIXI.Loader.shared
     .add("CompassArrow", "static/compass_arrow.png")
     .add("CompassArrowBroken", "static/compass_arrow_broken.png")
     .add("CompassArrowCenter", "static/compass_arrow_center.png")
-    .add("DMEDisplay", "static/DME.bmp")
+    .add("CompassArrowCenterWhite", "static/compass_arrow_center_white.png")
+    .add("CompassDots", "static/compass_dots.png")
+    .add("DMEa", "static/DMEa.png")
+    .add("DMEb", "static/DMEb.png")
+    .add("FlagOff", "static/flag_off.png")
     .add("CRSBackground", "static/CRS_background.png")
     .add("CRSArrow", "static/CRS_arrow.png")
     .add("DirectionalGyro", "static/DG.png")
@@ -51,6 +54,8 @@ function setup() {
     instrRMI = new RMI(PIXI.Loader.shared.resources.RBIndicator.texture);
     // HSI
     instrHSI = new HSI(PIXI.Loader.shared.resources.RBIndicator.texture);
+    // CDI
+    instrCDI = new CDI(PIXI.Loader.shared.resources.RBIndicator.texture);
 
     // Pause message
     lblPause = new PIXI.Text("Paused", new PIXI.TextStyle({
@@ -72,6 +77,7 @@ function setup() {
     app.stage.addChild(instrRBI);
     app.stage.addChild(instrRMI);
     app.stage.addChild(instrHSI);
+    app.stage.addChild(instrCDI);
     app.stage.addChild(lblPause);
 
     // create a loop (called 60 times per second)
@@ -92,6 +98,7 @@ function renderLoop(delta) {
     instrRBI.renderCompass();
     instrRMI.renderCompass();
     instrHSI.renderCompass();
+    instrCDI.renderCompass();
 }
 
 let trailCounter = 0;

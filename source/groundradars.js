@@ -28,6 +28,7 @@ class VORBeacon extends GroundRadar {
     /* VARS */
     #courseLines = null;
     #blindCones = null;
+    #courseLinesRadius = 10000;
 
     /* CONSTRUCTOR */
     constructor(texture) {
@@ -40,20 +41,25 @@ class VORBeacon extends GroundRadar {
     /* METHODS */
     createCourseLines() {
         this.#courseLines = new PIXI.Graphics();
-        this.#courseLines.visible = false;
         this.#courseLines.lineStyle({ width: 20, color: 0xFF0000, alpha: 0.7 })
-            .moveTo(0, 0)
-            .lineTo(0, -10000);
-        this.#courseLines.lineStyle({ width: 20, color: 0x0000FF, alpha: 0.7 })
-            .moveTo(0, 0)
-            .lineTo(0, 10000);
+            .moveTo(0, -this.#courseLinesRadius)
+            .lineTo(0, 0)
+            .lineStyle({ width: 20, color: 0x0000FF, alpha: 0.7 })
+            .lineTo(0, this.#courseLinesRadius);
 
         this.addChild(this.#courseLines);
     }
 
     createBlindCones() {
         this.#blindCones = new PIXI.Graphics();
-        this.#blindCones.visible = false;
+        this.#blindCones.hitArea = new PIXI.Polygon([
+            20000, -(20000 * Math.tan(degrees_to_radians(5))),  // right-up              
+            20000, (20000 * Math.tan(degrees_to_radians(5))),   // right-down
+            0, 0,                                                // center
+            -20000, -(20000 * Math.tan(degrees_to_radians(5))), // left-up
+            -20000, (20000 * Math.tan(degrees_to_radians(5))),  // left-down
+            0, 0                                                // center
+        ]);
         this.#blindCones
             .beginFill(0x000000, 0.12)
             .moveTo(0, 0)
@@ -72,6 +78,11 @@ class VORBeacon extends GroundRadar {
         this.addChild(this.#blindCones);
     }
 
+    isInBlindCone(obj) {
+        let position = this.#blindCones.toLocal(obj.position);
+        return this.#blindCones.hitArea.contains(position.x, position.y);
+    }
+
     setLineVisibility(value) {
         this.#courseLines.visible = value;
         this.#blindCones.visible = value;
@@ -80,5 +91,8 @@ class VORBeacon extends GroundRadar {
     /* PROPERTIES */
     get blindCones() {
         return this.#blindCones;
+    }
+    get courseLines() {
+        return this.#courseLines;
     }
 }
