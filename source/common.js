@@ -43,6 +43,39 @@ let lblPause;
 /* METHODS */
 
 const degrees_to_radians = deg => (deg * Math.PI) / 180;
+const calcDistance = (obj, p1, p2) => pDistance(obj.x, obj.y, p1.x, p1.y, p2.x, p2.y);
+/* pDistance function - https://stackoverflow.com/a/6853926/6619251 */
+const pDistance = (x, y, x1, y1, x2, y2) => {
+    var A = x - x1;
+    var B = y - y1;
+    var C = x2 - x1;
+    var D = y2 - y1;
+
+    var dot = A * C + B * D;
+    var len_sq = C * C + D * D;
+    var param = -1;
+    if (len_sq != 0) //in case of 0 length line
+        param = dot / len_sq;
+
+    var xx, yy;
+
+    if (param < 0) {
+        xx = x1;
+        yy = y1;
+    }
+    else if (param > 1) {
+        xx = x2;
+        yy = y2;
+    }
+    else {
+        xx = x1 + param * C;
+        yy = y1 + param * D;
+    }
+
+    var dx = x - xx;
+    var dy = y - yy;
+    return Math.sqrt(dx * dx + dy * dy);
+}
 
 /* CLASSES */
 
@@ -53,26 +86,16 @@ class MovableSprite extends PIXI.Sprite {
     /* CONSTRUCTOR */
     constructor(texture) {
         super(texture);
-
-        this.on('mousedown', () => this.#mouseMove = true);
-        this.on('mouseup', () => this.#mouseMove = false);
-        this.on('mousemove', (e) => {
-            if (this.#mouseMove) {
-                this.setPosition(e.data.global.x, e.data.global.y);
-            }
-        });
+        this.interactive = true;
+        this.on('mousedown', () => { this.#mouseMove = true });
+        this.on('mouseup', () => {  this.#mouseMove = false });
+        this.on('mousemove', (e) => { if (this.#mouseMove) this.setPosition(e.data.global.x, e.data.global.y) });
     }
 
     /* METHODS */
-    setPosition(x, y) {
-        this.position.set(x, y);
-    }
+    setPosition(x, y) { this.position.set(x, y) };
 
     /* PROPERTIES */
-    get mouseMove() {
-        return this.#mouseMove;
-    }
-    set mouseMove(value) {
-        this.#mouseMove = value;
-    }
+    get mouseMove() { return this.#mouseMove };
+    set mouseMove(value) { this.#mouseMove = value };
 }

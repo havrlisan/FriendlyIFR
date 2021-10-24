@@ -20,6 +20,8 @@ PIXI.Loader.shared
     .add("DMEa", "static/DMEa.png")
     .add("DMEb", "static/DMEb.png")
     .add("FlagOff", "static/flag_off.png")
+    .add("FlagTo", "static/flag_to.png")
+    .add("FlagFrom", "static/flag_from.png")
     .add("CRSBackground", "static/CRS_background.png")
     .add("CRSArrow", "static/CRS_arrow.png")
     .add("DirectionalGyro", "static/DG.png")
@@ -68,11 +70,10 @@ function setup() {
     lblPause.visible = false;
     lblPause.position.set((app.renderer.view.width / 2) - (lblPause.width / 2), (app.renderer.view.height / 2) - (lblPause.height / 2));
 
-    // Add objects to stage (the latter ones added are on top layer, hence we first add trail and then the player)
-    app.stage.addChild(player);
     app.stage.addChild(NDB);
     app.stage.addChild(VORa);
     app.stage.addChild(VORb);
+    app.stage.addChild(player);
     app.stage.addChild(instrDG);
     app.stage.addChild(instrRBI);
     app.stage.addChild(instrRMI);
@@ -80,7 +81,7 @@ function setup() {
     app.stage.addChild(instrCDI);
     app.stage.addChild(lblPause);
 
-    // create a loop (called 60 times per second)
+    // create a 60 FPS loop (delta accounted for different monitor's framerate)
     app.ticker.add(delta => renderLoop(delta));
 
     // Enable controls

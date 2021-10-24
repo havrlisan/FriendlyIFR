@@ -38,7 +38,6 @@ function validateInput(value, max_value) {
 function blinkInvalidInput(element) {
     if (element === undefined) { return false };
 
-    console.log(element);
     element.classList.remove('text-black-50');
     element.classList.add('text-danger');
     setTimeout(() => {

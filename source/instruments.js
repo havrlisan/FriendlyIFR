@@ -11,7 +11,6 @@ class Instrument extends MovableSprite {
     constructor(texture) {
         super(texture);
         this.visible = false;
-        this.interactive = true;
         this.width = INSTR_WIDTH;
         this.height = INSTR_HEIGHT;
         this.anchor.set(0.5, 0.5);
@@ -156,13 +155,14 @@ class HSI extends Instrument {
     #CRSButton = null;
     #CRSArrow = null;
     #flagOff = null;
+    #flagTo = null;
+    #flagFrom = null;
 
     /* CONSTRUCTOR */
     constructor(texture) {
         super(texture);
         this.switchElement = swInstrumentHSI;
         this.position.set(300, 150);
-        this.visible = false;
         this.interactiveMousewheel = true;
 
         this.createCompassRose();
@@ -197,7 +197,21 @@ class HSI extends Instrument {
         this.#flagOff.anchor = this.anchor;
         this.#flagOff.position.set(this.#compassArrowBroken.width / 4, this.#compassArrowBroken.height / 7);
 
+        this.#flagTo = new PIXI.Sprite(PIXI.Loader.shared.resources.FlagTo.texture);
+        this.#flagTo.width = 34;
+        this.#flagTo.height = 16;
+        this.#flagTo.anchor = this.anchor;
+        this.#flagTo.position.set(this.#compassArrowBroken.width / 4, - this.#compassArrowBroken.height / 7);
+        
+        this.#flagFrom = new PIXI.Sprite(PIXI.Loader.shared.resources.FlagFrom.texture);
+        this.#flagFrom.width = 34;
+        this.#flagFrom.height = 16;
+        this.#flagFrom.anchor = this.anchor;
+        this.#flagFrom.position.set(this.#compassArrowBroken.width / 4, this.#compassArrowBroken.height / 7);
+
         this.#compassArrowBroken.addChild(this.#flagOff);
+        this.#compassArrowBroken.addChild(this.#flagTo);
+        this.#compassArrowBroken.addChild(this.#flagFrom);
     }
 
     createCRS(beacon) {
@@ -234,17 +248,20 @@ class HSI extends Instrument {
         if (this.#compassArrowBroken != null) {
             this.#compassArrowBroken.angle = this.#CRSArrow.angle - player.angle;
 
-            // let distance = distanceToLine(player, this.#CRSButton.beacon.courseLinePoints[0], this.#CRSButton.beacon.courseLinePoints[1]);
-            // distance = distance > INSTR_ARROW_CENTER_LIMIT ? INSTR_ARROW_CENTER_LIMIT : distance;
-
-            //console.log('distance: ' + Math.round(distance * 10) / 10);
-            //this.#compassArrowCenter.x = distance;
+            let courseLinePoints = this.#CRSButton.beacon.courseLinePoints;
+            let distance = calcDistance(player, courseLinePoints[0], courseLinePoints[1]);
+            distance *= 3; // multiply for scale
+            distance = distance > INSTR_ARROW_CENTER_LIMIT ? INSTR_ARROW_CENTER_LIMIT : distance;
+            distance = this.#CRSButton.beacon.isInNegativeDistance(player) ? -distance : distance;
+            this.#compassArrowCenter.x = distance;
         }
 
-        if (this.#flagOff != null)
+        if (this.#flagOff != null) {
             this.#flagOff.visible = this.#CRSButton.beacon.isInBlindCone(player);
+            this.#flagTo.visible = !this.#flagOff.visible && this.#CRSButton.beacon.isInFlagToArea(player);
+            this.#flagFrom.visible = !this.#flagOff.visible && !this.#flagTo.visible;
+        }
     }
-
 }
 
 /* CDI - COURSE DEVIATION INDICATOR */
@@ -255,6 +272,8 @@ class CDI extends Instrument {
     #OBSButton = null;
     #OBSArrow = null;
     #flagOff = null;
+    #flagTo = null;
+    #flagFrom = null;
 
     /* CONSTRUCTOR */
     constructor(texture) {
@@ -264,11 +283,11 @@ class CDI extends Instrument {
         this.interactiveMousewheel = true;
 
         this.createCompassDots();
+        this.createCourseFlags();
         this.createCompassRose(VORb);
         this.createDeviationArrow(VORb);
         this.createDMEDisplay(PIXI.Loader.shared.resources.DMEb.texture, VORb);
         this.createOBS(VORb);
-        this.createCourseFlags();
     }
 
     /* METHODS */
@@ -280,12 +299,41 @@ class CDI extends Instrument {
 
         this.addChild(this.#compassDots);
     }
+    
+    createCourseFlags() {
+        this.#flagOff = new PIXI.Sprite(PIXI.Loader.shared.resources.FlagOff.texture);
+        this.#flagOff.visible = false;
+        this.#flagOff.width = 34;
+        this.#flagOff.height = 16;
+        this.#flagOff.anchor = this.anchor;
+        this.#flagOff.position.set(this.width / 6, this.height / 8.5);
+
+        this.#flagTo = new PIXI.Sprite(PIXI.Loader.shared.resources.FlagTo.texture);
+        this.#flagTo.visible = false;
+        this.#flagTo.width = 34;
+        this.#flagTo.height = 16;
+        this.#flagTo.anchor = this.anchor;
+        this.#flagTo.position.set(this.width / 6, - this.height / 8.5);
+        
+        this.#flagFrom = new PIXI.Sprite(PIXI.Loader.shared.resources.FlagFrom.texture);
+        this.#flagFrom.visible = false;
+        this.#flagFrom.width = 34;
+        this.#flagFrom.height = 16;
+        this.#flagFrom.anchor = this.anchor;
+        this.#flagFrom.position.set(this.width / 6, this.height / 8.5);
+
+        this.addChild(this.#flagOff);
+        this.addChild(this.#flagTo);
+        this.addChild(this.#flagFrom);
+    }
 
     createCompassRose(beacon) {
+        if (beacon == null)
+            return console.log('(CDI) Skipping compass rose, beacon not provided!');
         super.createCompassRose().beacon = beacon;
     }
 
-    createDeviationArrow(beacon) {      
+    createDeviationArrow(beacon) {
         this.#deviationArrow = new PIXI.Sprite(PIXI.Loader.shared.resources.CompassArrowCenterWhite.texture);
         this.#deviationArrow.width = INSTR_ARROW_WIDTH;
         this.#deviationArrow.height = INSTR_ARROW_HEIGHT;
@@ -324,19 +372,18 @@ class CDI extends Instrument {
         this.#OBSButton.addChild(this.#OBSArrow);
     }
 
-    createCourseFlags() {
-        this.#flagOff = new PIXI.Sprite(PIXI.Loader.shared.resources.FlagOff.texture);
-        this.#flagOff.width = 34;
-        this.#flagOff.height = 16;
-        this.#flagOff.anchor = this.anchor;
-        this.#flagOff.position.set(this.width / 6, this.height / 12);
-
-        this.addChild(this.#flagOff);
-    }
-
     renderCompass() {
         if (this.compassRose != null)
             this.compassRose.rotation = - this.compassRose.beacon.courseLines.rotation;
+
+        if (this.#deviationArrow != null && this.#OBSButton != null) {
+            let courseLinePoints = this.#OBSButton.beacon.courseLinePoints;
+            let distance = calcDistance(player, courseLinePoints[0], courseLinePoints[1]);
+            distance *= 3; // multiply for scale
+            distance = distance > INSTR_ARROW_CENTER_LIMIT ? INSTR_ARROW_CENTER_LIMIT : distance;
+            distance = this.#OBSButton.beacon.isInNegativeDistance(player) ? -distance : distance;
+            this.#deviationArrow.x = distance;
+        }
 
         if (this.DMEDisplay != null) {
             let deltaX = this.DMEDisplay.beacon.x - player.x;
@@ -344,11 +391,11 @@ class CDI extends Instrument {
             let distance = Math.hypot(deltaX, deltaY) / 20; // 20 is scale
             this.DMEDisplay.lblDistance.text = (Math.round(distance * 10) / 10).toFixed(1);
         }
-
-        if (this.#flagOff != null) {
+  
+        if (this.#flagOff != null && this.#flagTo != null && this.#flagFrom != null) {
             this.#flagOff.visible = this.#OBSButton.beacon.isInBlindCone(player);
+            this.#flagTo.visible = !this.#flagOff.visible && this.#OBSButton.beacon.isInFlagToArea(player);
+            this.#flagFrom.visible = !this.#flagOff.visible && !this.#flagTo.visible;
         }
-
-        // add #devationArrow control
     }
 }

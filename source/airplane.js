@@ -11,7 +11,6 @@ class Airplane extends MovableSprite {
     /* CONSTRUCTOR */
     constructor(texture) {
         super(texture);
-        this.interactive = true;
         this.width = 30;
         this.height = 30;
         this.anchor.set(0.5, 0.5);
