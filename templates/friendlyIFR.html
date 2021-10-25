@@ -20,7 +20,7 @@
     </div>
 </nav>
 
-<div class="d-flex noselect" style="height: calc(100vh - 50px)">
+<div class="d-flex noselect" style="height: calc(100vh - 50px)" id="captureElement">
 
     <!-- Pixi.js container -->
     <div class="w-75 bg-secondary" id="pixi-app-container"></div>
@@ -41,12 +41,12 @@
         <!-- Stopwatch -->
         <div class="row w-100 justify-content-center align-items-center pb-2 mb-2 border-bottom">
             <h1 class="h5 mb-2 text-centered" id="lblStopwatch">00:00:00</h1>
-                <div class="col-md-auto">
-                    <button type="button" class="btn btn-dark btn-sm" id="btnStartStopwatch">Start</button>
-                </div>
-                <div class="col-md-auto">
-                    <button type="button" class="btn btn-outline-danger btn-sm" id="btnResetStopwatch">Reset</button>
-                </div>
+            <div class="col-md-auto">
+                <button type="button" class="btn btn-outline-secondary btn-sm" id="btnStartStopwatch">Start</button>
+            </div>
+            <div class="col-md-auto">
+                <button type="button" class="btn btn-outline-danger btn-sm" id="btnResetStopwatch">Reset</button>
+            </div>
         </div>
 
         <!-- Inputs -->
@@ -93,20 +93,18 @@
         </div>
 
         <!-- Controls -->
-        <!-- <div class="scrollbox"> -->
         <div class="row w-100 row-cols-2 g-2 p-1" style="overflow-y: auto;">
-            <!-- scrollbox-content -->
             <!-- General -->
             <div class="col" id="controls-row1">
                 <ul class="list-unstyled small">
                     <div class="d-grid gap-2">
-                        <button class="btn btn-outline-dark mb-1 btn-block" data-bs-toggle="collapse" aria-expanded="true"
+                        <button class="btn btn-dark mb-1 btn-block" data-bs-toggle="collapse" aria-expanded="true"
                             data-bs-target="#row1-collapse" aria-controls="row1-collapse">
                             General
                         </button>
                     </div>
                     <li>
-                        <ul class="list-unstyled ps-3 collapse show" id="row1-collapse">
+                        <ul class="list-unstyled ps-2 pe-2 collapse show" id="row1-collapse">
                             <li>
                                 <div class="form-check form-switch">
                                     <input class="form-check-input" type="checkbox" id="swAirplaneVisible" checked>
@@ -125,6 +123,11 @@
                                     <label class="form-check-label" for="swPaused">Paused</label>
                                 </div>
                             </li>
+                            <li>
+                                <div class="row ps-3 pe-3 mt-3 justify-content-center">
+                                    <button type="button" class="btn btn-outline-danger btn-sm" id="btnClearTrail">Erase path</button>
+                                </div>
+                            </li>
                         </ul>
                     </li>
 
@@ -135,13 +138,13 @@
             <div class="col" id="controls-row1">
                 <ul class="list-unstyled small">
                     <div class="d-grid gap-2">
-                        <button class="btn btn-outline-dark mb-1 btn-block" data-bs-toggle="collapse" aria-expanded="true"
+                        <button class="btn btn-dark mb-1 btn-block" data-bs-toggle="collapse" aria-expanded="true"
                             data-bs-target="#row1-collapse" aria-controls="row1-collapse">
                             Instruments
                         </button>
                     </div>
                     <li>
-                        <ul class="list-unstyled ps-3 collapse show" id="row1-collapse">
+                        <ul class="list-unstyled ps-2 pe-2 collapse show" id="row1-collapse">
                             <li>
                                 <div class="form-check form-switch">
                                     <input class="form-check-input" type="checkbox" id="swInstrumentDG" name="instrument">
@@ -178,33 +181,35 @@
                 </ul>
             </div>
 
-            <!-- TODO -->
+            <!-- Options -->
             <div class="col" id="controls-row2">
                 <ul class="list-unstyled small">
                     <div class="d-grid gap-2">
-                        <button class="btn btn-outline-dark mb-1 btn-block" data-bs-toggle="collapse" aria-expanded="true"
+                        <button class="btn btn-dark mb-1 btn-block" data-bs-toggle="collapse" aria-expanded="true"
                             data-bs-target="#row2-collapse" aria-controls="row2-collapse">
-                            Coming soon
+                            Options
                         </button>
                     </div>
                     <li>
-                        <ul class="list-unstyled ps-3 collapse show" id="row2-collapse">
+                        <ul class="list-unstyled ps-4 pe-4 collapse show" id="row2-collapse">
                             <li>
-                                <div class="form-check form-switch">
-                                    <input class="form-check-input" type="checkbox" id="UNKNOWN_1" disabled>
-                                    <label class="form-check-label" for="UNKNOWN_1">Not implemented</label>
+                                <div class="row mt-1 justify-content-center">
+                                    <button type="button" class="btn btn-outline-secondary btn-sm" id="btnSaveImage">Save image</button>
                                 </div>
                             </li>
                             <li>
-                                <div class="form-check form-switch">
-                                    <input class="form-check-input" type="checkbox" id="UNKNOWN_2" disabled>
-                                    <label class="form-check-label" for="UNKNOWN_2">Not implemented</label>
+                                <div class="row mt-1 justify-content-center">
+                                    <button type="button" class="btn btn-outline-secondary btn-sm" id="btnSaveSetup">Save setup</button>
                                 </div>
                             </li>
                             <li>
-                                <div class="form-check form-switch">
-                                    <input class="form-check-input" type="checkbox" id="UNKNOWN_3" disabled>
-                                    <label class="form-check-label" for="UNKNOWN_3">Not implemented</label>
+                                <div class="row mt-1 justify-content-center">
+                                    <button type="button" class="btn btn-outline-secondary btn-sm" id="btnLoadSetup">Load setup</button>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="row mt-1 justify-content-center">
+                                    <button type="button" class="btn btn-outline-secondary btn-sm" id="btnTestMode">Test mode</button>
                                 </div>
                             </li>
                         </ul>
@@ -217,13 +222,13 @@
             <div class="col" id="controls-row2">
                 <ul class="list-unstyled small">
                     <div class="d-grid gap-2">
-                        <button class="btn btn-outline-dark mb-1 btn-block" data-bs-toggle="collapse" aria-expanded="true"
+                        <button class="btn btn-dark mb-1 btn-block" data-bs-toggle="collapse" aria-expanded="true"
                             data-bs-target="#row2-collapse" aria-controls="row2-collapse">
                             Editor
                         </button>
                     </div>
                     <li>
-                        <ul class="list-unstyled ps-3 collapse show" id="row2-collapse">
+                        <ul class="list-unstyled ps-2 pe-2 collapse show" id="row2-collapse">
                             <li>
                                 <div class="form-check form-switch">
                                     <input class="form-check-input" type="checkbox" id="UNKNOWN_1" disabled>
@@ -248,22 +253,19 @@
                 </ul>
             </div>
         </div>
-        <!-- </div> -->
     </div>
 </div>
 
-<!-- Pixi.js -->
+<!-- Libs -->
+<!--script src="../lib/html2canvas.min.js"></script-->
 <script src="../lib/pixi.min.js"></script>
 <script src="../lib/pixi-mousewheel.js"></script>
 <!-- General -->
 <script type="text/javascript" src="../source/elements.js"></script>
 <script type="text/javascript" src="../source/common.js"></script>
 <script type="text/javascript" src="../source/misc.js"></script>
-
-<!-- Non-Pixi -->
 <script type="text/javascript" src="../source/time.js"></script>
-
-<!-- Pixi -->
+<!-- Pixi-related -->
 <script type="text/javascript" src="../source/wind.js"></script>
 <script type="text/javascript" src="../source/airplane.js"></script>
 <script type="text/javascript" src="../source/groundradars.js"></script>

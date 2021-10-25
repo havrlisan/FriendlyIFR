@@ -1,5 +1,5 @@
 // Pixi container
-const appParent = document.getElementById("pixi-app-container");
+const appParent = document.getElementById('pixi-app-container');
 
 // Time
 const lblCurrentTime = document.getElementById('lblCurrentTime');
@@ -20,6 +20,7 @@ const edWindDirectionHint = document.getElementById('edWindDirectionHint');
 const swAirplaneVisible = document.getElementById('swAirplaneVisible');
 const swCourseLinesVisible = document.getElementById('swCourseLinesVisible');
 const swPaused = document.getElementById('swPaused');
+const btnClearTrail = document.getElementById('btnClearTrail');
 
 // Instruments
 //const instruments = document.getElementsByName('instrument');
@@ -28,3 +29,9 @@ const swInstrumentRBI = document.getElementById('swInstrumentRBI');
 const swInstrumentRMI = document.getElementById('swInstrumentRMI');
 const swInstrumentHSI = document.getElementById('swInstrumentHSI');
 const swInstrumentCDI = document.getElementById('swInstrumentCDI');
+
+// Options
+const btnSaveImage = document.getElementById('btnSaveImage');
+const btnSaveSetup = document.getElementById('btnSaveSetup');
+const btnLoadSetup = document.getElementById('btnLoadSetup');
+const btnTestMode = document.getElementById('btnTestMode');

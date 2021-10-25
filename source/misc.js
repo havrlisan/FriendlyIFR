@@ -1,4 +1,11 @@
+/* CONFIRM LEAVE */
+
+window.onbeforeunload = function(){
+    return 'Are you sure you want to leave?';
+  };
+
 /* DISABLE FOCUS AFTER CLICK */
+
 Array.from(document.getElementsByTagName("button"))
     .forEach(btn => btn.onmouseup = btn.blur);
 
@@ -10,6 +17,7 @@ Array.from(document.getElementsByTagName("input"))
 
 
 /* AUTO PAUSE ON LOSE VISIBILITY */
+
 document.addEventListener("visibilitychange", () => {
     if (document.hidden)
         pauseMovement(true); // TODO: Different approach for Test mode
@@ -18,8 +26,9 @@ document.addEventListener("visibilitychange", () => {
 
 /* ENSURE MAX SPEED NOT CROSSED */
 // returns checked value and boolean that's true if input was invalid
+
 function validateInput(value, max_value) {
-    if (typeof value !== 'string' || value === '') { return [0, true] };
+    if (typeof value !== 'string' || value === '' || isNaN(value)) { return [0, true] };
     if (value.includes('-'))
         value = '0'
 
@@ -35,6 +44,7 @@ function validateInput(value, max_value) {
 
 
 /* BLINK ERROR */
+
 function blinkInvalidInput(element) {
     if (element === undefined) { return false };
 

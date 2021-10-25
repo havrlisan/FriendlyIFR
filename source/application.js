@@ -1,11 +1,11 @@
 /* INITIALIZATION */
 
-//utils.skipHello();
+PIXI.utils.skipHello();
 
 app = new PIXI.Application({ backgroundAlpha: 0 });
 appParent.appendChild(app.view);
 
-PIXI.Loader.shared.onProgress.add((loader, resource) => { console.log("Loading " + resource.url + " (" + Math.floor(loader.progress) + "%)") });
+PIXI.Loader.shared.onProgress.add((loader, resource) => { console.log("Loading... (" + Math.floor(loader.progress) + "%)") }); // resource.url
 PIXI.Loader.shared
     .add("airplaneImage", "static/airplane.png")
     .add("NonDirectionalBeacon", "static/NDB.png")
