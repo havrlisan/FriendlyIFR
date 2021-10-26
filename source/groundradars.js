@@ -28,6 +28,12 @@ class VORBeacon extends GroundRadar {
     /* VARS */
     #courseLines = null;
     #blindCones = null;
+    #arcCurve = null;
+    #arcCurveData = {
+        radius: 0,
+        start: 0,
+        length: 0,
+    }
     #radius = 10000;
     #courseLinePoints = {
         topPoint: {
@@ -47,6 +53,7 @@ class VORBeacon extends GroundRadar {
         this.position.set(600, 200);
         this.createCourseLines();
         this.createBlindCones();
+        this.createArcCurve();
     }
 
     /* METHODS */
@@ -101,6 +108,15 @@ class VORBeacon extends GroundRadar {
         this.addChild(this.#blindCones);
     }
 
+    createArcCurve() {
+        this.#arcCurve = new PIXI.Graphics();
+        this.addChild(this.#arcCurve);
+
+        this.arcCurveRadius = 0;
+        this.arcCurveStart = 0;
+        this.arcCurveLength = 0;
+    }
+
     isInNegativeDistance(obj) {
         let position = this.#courseLines.toLocal(obj.position);
         return this.#courseLines.hitArea.contains(position.x, position.y);
@@ -119,6 +135,21 @@ class VORBeacon extends GroundRadar {
     setLineVisibility(value) {
         this.#courseLines.visible = value;
         this.#blindCones.visible = value;
+    }
+
+    updateArcCurve() {
+        if (this.#arcCurve == null) { this.createArcCurve() };
+
+        let radius = this.#arcCurveData.radius * 2, // multiply for scale
+            start = this.#arcCurveData.start,
+            length = this.#arcCurveData.length;
+
+        start = degrees_to_radians(start) - Math.PI / 2;
+        length = degrees_to_radians(length);
+        this.#arcCurve
+            .clear()
+            .lineStyle(20, 0x000000, 0.3)
+            .arc(0, 0, radius, start, start + length, false)
     }
 
     /* PROPERTIES */
@@ -142,5 +173,32 @@ class VORBeacon extends GroundRadar {
         };
 
         return [this.toGlobal(topPoint), this.toGlobal(bottomPoint)];
+    }
+    get arcCurveData() {
+        return this.#arcCurveData;
+    }
+    /**
+     * @param {number} value
+     */
+    set arcCurveRadius(value) {
+        this.#arcCurveData.radius = value;
+        edVORRadius.value = value;
+        this.updateArcCurve();
+    }
+    /**
+     * @param {number} value
+     */
+    set arcCurveStart(value) {
+        this.#arcCurveData.start = value;
+        edVORStart.value = value;
+        this.updateArcCurve();
+    }
+    /**
+     * @param {number} value
+     */
+    set arcCurveLength(value) {
+        this.#arcCurveData.length = value;
+        edVORLength.value = value;
+        this.updateArcCurve();
     }
 }

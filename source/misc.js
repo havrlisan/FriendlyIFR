@@ -4,6 +4,14 @@ window.onbeforeunload = function(){
     return 'Are you sure you want to leave?';
   };
 
+/* AUTO PAUSE ON LOSE VISIBILITY */
+
+document.addEventListener("visibilitychange", () => {
+    if (document.hidden)
+        pauseMovement(true); // TODO: Different approach for Test mode
+});
+
+
 /* DISABLE FOCUS AFTER CLICK */
 
 Array.from(document.getElementsByTagName("button"))
@@ -11,17 +19,9 @@ Array.from(document.getElementsByTagName("button"))
 
 Array.from(document.getElementsByTagName("input"))
     .forEach(input => {
-        if (input.type === "checkbox")
+        if (input.type === "checkbox" || input.type === "radio")
             input.onmouseup = input.blur
     });
-
-
-/* AUTO PAUSE ON LOSE VISIBILITY */
-
-document.addEventListener("visibilitychange", () => {
-    if (document.hidden)
-        pauseMovement(true); // TODO: Different approach for Test mode
-});
 
 
 /* ENSURE MAX SPEED NOT CROSSED */
@@ -38,8 +38,8 @@ function validateInput(value, max_value) {
     let invalidInputs = /[^\w\d]/gi;
     value = value.replace(invalidInputs, '');
 
-    let newSpeed = parseInt(value);
-    return [newSpeed > max_value ? max_value : newSpeed, newSpeed > max_value];
+    let new_value = parseInt(value);
+    return [new_value > max_value ? max_value : new_value, new_value > max_value];
 }
 
 
@@ -54,4 +54,16 @@ function blinkInvalidInput(element) {
         element.classList.remove('text-danger');
         element.classList.add('text-black-50');
     }, 3000);
+}
+
+
+/* DOWNLOAD FILE */
+
+function downloadFile(name, path) {
+    let a = document.createElement('a');
+    a.href = path;
+    a.download = name;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
 }

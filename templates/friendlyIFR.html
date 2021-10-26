@@ -191,7 +191,7 @@
                         </button>
                     </div>
                     <li>
-                        <ul class="list-unstyled ps-4 pe-4 collapse show" id="row2-collapse">
+                        <ul class="list-unstyled ps-3 pe-3 collapse show" id="row2-collapse">
                             <li>
                                 <div class="row mt-1 justify-content-center">
                                     <button type="button" class="btn btn-outline-secondary btn-sm" id="btnSaveImage">Save image</button>
@@ -218,33 +218,71 @@
                 </ul>
             </div>
 
-            <!-- Editor -->
+            <!-- Information -->
             <div class="col" id="controls-row2">
                 <ul class="list-unstyled small">
                     <div class="d-grid gap-2">
                         <button class="btn btn-dark mb-1 btn-block" data-bs-toggle="collapse" aria-expanded="true"
                             data-bs-target="#row2-collapse" aria-controls="row2-collapse">
+                            Information
+                        </button>
+                    </div>
+                    <li>
+                        <ul class="list-unstyled ps-1 pe-1 collapse show" id="row2-collapse">
+                            <li>
+                                <div class="mt-1 justify-content-center">
+                                    <textarea class="form-control form-control-sm" id="setupInformation" style="height: 136px; resize: none; font-size: small"></textarea>
+                                </div>
+                            </li>
+                        </ul>
+                    </li>
+
+                </ul>
+            </div>
+
+            <!-- Editor -->
+            <div class="col" id="controls-row3">
+                <ul class="list-unstyled small">
+                    <div class="d-grid gap-2">
+                        <button class="btn btn-dark mb-1 btn-block" data-bs-toggle="collapse" aria-expanded="true"
+                            data-bs-target="#row3-collapse" aria-controls="row3-collapse">
                             Editor
                         </button>
                     </div>
                     <li>
-                        <ul class="list-unstyled ps-2 pe-2 collapse show" id="row2-collapse">
-                            <li>
-                                <div class="form-check form-switch">
-                                    <input class="form-check-input" type="checkbox" id="UNKNOWN_1" disabled>
-                                    <label class="form-check-label" for="UNKNOWN_1">Not implemented</label>
+                        <ul class="list-unstyled ps-2 pe-2 collapse show" id="row3-collapse">
+                            <li class="row row-cols-2 p-1 flex-fill justify-content-evenly align-items-center">
+                                <div class="col w-50">
+                                    <input class="form-check-input" type="radio" name="radioVOR" id="rbVORA" checked>
+                                    <label for="rbVORA">VOR A</label>
+                                </div>
+                                <div class="col w-50">
+                                    <input class="form-check-input" type="radio" name="radioVOR" id="rbVORB">
+                                    <label for="rbVORB">VOR B</label>
                                 </div>
                             </li>
-                            <li>
-                                <div class="form-check form-switch">
-                                    <input class="form-check-input" type="checkbox" id="UNKNOWN_2" disabled>
-                                    <label class="form-check-label" for="UNKNOWN_2">Not implemented</label>
+                            <li class="row row-cols-2 pt-2 flex-fill justify-content-evenly align-items-center">
+                                <div class="col w-25">
+                                    <label for="edVORRadius">Radius:</label>
+                                </div>
+                                <div class="col w-50">
+                                    <input type="text" id="edVORRadius" class="form-control form-control-sm text-centered">
                                 </div>
                             </li>
-                            <li>
-                                <div class="form-check form-switch">
-                                    <input class="form-check-input" type="checkbox" id="UNKNOWN_3" disabled>
-                                    <label class="form-check-label" for="UNKNOWN_3">Not implemented</label>
+                            <li class="row row-cols-2 pt-2 flex-fill justify-content-evenly align-items-center">
+                                <div class="col w-25">
+                                    <label for="edVORStart">Start:</label>
+                                </div>
+                                <div class="col w-50">
+                                    <input type="text" id="edVORStart" class="form-control form-control-sm text-centered">
+                                </div>
+                            </li>
+                            <li class="row row-cols-2 pt-2 flex-fill justify-content-evenly align-items-center">
+                                <div class="col w-25">
+                                    <label for="edVORLength">Length:</label>
+                                </div>
+                                <div class="col w-50">
+                                    <input type="text" id="edVORLength" class="form-control form-control-sm text-centered">
                                 </div>
                             </li>
                         </ul>
@@ -257,6 +295,7 @@
 </div>
 
 <!-- Libs -->
+<script src="../lib/pixi.min.js"></script> <!-- https://pixijs.com -->
 <!--script src="../lib/viewport.min.js"></script-->
 <!-- https://github.com/davidfig/pixi-viewport -->
 <!--script src="../lib/pixi-cull.min.js"></script-->
@@ -274,6 +313,7 @@
 <script type="text/javascript" src="../source/groundradars.js"></script>
 <script type="text/javascript" src="../source/instruments.js"></script>
 
+<script type="text/javascript" src="../source/loader.js"></script>
 <script type="text/javascript" src="../source/events.js"></script>
 <script type="text/javascript" src="../source/application.js"></script>
 {% endblock %}

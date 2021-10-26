@@ -97,12 +97,8 @@ class Airplane extends MovableSprite {
         return this.#speed
     };
     set speed(value) {
-        if (!isNaN(value)) {
-            if (value >= 0 && value <= MAX_SPEED) {
-                this.#speed = value;
-                edSpeed.value = value;
-            }
-        };
+        this.#speed = value;
+        edSpeed.value = value;
     };
     get rotationSpeed() {
         return this.#rotationSpeed

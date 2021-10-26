@@ -4,27 +4,22 @@ btnResetStopwatch.onclick = resetStopwatch;
 
 // Inputs
 edSpeed.oninput = (e) => {
-    const [newSpeed, error] = validateInput(e.target.value, MAX_SPEED);
-    e.target.value = newSpeed.toString();
-    player.speed = newSpeed;
+    const [value, error] = validateInput(e.target.value, MAX_SPEED);
+    player.speed = value;
     if (error)
         blinkInvalidInput(edSpeedHint);
 }
 
 edWindSpeed.oninput = (e) => {
-    if (e.target.value === '') { return false };
-    const [newSpeed, error] = validateInput(e.target.value, MAX_WIND_SPEED);
-    e.target.value = newSpeed.toString();
-    wind.speed = newSpeed;
+    const [value, error] = validateInput(e.target.value, MAX_WIND_SPEED);
+    wind.speed = value;
     if (error)
         blinkInvalidInput(edWindSpeedHint);
 }
 
 edWindDirection.oninput = (e) => {
-    if (e.target.value === '') { return false };
-    const [newDirection, error] = validateInput(e.target.value, MAX_ANGLE);
-    e.target.value = newDirection.toString();
-    wind.direction = newDirection;
+    const [value, error] = validateInput(e.target.value, MAX_ANGLE);
+    wind.direction = value;
     if (error)
         blinkInvalidInput(edWindDirectionHint);
 }
@@ -59,9 +54,43 @@ btnSaveSetup.onclick = () => {
 }
 
 btnLoadSetup.onclick = () => {
-    alert('todo')
+    loadSetup(false)
 }
 
 btnTestMode.onclick = () => {
-    alert('todo')
+    loadSetup(true)
+}
+
+// Editor
+rbVORA.onchange = updateEditorValues;
+rbVORB.onchange = updateEditorValues;
+
+const CurrentVOR = () => rbVORA.checked ? VORa : VORb;
+function updateEditorValues() {
+    currVOR = CurrentVOR();
+    let currVORData = currVOR.arcCurveData;
+    edVORRadius.value = currVORData.radius;
+    edVORStart.value = currVORData.start;
+    edVORLength.value = currVORData.length;
+}
+
+edVORRadius.oninput = (e) => {
+    const [value, error] = validateInput(e.target.value, 2000);
+    CurrentVOR().arcCurveRadius = value;
+    // if (error)
+    //     blinkInvalidInput(edSpeedHint);
+}
+
+edVORStart.oninput = (e) => {
+    const [value, error] = validateInput(e.target.value, MAX_ANGLE);
+    CurrentVOR().arcCurveStart = value;
+    // if (error)
+    //     blinkInvalidInput(edSpeedHint);
+}
+
+edVORLength.oninput = (e) => {
+    const [value, error] = validateInput(e.target.value, MAX_ANGLE);
+    CurrentVOR().arcCurveLength = value;
+    // if (error)
+    //     blinkInvalidInput(edSpeedHint);
 }

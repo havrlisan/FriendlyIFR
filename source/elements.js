@@ -35,3 +35,10 @@ const btnSaveImage = document.getElementById('btnSaveImage');
 const btnSaveSetup = document.getElementById('btnSaveSetup');
 const btnLoadSetup = document.getElementById('btnLoadSetup');
 const btnTestMode = document.getElementById('btnTestMode');
+
+// Editor
+const rbVORA = document.getElementById('rbVORA');
+const rbVORB = document.getElementById('rbVORB');
+const edVORRadius = document.getElementById('edVORRadius');
+const edVORStart = document.getElementById('edVORStart');
+const edVORLength = document.getElementById('edVORLength');
