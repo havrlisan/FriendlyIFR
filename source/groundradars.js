@@ -1,14 +1,48 @@
 /* GROUNDRADAR CLASS */
 class GroundRadar extends MovableSprite {
 
+    /* VARS */
+    #currentRadial;
+    #radialList;
+
     /* CONSTRUCTOR */
     constructor(texture) {
         super(texture);
 
-        this.interactive = true;
         this.width = BEACON_WIDTH;
         this.height = BEACON_HEIGHT;
         this.anchor.set(0.5, 0.5);
+    }
+
+    /* METHODS */
+    assignEvents() {
+        this.on('mousedown', () => {
+            if (VORdrawingRadial == null && btnDrawRadial.classList.contains('active'))
+                VORdrawingRadial = this;
+            else
+                this.mouseMove = true;
+        });
+        this.on('mouseup', () => {
+            this.mouseMove = false
+        });
+        this.on('mousemove', (e) => {
+            let point = new PIXI.Point(e.data.global.x, e.data.global.y)
+            if (this.mouseMove)
+                this.position = point;
+            else if (VORdrawingRadial == this)
+                this.drawRadial(point)
+        });
+    }
+
+    drawRadial(position) {
+        if (this.#currentRadial == null)
+            this.#currentRadial = this.addChild(new Radial());
+        else
+            this.#currentRadial.waypoint = position;
+    }
+
+    finishRadial() {
+        this.#currentRadial = null;
     }
 }
 
@@ -200,5 +234,63 @@ class VORBeacon extends GroundRadar {
         this.#arcCurveData.length = value;
         edVORLength.value = value;
         this.updateArcCurve();
+    }
+}
+
+/* RADIALS */
+class Radial extends PIXI.Graphics {
+    /* VARS */
+    #mouseMove;
+    #waypoint;
+
+    /* CONSTRUCTOR */
+    constructor(geometry) {
+        super(geometry);
+        this.interactive = true;
+        this.assignEvents();
+    }
+
+    /* METHODS */
+    assignEvents() {
+        this.on('mousedown', () => {
+            console.log('mousedown');
+            if (btnDrawRadial.classList.contains('active'))
+                this.#mouseMove = true;
+        });
+        this.on('mouseup', () => {
+            console.log('mouseup');
+            this.#mouseMove = false
+        });
+        this.on('mousemove', (e) => {         
+            console.log('x:' + e.data.global.x + ' y:' + e.data.global.y);
+            if (this.#mouseMove)
+                this.waypoint = new PIXI.Point(e.data.global.x, e.data.global.y);
+        });
+    }
+
+    setWaypoint(position) {
+        this.#waypoint = this.toLocal(position);
+        this.drawRadial();
+    }
+
+    drawRadial() {
+        this.clear()
+            .lineStyle({ width: 15, color: 0x000000, alpha: 0.6 })
+            .moveTo(0, 0)
+            .lineTo(this.#waypoint.x, this.#waypoint.y)
+            .lineStyle({ width: 15, color: 0x0000FF, alpha: 0.6 })
+            .drawCircle(this.#waypoint.x, this.#waypoint.y, 50)
+        this.hitArea = new PIXI.Rectangle([ // DOESNT WORK
+            this.#waypoint.x - 20250, this.#waypoint.y - 20250,   // up-left             
+            this.#waypoint.x + 20250, this.#waypoint.y + 20250,   // down-right   
+        ]);
+    }
+
+    /* PROPERTIES */
+    get waypoint() {
+        return this.#waypoint;
+    }
+    set waypoint(value) {
+        this.setWaypoint(value);
     }
 }

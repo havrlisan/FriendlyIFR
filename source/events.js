@@ -1,3 +1,11 @@
+// Specific
+window.onmouseup = (e) => {
+    if (VORdrawingRadial != null) {
+        VORdrawingRadial.finishRadial();
+        VORdrawingRadial = null;
+    }
+}
+
 // Stopwatch
 btnStartStopwatch.onclick = toggleStopwatch;
 btnResetStopwatch.onclick = resetStopwatch;
@@ -75,22 +83,16 @@ function updateEditorValues() {
 }
 
 edVORRadius.oninput = (e) => {
-    const [value, error] = validateInput(e.target.value, 2000);
+    const [value, _error] = validateInput(e.target.value, 2000);
     CurrentVOR().arcCurveRadius = value;
-    // if (error)
-    //     blinkInvalidInput(edSpeedHint);
 }
 
 edVORStart.oninput = (e) => {
-    const [value, error] = validateInput(e.target.value, MAX_ANGLE);
+    const [value, _error] = validateInput(e.target.value, MAX_ANGLE);
     CurrentVOR().arcCurveStart = value;
-    // if (error)
-    //     blinkInvalidInput(edSpeedHint);
 }
 
 edVORLength.oninput = (e) => {
-    const [value, error] = validateInput(e.target.value, MAX_ANGLE);
+    const [value, _error] = validateInput(e.target.value, MAX_ANGLE);
     CurrentVOR().arcCurveLength = value;
-    // if (error)
-    //     blinkInvalidInput(edSpeedHint);
 }

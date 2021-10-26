@@ -37,6 +37,7 @@ const btnLoadSetup = document.getElementById('btnLoadSetup');
 const btnTestMode = document.getElementById('btnTestMode');
 
 // Editor
+const btnDrawRadial = document.getElementById('btnDrawRadial');
 const rbVORA = document.getElementById('rbVORA');
 const rbVORB = document.getElementById('rbVORB');
 const edVORRadius = document.getElementById('edVORRadius');

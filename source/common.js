@@ -31,6 +31,7 @@ let fpsDisplay;
 let player;
 let wind;
 
+let VORdrawingRadial;
 let NDB;
 let VORa;
 let VORb;
@@ -90,13 +91,17 @@ class MovableSprite extends PIXI.Sprite {
     constructor(texture) {
         super(texture);
         this.interactive = true;
-        this.on('mousedown', () => { this.#mouseMove = true });
-        this.on('mouseup', () => {  this.#mouseMove = false });
-        this.on('mousemove', (e) => { if (this.#mouseMove) this.setPosition(e.data.global.x, e.data.global.y) });
+        this.assignEvents();
     }
 
     /* METHODS */
     setPosition(x, y) { this.position.set(x, y) };
+
+    assignEvents() {
+        this.on('mousedown', () => { this.#mouseMove = true });
+        this.on('mouseup', () => { this.#mouseMove = false });
+        this.on('mousemove', (e) => { if (this.#mouseMove) this.setPosition(e.data.global.x, e.data.global.y) });
+    }
 
     /* PROPERTIES */
     get mouseMove() { return this.#mouseMove };
