@@ -42,17 +42,16 @@ swCourseLinesVisible.onchange = () => {
 swPaused.onchange = () => {
     pauseMovement(swPaused.checked)
 };
+
 btnClearTrail.onclick = () => {
     player.clearTrail();
 }
 
 // Options
 btnSaveImage.onclick = () => {
-    // let captureElement = document.getElementById('captureElement');
-    // html2canvas(captureElement).then(canvas => {
-    //     console.log(canvas);
-    // });
     alert('To take screenshot, "use PrintScreen" button on your keyboard!')
+    //let blob = app.renderer.plugins.extract.base64();
+    //downloadFile('FriendlyIFR-screenshot.png', blob);
 }
 
 btnSaveSetup.onclick = () => {

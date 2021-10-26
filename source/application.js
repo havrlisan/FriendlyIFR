@@ -5,7 +5,7 @@ PIXI.utils.skipHello();
 app = new PIXI.Application({ backgroundAlpha: 0 });
 appParent.appendChild(app.view);
 
-PIXI.Loader.shared.onProgress.add((loader, resource) => { console.log("Loading... (" + Math.floor(loader.progress) + "%)") }); // resource.url
+PIXI.Loader.shared.onProgress.add((loader, resource) => { console.log("Loading " + Math.floor(loader.progress) + "%") }); // resource.url
 PIXI.Loader.shared
     .add("airplaneImage", "static/airplane.png")
     .add("NonDirectionalBeacon", "static/NDB.png")
@@ -81,6 +81,21 @@ function setup() {
     app.stage.addChild(instrCDI);
     app.stage.addChild(lblPause);
 
+    // Add FPS display
+    fpsDisplay = new FPS.FPS({
+        meter: false,
+        side: 'bottom-left',
+        meterWidth: 60,
+        meterHeight: 10,
+        styles: {
+            'background': 'rgba(0, 0, 0, 0.5)',
+            'color': 'white',
+        },
+        stylesFPS: {
+            'padding': '0.1em 0.5em',
+        },
+    })
+
     // create a 60 FPS loop (delta accounted for different monitor's framerate)
     app.ticker.add(delta => renderLoop(delta));
 
@@ -100,6 +115,8 @@ function renderLoop(delta) {
     instrRMI.renderCompass();
     instrHSI.renderCompass();
     instrCDI.renderCompass();
+
+    fpsDisplay.frame()
 }
 
 let trailCounter = 0;

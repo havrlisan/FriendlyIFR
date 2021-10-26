@@ -26,6 +26,7 @@ const INSTR_CRS_HEIGHT = 35 * (INSTR_HEIGHT / 200);
 
 let app;
 let appLoaded = false;
+let fpsDisplay;
 
 let player;
 let wind;
@@ -37,6 +38,8 @@ let VORb;
 let instrDG;
 let instrRBI;
 let instrRMI;
+let instrHSI;
+let instrCDI;
 
 let lblPause;
 
