@@ -94,7 +94,7 @@ class VORBeacon extends GroundRadar {
     }
 
     createCourseLines() {
-        this.#courseLines = new PIXI.Graphics();
+        this.#courseLines = new PIXI.smooth.SmoothGraphics();
         this.#courseLines.negativeArea = new PIXI.Polygon([
             this.#courseLinePoints.topPoint.x, this.#courseLinePoints.topPoint.y,                       // up-center
             this.#courseLinePoints.topPoint.x + this.#radius, this.#courseLinePoints.topPoint.y,        // up-right
@@ -118,7 +118,7 @@ class VORBeacon extends GroundRadar {
     }
 
     createBlindCones() {
-        this.#blindCones = new PIXI.Graphics();
+        this.#blindCones = new PIXI.smooth.SmoothGraphics();
         this.#blindCones
             .beginFill(0x000000, 0.12)
             .moveTo(0, 0)
@@ -139,7 +139,7 @@ class VORBeacon extends GroundRadar {
     }
 
     createArcCurve() {
-        this.#arcCurve = new PIXI.Graphics();
+        this.#arcCurve = new PIXI.smooth.SmoothGraphics();
         this.addChild(this.#arcCurve);
 
         this.arcCurveRadius = 0;
@@ -234,7 +234,7 @@ class VORBeacon extends GroundRadar {
 }
 
 /* RADIALS */
-class Radial extends PIXI.Graphics {
+class Radial extends PIXI.smooth.SmoothGraphics {
     /* VARS */
     #lblAngle;
     #lblDistance;

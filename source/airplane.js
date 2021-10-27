@@ -17,7 +17,7 @@ class Airplane extends MovableSprite {
         this.setStartPosition();
         this.speed = 120;
 
-        this.trail = new PIXI.Graphics();
+        this.trail = new PIXI.smooth.SmoothGraphics();
         app.stage.addChild(this.trail);
     };
 
