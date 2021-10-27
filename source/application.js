@@ -61,11 +61,12 @@ function setup() {
 
     // Pause message
     lblPause = new PIXI.Text("Paused", new PIXI.TextStyle({
-        fontFamily: "Arial",
-        fontSize: 40,
+        fontFamily: "SF Pro Rounded",
+        fontSize: 52,
         fill: "white",
         stroke: 'black',
-        strokeThickness: 4,
+        strokeThickness: 5,
+        letterSpacing: 2,
     }));
     lblPause.visible = false;
     lblPause.position.set((app.renderer.view.width / 2) - (lblPause.width / 2), (app.renderer.view.height / 2) - (lblPause.height / 2));

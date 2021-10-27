@@ -80,7 +80,7 @@ class Instrument extends MovableSprite {
         if (this.#DMEDisplay != null) {
             let deltaX = this.#DMEDisplay.beacon.x - player.x;
             let deltaY = this.#DMEDisplay.beacon.y - player.y;
-            let distance = Math.hypot(deltaX, deltaY) / 20; // 20 is scale
+            let distance = Math.hypot(deltaX, deltaY) / DISTANCE_SCALE;
             this.#DMEDisplay.lblDistance.text = (Math.round(distance * 10) / 10).toFixed(1);
         }
     }

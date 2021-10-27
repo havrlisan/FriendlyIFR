@@ -4,6 +4,10 @@ window.onmouseup = (e) => {
         VORdrawingRadial.finishRadial();
         VORdrawingRadial = null;
     }
+    if (movingRadial != null) {
+        movingRadial.finishMoving();
+        movingRadial = null;
+    }
 }
 
 // Stopwatch
@@ -52,9 +56,9 @@ btnClearTrail.onclick = () => {
 
 // Options
 btnSaveImage.onclick = () => {
-    alert('To take screenshot, "use PrintScreen" button on your keyboard!')
-    //let blob = app.renderer.plugins.extract.base64();
-    //downloadFile('FriendlyIFR-screenshot.png', blob);
+    // alert('To take screenshot, "use PrintScreen" button on your keyboard!')
+    let blob = app.renderer.plugins.extract.base64(app.stage);
+    downloadFile('FriendlyIFR-screenshot.png', blob);
 }
 
 btnSaveSetup.onclick = () => {
@@ -70,6 +74,9 @@ btnTestMode.onclick = () => {
 }
 
 // Editor
+btnDrawRadial.onclick = () => {
+    btnDrawRadial.innerText = (btnDrawRadial.classList.contains('active')) ? 'Drawing radial' : 'Draw radial';
+}
 rbVORA.onchange = updateEditorValues;
 rbVORB.onchange = updateEditorValues;
 

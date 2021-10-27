@@ -9,6 +9,8 @@ const MAX_WIND_SPEED = 500;
 const MIN_SPEED = 0;
 const MAX_ANGLE = 360;
 
+const DISTANCE_SCALE = 20;
+
 const BEACON_WIDTH = 80;
 const BEACON_HEIGHT = 80;
 
@@ -32,6 +34,7 @@ let player;
 let wind;
 
 let VORdrawingRadial;
+let movingRadial;
 let NDB;
 let VORa;
 let VORb;
@@ -46,7 +49,8 @@ let lblPause;
 
 /* METHODS */
 
-const degrees_to_radians = deg => (deg * Math.PI) / 180;
+const degrees_to_radians = deg => deg * (Math.PI / 180);
+const radians_to_degrees = rad => rad * (180 / Math.PI);
 const calcDistance = (obj, p1, p2) => pDistance(obj.x, obj.y, p1.x, p1.y, p2.x, p2.y);
 /* pDistance function - https://stackoverflow.com/a/6853926/6619251 */
 const pDistance = (x, y, x1, y1, x2, y2) => {

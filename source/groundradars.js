@@ -16,8 +16,13 @@ class GroundRadar extends MovableSprite {
 
     /* METHODS */
     assignEvents() {
-        this.on('mousedown', () => {
-            if (VORdrawingRadial == null && btnDrawRadial.classList.contains('active'))
+        this.on('mousedown', (e) => {
+            // check if some radial is being moved
+            if (movingRadial != null) { return false };
+            // ensure the actual sprite was clicked, not its children
+            if (!this.containsPoint(new PIXI.Point(e.data.global.x, e.data.global.y))) { return false };
+
+            if (btnDrawRadial.classList.contains('active'))
                 VORdrawingRadial = this;
             else
                 this.mouseMove = true;
@@ -26,11 +31,10 @@ class GroundRadar extends MovableSprite {
             this.mouseMove = false
         });
         this.on('mousemove', (e) => {
-            let point = new PIXI.Point(e.data.global.x, e.data.global.y)
             if (this.mouseMove)
-                this.position = point;
+                this.position = new PIXI.Point(e.data.global.x, e.data.global.y);
             else if (VORdrawingRadial == this)
-                this.drawRadial(point)
+                this.drawRadial(new PIXI.Point(e.data.global.x, e.data.global.y))
         });
     }
 
@@ -83,17 +87,15 @@ class VORBeacon extends GroundRadar {
     /* CONSTRUCTOR */
     constructor(texture) {
         super(texture);
-        this.interactiveChildren = false;
         this.position.set(600, 200);
         this.createCourseLines();
         this.createBlindCones();
         this.createArcCurve();
     }
 
-    /* METHODS */
     createCourseLines() {
         this.#courseLines = new PIXI.Graphics();
-        this.#courseLines.hitArea = new PIXI.Polygon([
+        this.#courseLines.negativeArea = new PIXI.Polygon([
             this.#courseLinePoints.topPoint.x, this.#courseLinePoints.topPoint.y,                       // up-center
             this.#courseLinePoints.topPoint.x + this.#radius, this.#courseLinePoints.topPoint.y,        // up-right
             this.#courseLinePoints.bottomPoint.x + this.#radius, this.#courseLinePoints.bottomPoint.y,  // down-right
@@ -117,13 +119,6 @@ class VORBeacon extends GroundRadar {
 
     createBlindCones() {
         this.#blindCones = new PIXI.Graphics();
-        this.#blindCones.hitArea = new PIXI.Polygon([
-            20000, -(20000 * Math.tan(degrees_to_radians(5))),  // right-up              
-            20000, (20000 * Math.tan(degrees_to_radians(5))),   // right-down
-            0, 0,                                               // center
-            -20000, -(20000 * Math.tan(degrees_to_radians(5))), // left-up
-            -20000, (20000 * Math.tan(degrees_to_radians(5))),  // left-down
-        ]);
         this.#blindCones
             .beginFill(0x000000, 0.12)
             .moveTo(0, 0)
@@ -138,6 +133,7 @@ class VORBeacon extends GroundRadar {
                 0, 0                                                // center
             ])
             .endFill();
+        this.#blindCones.hitArea = new PIXI.Polygon([]);
 
         this.addChild(this.#blindCones);
     }
@@ -153,7 +149,7 @@ class VORBeacon extends GroundRadar {
 
     isInNegativeDistance(obj) {
         let position = this.#courseLines.toLocal(obj.position);
-        return this.#courseLines.hitArea.contains(position.x, position.y);
+        return this.#courseLines.negativeArea.contains(position.x, position.y);
     }
 
     isInFlagToArea(obj) {
@@ -163,7 +159,7 @@ class VORBeacon extends GroundRadar {
 
     isInBlindCone(obj) {
         let position = this.#blindCones.toLocal(obj.position);
-        return this.#blindCones.hitArea.contains(position.x, position.y);
+        return this.#blindCones.geometry.containsPoint(position);
     }
 
     setLineVisibility(value) {
@@ -240,7 +236,8 @@ class VORBeacon extends GroundRadar {
 /* RADIALS */
 class Radial extends PIXI.Graphics {
     /* VARS */
-    #mouseMove;
+    #lblAngle;
+    #lblDistance;
     #waypoint;
 
     /* CONSTRUCTOR */
@@ -248,29 +245,37 @@ class Radial extends PIXI.Graphics {
         super(geometry);
         this.interactive = true;
         this.assignEvents();
+        this.createText();
     }
 
     /* METHODS */
     assignEvents() {
         this.on('mousedown', () => {
-            console.log('mousedown');
             if (btnDrawRadial.classList.contains('active'))
-                this.#mouseMove = true;
+                movingRadial = this;
         });
-        this.on('mouseup', () => {
-            console.log('mouseup');
-            this.#mouseMove = false
-        });
-        this.on('mousemove', (e) => {         
-            console.log('x:' + e.data.global.x + ' y:' + e.data.global.y);
-            if (this.#mouseMove)
+        this.on('mousemove', (e) => {
+            if (movingRadial == this)
                 this.waypoint = new PIXI.Point(e.data.global.x, e.data.global.y);
         });
+    }
+
+    createText() {
+        let textStyle = new PIXI.TextStyle({
+            fontFamily: 'SF Pro Rounded',
+            fontSize: 140,
+            fill: 0x0000FF
+        })
+        this.#lblAngle = this.addChild(new PIXI.Text('', textStyle));
+        this.#lblAngle.anchor.set(0, 0)
+        this.#lblDistance = this.addChild(new PIXI.Text('', textStyle));
+        this.#lblDistance.anchor.set(0.5, 1)
     }
 
     setWaypoint(position) {
         this.#waypoint = this.toLocal(position);
         this.drawRadial();
+        this.drawText();
     }
 
     drawRadial() {
@@ -280,10 +285,30 @@ class Radial extends PIXI.Graphics {
             .lineTo(this.#waypoint.x, this.#waypoint.y)
             .lineStyle({ width: 15, color: 0x0000FF, alpha: 0.6 })
             .drawCircle(this.#waypoint.x, this.#waypoint.y, 50)
-        this.hitArea = new PIXI.Rectangle([ // DOESNT WORK
-            this.#waypoint.x - 20250, this.#waypoint.y - 20250,   // up-left             
-            this.#waypoint.x + 20250, this.#waypoint.y + 20250,   // down-right   
-        ]);
+        this.hitArea = new PIXI.Rectangle(this.#waypoint.x - 50, this.#waypoint.y - 50, 100, 100);
+    }
+
+    drawText() {
+        // convert to global 
+        let thisPos = this.toGlobal(this.position);
+        let waypointPos = this.toGlobal(this.#waypoint);
+        let deltaX = thisPos.x - waypointPos.x;
+        let deltaY = thisPos.y - waypointPos.y;
+
+        let distance = Math.hypot(deltaX, deltaY) / DISTANCE_SCALE;
+        this.#lblDistance.text = (Math.round(distance * 10) / 10).toFixed(1);
+
+        let angle = radians_to_degrees(Math.atan2(deltaY, deltaX) - Math.PI / 2);
+        angle = angle < 0 ? angle + 360 : angle;
+        this.#lblAngle.text = Math.round(angle) + '°';
+
+        this.#lblDistance.position.set(this.#waypoint.x, this.#waypoint.y - 50); // -50 to seperate the text from waypoint circle
+        this.#lblAngle.position.set(this.#waypoint.x / 2, this.#waypoint.y / 2);
+    }
+
+    finishMoving() {
+        if (this.parent.containsPoint(this.toGlobal(this.#waypoint)))
+            this.destroy();
     }
 
     /* PROPERTIES */
