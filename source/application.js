@@ -60,12 +60,12 @@ function setup() {
     instrCDI = new CDI(PIXI.Loader.shared.resources.RBIndicator.texture);
 
     // Pause message
-    lblPause = new PIXI.Text("Paused", new PIXI.TextStyle({
+    lblPause = new PIXI.Text("II", new PIXI.TextStyle({
         fontFamily: "SF Pro Rounded",
-        fontSize: 52,
+        fontSize: 68,
         fill: "white",
         stroke: 'black',
-        strokeThickness: 5,
+        strokeThickness: 6,
         letterSpacing: 2,
     }));
     lblPause.visible = false;

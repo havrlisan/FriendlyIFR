@@ -1,15 +1,5 @@
-@font-face {
-    font-family: 'Digital-7';
-    src: url('/static/digital-7.woff');
-}
-
-/* @font-face {
-    font-family: 'SF Pro Rounded';
-    src: url('/static/digital-7.woff');
-} */
-
 body, html {
-    /* font-family: 'SF Pro Rounded'; */
+    font-family: 'SF Pro Rounded';
     margin: 0;
     padding: 0;
     overflow: hidden;
@@ -47,15 +37,3 @@ body, html {
 ::-webkit-scrollbar-thumb:hover {
     background: rgb(41, 41, 41);
 }
-
-/* Scrollbar visible only on hover */
-/* .scrollbox {
-    overflow-y: auto;
-    overflow-x: hidden;
-    visibility: hidden;
-}
-
-.scrollbox-content,
-.scrollbox:hover {
-    visibility: visible;
-} */

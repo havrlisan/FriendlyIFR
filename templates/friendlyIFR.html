@@ -4,7 +4,7 @@
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark noselect" style="height: 50px;">
     <div class="container-fluid">
         <a class="navbar-brand" href="#">
-            <img src="../static/favicon.ico" alt="" width="30" height="30" class="d-inline-block align-text-top">
+            <img src="../static/favicon.ico" alt="" width="36" height="36" class="d-inline-block align-text-center">
             FriendlyIFR
         </a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup"
@@ -23,16 +23,13 @@
 <div class="d-flex noselect" style="height: calc(100vh - 50px)" id="captureElement">
 
     <!-- Pixi.js container -->
-    <div class="w-75 bg-secondary" id="pixi-app-container"></div>
+    <div class="w-75" id="pixi-app-container" style="background-color: rgb(200, 200, 200);"></div>
 
     <!-- Controls container -->
     <div class="d-flex flex-column align-items-center w-25 p-2">
 
         <!-- Current time -->
         <div class="row w-100 mb-2 border-bottom">
-            <!--div class="col">
-                    <h1 class="h6 fw-bolder text-centered">Current time:</h1>
-                </div-->
             <div class="col">
                 <h1 class="h5 fw-normal text-centered" id="lblCurrentTime">13.10.2021. 13:00:00</h1>
             </div>
@@ -147,31 +144,31 @@
                         <ul class="list-unstyled ps-2 pe-2 collapse show" id="row1-collapse">
                             <li>
                                 <div class="form-check form-switch">
-                                    <input class="form-check-input" type="checkbox" id="swInstrumentDG" name="instrument">
+                                    <input class="form-check-input" type="checkbox" id="swInstrumentDG">
                                     <label class="form-check-label" for="swInstrumentDG">DG</label>
                                 </div>
                             </li>
                             <li>
                                 <div class="form-check form-switch">
-                                    <input class="form-check-input" type="checkbox" id="swInstrumentRBI" name="instrument">
+                                    <input class="form-check-input" type="checkbox" id="swInstrumentRBI">
                                     <label class="form-check-label" for="swInstrumentRBI">RBI</label>
                                 </div>
                             </li>
                             <li>
                                 <div class="form-check form-switch">
-                                    <input class="form-check-input" type="checkbox" id="swInstrumentRMI" name="instrument">
+                                    <input class="form-check-input" type="checkbox" id="swInstrumentRMI">
                                     <label class="form-check-label" for="swInstrumentRMI">RMI</label>
                                 </div>
                             </li>
                             <li>
                                 <div class="form-check form-switch">
-                                    <input class="form-check-input" type="checkbox" id="swInstrumentHSI" name="instrument">
+                                    <input class="form-check-input" type="checkbox" id="swInstrumentHSI">
                                     <label class="form-check-label" for="swInstrumentHSI">HSI</label>
                                 </div>
                             </li>
                             <li>
                                 <div class="form-check form-switch">
-                                    <input class="form-check-input" type="checkbox" id="swInstrumentCDI" name="instrument">
+                                    <input class="form-check-input" type="checkbox" id="swInstrumentCDI">
                                     <label class="form-check-label" for="swInstrumentCDI">CDI</label>
                                 </div>
                             </li>
@@ -183,6 +180,10 @@
 
             <!-- Options -->
             <div class="col" id="controls-row2">
+
+                <!-- File loader for Load setup & Test mode -->
+                <input type="file" id="fileLoader" accept=".nav" style="display:none">
+
                 <ul class="list-unstyled small">
                     <div class="d-grid gap-2">
                         <button class="btn btn-dark mb-1 btn-block" data-bs-toggle="collapse" aria-expanded="true"
@@ -252,7 +253,7 @@
                     <li>
                         <ul class="list-unstyled ps-2 pe-2 collapse show" id="row3-collapse">
                             <li>
-                                <div class="row ps-3 pe-3 justify-content-center">
+                                <div class="row p-2 pt-1 justify-content-center">
                                     <button type="button" class="btn btn-outline-danger btn-sm" id="btnDrawRadial" data-bs-toggle="button" autocomplete="off">Draw radial</button>
                                 </div>
                             </li>

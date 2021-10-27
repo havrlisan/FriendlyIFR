@@ -108,10 +108,10 @@ class VORBeacon extends GroundRadar {
             -this.#radius, this.#radius,
         ]);
         this.#courseLines
-            .lineStyle({ width: 10, color: 0xFF0000, alpha: 0.6 })  // red line
+            .lineStyle({ width: 2, color: 0xFF0000, alpha: 0.6 })  // red line
             .moveTo(this.#courseLinePoints.topPoint.x, this.#courseLinePoints.topPoint.y)
             .lineTo(0, 0)
-            .lineStyle({ width: 10, color: 0x0000FF, alpha: 0.6 })  // blue line
+            .lineStyle({ width: 2, color: 0x0000FF, alpha: 0.6 })  // blue line
             .lineTo(this.#courseLinePoints.bottomPoint.x, this.#courseLinePoints.bottomPoint.y);
 
         this.addChild(this.#courseLines);
@@ -262,9 +262,12 @@ class Radial extends PIXI.smooth.SmoothGraphics {
 
     createText() {
         let textStyle = new PIXI.TextStyle({
-            fontFamily: 'SF Pro Rounded',
-            fontSize: 140,
-            fill: 0x0000FF
+            fontFamily: 'Arial',
+            fontSize: 16,
+            fontWeight: '600',
+            fill: 'white',
+            stroke: 'black',
+            strokeThickness: 0.5,
         })
         this.#lblAngle = this.addChild(new PIXI.Text('', textStyle));
         this.#lblAngle.anchor.set(0, 0)
@@ -280,12 +283,12 @@ class Radial extends PIXI.smooth.SmoothGraphics {
 
     drawRadial() {
         this.clear()
-            .lineStyle({ width: 15, color: 0x000000, alpha: 0.6 })
+            .lineStyle({ width: 3, color: 0x000000, alpha: 0.6 })
             .moveTo(0, 0)
             .lineTo(this.#waypoint.x, this.#waypoint.y)
-            .lineStyle({ width: 15, color: 0x0000FF, alpha: 0.6 })
-            .drawCircle(this.#waypoint.x, this.#waypoint.y, 50)
-        this.hitArea = new PIXI.Rectangle(this.#waypoint.x - 50, this.#waypoint.y - 50, 100, 100);
+            .lineStyle({ width: 2, color: 0x0000FF, alpha: 0.6 })
+            .drawCircle(this.#waypoint.x, this.#waypoint.y, 6)
+        this.hitArea = new PIXI.Rectangle(this.#waypoint.x - 6, this.#waypoint.y - 6, 12, 12);
     }
 
     drawText() {
@@ -302,7 +305,7 @@ class Radial extends PIXI.smooth.SmoothGraphics {
         angle = angle < 0 ? angle + 360 : angle;
         this.#lblAngle.text = Math.round(angle) + '°';
 
-        this.#lblDistance.position.set(this.#waypoint.x, this.#waypoint.y - 50); // -50 to seperate the text from waypoint circle
+        this.#lblDistance.position.set(this.#waypoint.x, this.#waypoint.y - 6); // -50 to seperate the text from waypoint circle
         this.#lblAngle.position.set(this.#waypoint.x / 2, this.#waypoint.y / 2);
     }
 
