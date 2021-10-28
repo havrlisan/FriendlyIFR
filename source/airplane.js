@@ -14,11 +14,8 @@ class Airplane extends MovableSprite {
         this.width = 30;
         this.height = 30;
         this.anchor.set(0.5, 0.5);
-        this.setStartPosition();
-        this.speed = 120;
-
-        this.trail = new PIXI.smooth.SmoothGraphics();
-        app.stage.addChild(this.trail);
+        this.trail = app.stage.addChild(new PIXI.smooth.SmoothGraphics());
+        this.reset();
     };
 
     setPosition(x, y) {
@@ -31,7 +28,7 @@ class Airplane extends MovableSprite {
 
     setStartPosition() {
         this.setPosition((app.renderer.view.width / 2) - (this.width / 2), (app.renderer.view.height / 2) - (this.height / 2));
-        this.angle = 0 //90;
+        this.angle = 45;
     }
 
     advance() {
@@ -59,14 +56,14 @@ class Airplane extends MovableSprite {
     setVisible(value) {
         this.visible = value;
         this.trail.visible = value;
+        swAirplaneVisible.checked = value;
         return this;
     }
 
     reset() {
         this.speed = 120;
         this.rotationSpeed = 0;
-        this.visible = true;
-        this.trail.visible = true;
+        this.setVisible(true);
         this.clearTrail();
         this.setStartPosition();
     }

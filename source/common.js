@@ -100,7 +100,9 @@ class MovableSprite extends PIXI.Sprite {
     }
 
     /* METHODS */
-    setPosition(x, y) { this.position.set(x, y) };
+    setPosition(x, y) {
+        this.position.set(x, y)
+    };
 
     assignEvents() {
         this.on('mousedown', () => { this.#mouseMove = true });

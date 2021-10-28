@@ -30,7 +30,11 @@ const swInstrumentRMI = document.getElementById('swInstrumentRMI');
 const swInstrumentHSI = document.getElementById('swInstrumentHSI');
 const swInstrumentCDI = document.getElementById('swInstrumentCDI');
 
+// Information
+const mSetupInfo = document.getElementById('setupInformation');
+
 // Options
+const fileLoader = document.getElementById('fileLoader');
 const btnSaveImage = document.getElementById('btnSaveImage');
 const btnSaveSetup = document.getElementById('btnSaveSetup');
 const btnLoadSetup = document.getElementById('btnLoadSetup');

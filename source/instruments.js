@@ -18,6 +18,11 @@ class Instrument extends MovableSprite {
     }
 
     /* METHODS */
+    setVisible(value) {
+        this.visible = value;
+        this.#switchElement.checked = value;
+    }
+
     createCompassRose() {
         this.#compassRose = new PIXI.Sprite(PIXI.Loader.shared.resources.CompassRose.texture);
         this.#compassRose.size = this.size;
@@ -234,13 +239,17 @@ class HSI extends Instrument {
         this.#CRSArrow.position.set(-this.width / 1.8, -this.height / 2);
 
         this.on('mousewheel', (delta) => {
-            this.#CRSArrow.angle -= delta * 1.1;
-            this.#CRSButton.beacon.courseLines.angle = this.#CRSArrow.angle;
-            this.#CRSButton.beacon.blindCones.angle = this.#CRSArrow.angle;
+            this.setCRSAngle(this.#CRSArrow.angle - delta * 1.1);
         });
 
         this.addChild(this.#CRSButton);
         this.#CRSButton.addChild(this.#CRSArrow);
+    }
+
+    setCRSAngle(value) {
+        this.#CRSArrow.angle = value;
+        this.#CRSButton.beacon.courseLines.angle = value;
+        this.#CRSButton.beacon.blindCones.angle = value;
     }
 
     renderCompass() {
@@ -363,13 +372,17 @@ class CDI extends Instrument {
         this.#OBSArrow.position.set(-this.width / 1.8, -this.height / 2);
 
         this.on('mousewheel', (delta) => {
-            this.#OBSArrow.angle -= delta * 1.1;
-            this.#OBSButton.beacon.courseLines.angle = this.#OBSArrow.angle;
-            this.#OBSButton.beacon.blindCones.angle = this.#OBSArrow.angle;
+            this.setOBSAngle(this.#OBSArrow.angle - delta * 1.1);
         });
 
         this.addChild(this.#OBSButton);
         this.#OBSButton.addChild(this.#OBSArrow);
+    }
+
+    setOBSAngle(value) {
+        this.#OBSArrow.angle = value;
+        this.#OBSButton.beacon.courseLines.angle = value;
+        this.#OBSButton.beacon.blindCones.angle = value;
     }
 
     renderCompass() {

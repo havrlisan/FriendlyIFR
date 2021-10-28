@@ -3,7 +3,6 @@ class GroundRadar extends MovableSprite {
 
     /* VARS */
     #currentRadial;
-    #radialList;
 
     /* CONSTRUCTOR */
     constructor(texture) {
@@ -43,6 +42,11 @@ class GroundRadar extends MovableSprite {
             this.#currentRadial = this.addChild(new Radial());
         else
             this.#currentRadial.waypoint = position;
+    }
+
+    loadRadial(x, y) {
+        console.log('drawing radial');
+        this.addChild(new Radial()).waypoint = new PIXI.Point(x, y);
     }
 
     finishRadial() {
@@ -265,20 +269,14 @@ class Radial extends PIXI.smooth.SmoothGraphics {
             fontFamily: 'Arial',
             fontSize: 16,
             fontWeight: '600',
-            fill: 'white',
-            stroke: 'black',
+            fill: 'black',
+            stroke: 'white',
             strokeThickness: 0.5,
         })
         this.#lblAngle = this.addChild(new PIXI.Text('', textStyle));
         this.#lblAngle.anchor.set(0, 0)
         this.#lblDistance = this.addChild(new PIXI.Text('', textStyle));
         this.#lblDistance.anchor.set(0.5, 1)
-    }
-
-    setWaypoint(position) {
-        this.#waypoint = this.toLocal(position);
-        this.drawRadial();
-        this.drawText();
     }
 
     drawRadial() {
@@ -305,7 +303,7 @@ class Radial extends PIXI.smooth.SmoothGraphics {
         angle = angle < 0 ? angle + 360 : angle;
         this.#lblAngle.text = Math.round(angle) + '°';
 
-        this.#lblDistance.position.set(this.#waypoint.x, this.#waypoint.y - 6); // -50 to seperate the text from waypoint circle
+        this.#lblDistance.position.set(this.#waypoint.x, this.#waypoint.y - 9); // -9 to seperate the text from waypoint circle
         this.#lblAngle.position.set(this.#waypoint.x / 2, this.#waypoint.y / 2);
     }
 
@@ -318,7 +316,9 @@ class Radial extends PIXI.smooth.SmoothGraphics {
     get waypoint() {
         return this.#waypoint;
     }
-    set waypoint(value) {
-        this.setWaypoint(value);
+    set waypoint(value) {     
+        this.#waypoint = this.toLocal(value);
+        this.drawRadial();
+        this.drawText();
     }
 }

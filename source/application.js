@@ -133,7 +133,7 @@ function renderTrail() {
     }
 }
 
-/* PAUSE MOVEMENT */
+/* METHODS */
 
 function pauseMovement(value) {
     if (value === undefined)
@@ -142,6 +142,12 @@ function pauseMovement(value) {
     player.paused = value;
     lblPause.visible = value;
     swPaused.checked = value;
+}
+
+function setCourseLinesVisible(value) {  
+    VORa.setLineVisibility(value);
+    VORb.setLineVisibility(value);
+    swCourseLinesVisible.checked = value;
 }
 
 /* KEYBINDS */

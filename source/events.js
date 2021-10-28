@@ -42,8 +42,7 @@ swAirplaneVisible.onchange = () => {
 };
 
 swCourseLinesVisible.onchange = () => {
-    VORa.setLineVisibility(swCourseLinesVisible.checked);
-    VORb.setLineVisibility(swCourseLinesVisible.checked);
+    setCourseLinesVisible(swCourseLinesVisible.checked);
 };
 
 swPaused.onchange = () => {
@@ -65,12 +64,27 @@ btnSaveSetup.onclick = () => {
     alert('todo')
 }
 
-btnLoadSetup.onclick = () => {
-    loadSetup(false)
+btnLoadSetup.onclick = () => {  
+    testModeEnabled = false; 
+    if (fileLoader)
+        fileLoader.click();
 }
 
 btnTestMode.onclick = () => {
-    loadSetup(true)
+    testModeEnabled = true; 
+    if (fileLoader)
+        fileLoader.click();
+}
+
+fileLoader.onchange = () => {
+    if (fileLoader.files.length === 1) {
+        let file = fileLoader.files[0];
+        if (file.name.toLowerCase().endsWith('.nav'))
+            loadSetup(file)
+        else   
+            alert('Only .nav files can be loaded!')
+    }
+    fileLoader.value = '';
 }
 
 // Editor
