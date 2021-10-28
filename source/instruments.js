@@ -55,8 +55,8 @@ class Instrument extends MovableSprite {
         this.#DMEDisplay = new PIXI.Sprite(texture);
         this.#DMEDisplay.width = INSTR_DME_WIDTH;
         this.#DMEDisplay.height = INSTR_DME_HEIGHT;
-        this.#DMEDisplay.anchor.set(0.25, 0.25);
-        this.#DMEDisplay.position.set(-this.width / 2, -this.height / 2);
+        this.#DMEDisplay.anchor.set(0.5, 0.5);
+        this.#DMEDisplay.position.set(-this.width / 2 + INSTR_DME_WIDTH / 4, -this.height / 2 + INSTR_DME_HEIGHT / 4);
         this.#DMEDisplay.beacon = beacon;
 
         this.#DMEDisplay.lblDistance = new PIXI.Text('', new PIXI.TextStyle({
@@ -65,8 +65,8 @@ class Instrument extends MovableSprite {
             fill: '#dbc01e',
             letterSpacing: 1,
         }));
-        this.#DMEDisplay.lblDistance.position.set(this.#DMEDisplay.width / 2 + 8, 0);
-        this.#DMEDisplay.lblDistance.anchor.set(1, -0.2);
+        this.#DMEDisplay.lblDistance.anchor.set(1, 0.5);
+        this.#DMEDisplay.lblDistance.position.set(INSTR_DME_WIDTH / 2.5, INSTR_DME_HEIGHT / 7);
 
         this.addChild(this.#DMEDisplay);
         this.#DMEDisplay.addChild(this.#DMEDisplay.lblDistance);

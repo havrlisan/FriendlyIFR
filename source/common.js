@@ -1,55 +1,44 @@
 /* common.js contains root classes that should be accessible to everyone */
 
 /* CONSTANTS */
-
 const TRAIL_INTERVAL = 60;
-
 const MAX_SPEED = 999;
 const MAX_WIND_SPEED = 500;
 const MIN_SPEED = 0;
 const MAX_ANGLE = 360;
-
 const DISTANCE_SCALE = 20;
-
 const BEACON_WIDTH = 80;
 const BEACON_HEIGHT = 80;
-
 const INSTR_WIDTH = 200;
 const INSTR_HEIGHT = 200;
-const INSTR_ARROW_WIDTH = 140 * (INSTR_WIDTH / 200);
-const INSTR_ARROW_HEIGHT = 140 * (INSTR_HEIGHT / 200);
-const INSTR_ARROW_CENTER_LIMIT = 65 * (INSTR_HEIGHT / 200);
-const INSTR_DME_WIDTH = 47 * (INSTR_WIDTH / 200);
-const INSTR_DME_HEIGHT = 35 * (INSTR_HEIGHT / 200);
-const INSTR_CRS_WIDTH = 35 * (INSTR_WIDTH / 200);
-const INSTR_CRS_HEIGHT = 35 * (INSTR_HEIGHT / 200);
+const INSTR_ARROW_WIDTH = 140;
+const INSTR_ARROW_HEIGHT = 140;
+const INSTR_ARROW_CENTER_LIMIT = 65;
+const INSTR_DME_WIDTH = 47;
+const INSTR_DME_HEIGHT = 35;
+const INSTR_CRS_WIDTH = 35;
+const INSTR_CRS_HEIGHT = 35;
 
 /* VARS */
-
 let app;
 let appLoaded;
 let fpsDisplay;
-
 let player;
 let wind;
-
 let VORdrawingRadial;
 let movingRadial;
 let NDB;
 let VORa;
 let VORb;
-
 let instrDG;
 let instrRBI;
 let instrRMI;
 let instrHSI;
 let instrCDI;
-
 let lblPause;
 let testModeEnabled;
 
 /* METHODS */
-
 const degrees_to_radians = deg => deg * (Math.PI / 180);
 const radians_to_degrees = rad => rad * (180 / Math.PI);
 const calcDistance = (obj, p1, p2) => pDistance(obj.x, obj.y, p1.x, p1.y, p2.x, p2.y);
