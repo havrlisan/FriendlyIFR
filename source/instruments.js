@@ -271,6 +271,11 @@ class HSI extends Instrument {
             this.#flagFrom.visible = !this.#flagOff.visible && !this.#flagTo.visible;
         }
     }
+
+    /* PROPERTIES */
+    get CRSArrowAngle() {
+        return this.#CRSArrow.angle;
+    }
 }
 
 /* CDI - COURSE DEVIATION INDICATOR */
@@ -410,5 +415,10 @@ class CDI extends Instrument {
             this.#flagTo.visible = !this.#flagOff.visible && this.#OBSButton.beacon.isInFlagToArea(player);
             this.#flagFrom.visible = !this.#flagOff.visible && !this.#flagTo.visible;
         }
+    }
+    
+    /* PROPERTIES */
+    get OBSArrowAngle() {
+        return this.#OBSArrow.angle;
     }
 }

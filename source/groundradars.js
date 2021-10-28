@@ -1,3 +1,12 @@
+function resetGroundRadars() {
+    if (NDB != null)
+        NDB.destroyRadials();
+    if (VORa != null)
+        VORa.destroyRadials();
+    if (VORb != null)
+        VORb.destroyRadials();
+}
+
 /* GROUNDRADAR CLASS */
 class GroundRadar extends MovableSprite {
 
@@ -45,12 +54,32 @@ class GroundRadar extends MovableSprite {
     }
 
     loadRadial(x, y) {
-        console.log('drawing radial');
         this.addChild(new Radial()).waypoint = new PIXI.Point(x, y);
     }
 
     finishRadial() {
         this.#currentRadial = null;
+    }
+
+    destroyRadials() {
+        for (let i = this.children.length - 1; i >= 0; i--) {
+            if (this.children[i] instanceof Radial)
+                this.children[i].destroy();
+        }
+    }
+
+    getRadialsJSON() {
+        let list = [];
+        for (let i = this.children.length - 1; i >= 0; i--) {
+            if (this.children[i] instanceof Radial) {
+                let position = this.children[i].toGlobal(this.children[i].waypoint);
+                list.push({
+                    x: position.x,
+                    y: position.y
+                })
+            }
+        }
+        return list;
     }
 }
 
@@ -186,6 +215,12 @@ class VORBeacon extends GroundRadar {
             .arc(0, 0, radius, start, start + length, false)
     }
 
+    drawArcCurve(radius, start, length) {
+        this.arcCurveRadius = radius;
+        this.arcCurveStart = start;
+        this.arcCurveLength = length;
+    }
+
     /* PROPERTIES */
     get blindCones() {
         return this.#blindCones;
@@ -316,7 +351,7 @@ class Radial extends PIXI.smooth.SmoothGraphics {
     get waypoint() {
         return this.#waypoint;
     }
-    set waypoint(value) {     
+    set waypoint(value) {
         this.#waypoint = this.toLocal(value);
         this.drawRadial();
         this.drawText();

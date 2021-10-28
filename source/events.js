@@ -55,23 +55,23 @@ btnClearTrail.onclick = () => {
 
 // Options
 btnSaveImage.onclick = () => {
-    // alert('To take screenshot, "use PrintScreen" button on your keyboard!')
-    let blob = app.renderer.plugins.extract.base64(app.stage);
-    downloadFile('FriendlyIFR-screenshot.png', blob);
+    alert('To take screenshot, use PrintScreen button on your keyboard!')
+    //let blob = app.renderer.plugins.extract.base64(app.stage);
+    //downloadFile('FriendlyIFR-screenshot.png', blob);
 }
 
 btnSaveSetup.onclick = () => {
-    alert('todo')
+    saveSetup();
 }
 
-btnLoadSetup.onclick = () => {  
-    testModeEnabled = false; 
+btnLoadSetup.onclick = () => {
+    testModeEnabled = false;
     if (fileLoader)
         fileLoader.click();
 }
 
 btnTestMode.onclick = () => {
-    testModeEnabled = true; 
+    testModeEnabled = true;
     if (fileLoader)
         fileLoader.click();
 }
@@ -81,7 +81,7 @@ fileLoader.onchange = () => {
         let file = fileLoader.files[0];
         if (file.name.toLowerCase().endsWith('.nav'))
             loadSetup(file)
-        else   
+        else
             alert('Only .nav files can be loaded!')
     }
     fileLoader.value = '';
