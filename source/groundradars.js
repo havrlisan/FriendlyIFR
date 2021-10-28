@@ -174,7 +174,7 @@ class VORBeacon extends GroundRadar {
     updateArcCurve() {
         if (this.#arcCurve == null) { this.createArcCurve() };
 
-        let radius = this.#arcCurveData.radius * 2, // multiply for scale
+        let radius = this.#arcCurveData.radius * 20, // multiply for scale
             start = this.#arcCurveData.start,
             length = this.#arcCurveData.length;
 
@@ -182,7 +182,7 @@ class VORBeacon extends GroundRadar {
         length = degrees_to_radians(length);
         this.#arcCurve
             .clear()
-            .lineStyle(20, 0x000000, 0.3)
+            .lineStyle(2, 0x000000, 0.3)
             .arc(0, 0, radius, start, start + length, false)
     }
 
