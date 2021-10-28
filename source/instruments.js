@@ -233,10 +233,10 @@ class HSI extends Instrument {
         this.#CRSButton.beacon = beacon;
 
         this.#CRSArrow = new PIXI.Sprite(PIXI.Loader.shared.resources.CRSArrow.texture);
-        this.#CRSArrow.width = 150;
-        this.#CRSArrow.height = 150;
+        this.#CRSArrow.width = 25;
+        this.#CRSArrow.height = 25;
         this.#CRSArrow.anchor.set(0.5, 0.5);
-        this.#CRSArrow.position.set(-this.width / 1.8, -this.height / 2);
+        this.#CRSArrow.position.set(-19.5, -17.5);
 
         this.on('mousewheel', (delta) => {
             this.setCRSAngle(this.#CRSArrow.angle - delta * 1.1);
@@ -366,10 +366,10 @@ class CDI extends Instrument {
         this.#OBSButton.beacon = beacon;
 
         this.#OBSArrow = new PIXI.Sprite(PIXI.Loader.shared.resources.CRSArrow.texture);
-        this.#OBSArrow.width = 150;
-        this.#OBSArrow.height = 150;
+        this.#OBSArrow.width = 25;
+        this.#OBSArrow.height = 25;
         this.#OBSArrow.anchor.set(0.5, 0.5);
-        this.#OBSArrow.position.set(-this.width / 1.8, -this.height / 2);
+        this.#OBSArrow.position.set(-19.5, -17.5);
 
         this.on('mousewheel', (delta) => {
             this.setOBSAngle(this.#OBSArrow.angle - delta * 1.1);
