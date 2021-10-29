@@ -105,6 +105,8 @@ function loadSetup(file) {
             console.log('Loaded ' + file.name);
             if (testModeState === testModeStates.initiated) {
                 updateTestMode();
+                player.setVisible(false);
+                setCourseLinesVisible(false);
                 btnTestMode.innerText = testModeText[testModeState];
                 btnTestMode.classList.replace(testModeStyle[testModeState - 1], testModeStyle[testModeState]);
             }
