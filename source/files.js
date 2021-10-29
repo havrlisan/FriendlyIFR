@@ -88,81 +88,98 @@ function saveSetup() {
 /* LOAD FILE */
 function loadSetup(file) {
     let reader = new FileReader();
-    let obj;
     reader.onload = () => {
+        let obj;
+        let isValid = true;
+
         try { obj = JSON.parse(reader.result) }
-        catch { return loadSetupOld(reader.result) }
+        catch { isValid = false };
 
         pauseMovement(true);
         resetGroundRadars();
         player.reset();
 
-        try {
-            // Airplane
-            player.setPosition(obj.airplane.position.x, obj.airplane.position.y);
-            player.speed = obj.airplane.speed;
-            player.angle = obj.airplane.angle;
-            player.setVisible(obj.airplane.visible);
+        isValid = isValid ? doLoadSetup(obj) : loadSetupOld(reader.result);
 
-            // Wind
-            wind.speed = obj.wind.speed;
-            wind.direction = obj.wind.direction;
+        if (isValid) {      
+            console.log('Loaded ' + file.name);
+            if (testModeState === testModeStates.initiated) {
+                updateTestMode();
+                btnTestMode.innerText = testModeText[testModeState];
+                btnTestMode.classList.replace(testModeStyle[testModeState - 1], testModeStyle[testModeState]);
+            }
+        } else
+            testModeState = testModeStates.none;
 
-            // NDB
-            NDB.setPosition(obj.groundRadars.NDB.position.x, obj.groundRadars.NDB.position.y);
-            for (let i = 0; i < obj.groundRadars.NDB.radials.length; i++)
-                NDB.loadRadial(obj.groundRadars.NDB.radials[i].x, obj.groundRadars.NDB.radials[i].y);
-
-            // VORa
-            VORa.setPosition(obj.groundRadars.VORa.position.x, obj.groundRadars.VORa.position.y);
-            VORa.drawArcCurve(obj.groundRadars.VORa.arc.radius, obj.groundRadars.VORa.arc.start, obj.groundRadars.VORa.arc.length);
-            for (let i = 0; i < obj.groundRadars.VORa.radials.length; i++)
-                VORa.loadRadial(obj.groundRadars.VORa.radials[i].x, obj.groundRadars.VORa.radials[i].y);
-
-            // VORb
-            VORb.setPosition(obj.groundRadars.VORb.position.x, obj.groundRadars.VORb.position.y);
-            VORb.drawArcCurve(obj.groundRadars.VORb.arc.radius, obj.groundRadars.VORb.arc.start, obj.groundRadars.VORb.arc.length);
-            for (let i = 0; i < obj.groundRadars.VORb.radials.length; i++)
-                VORb.loadRadial(obj.groundRadars.VORb.radials[i].x, obj.groundRadars.VORb.radials[i].y);
-            
-            updateEditorValues();
-
-            // Instruments
-            instrDG.setPosition(obj.instruments.DG.position.x, obj.instruments.DG.position.y);   
-            instrDG.setVisible(obj.instruments.DG.visible);  
-            instrRBI.setPosition(obj.instruments.RBI.position.x, obj.instruments.RBI.position.y); 
-            instrRBI.setVisible(obj.instruments.RBI.visible); 
-            instrRMI.setPosition(obj.instruments.RMI.position.x, obj.instruments.RMI.position.y); 
-            instrRMI.setVisible(obj.instruments.RMI.visible); 
-            instrHSI.setPosition(obj.instruments.HSI.position.x, obj.instruments.HSI.position.y);  
-            instrHSI.setCRSAngle(obj.instruments.HSI.CRSAngle)
-            instrHSI.setVisible(obj.instruments.HSI.visible); 
-            instrCDI.setPosition(obj.instruments.CDI.position.x, obj.instruments.CDI.position.y); 
-            instrCDI.setOBSAngle(obj.instruments.CDI.OBSAngle)
-            instrCDI.setVisible(obj.instruments.CDI.visible); 
-
-            // Other
-            setCourseLinesVisible(obj.courseLinesVisible);
-            mSetupInfo.value = obj.setupInfo;
-        }
-        catch {
-            alert('Invalid file provided!')
-        }
+        showLoadingScreen(false);
     }
+    showLoadingScreen(true);
     reader.readAsText(file);
+}
+
+function doLoadSetup(obj) {
+    try {
+        // Airplane
+        player.setPosition(obj.airplane.position.x, obj.airplane.position.y);
+        player.speed = obj.airplane.speed;
+        player.angle = obj.airplane.angle;
+        player.setVisible(obj.airplane.visible);
+
+        // Wind
+        wind.speed = obj.wind.speed;
+        wind.direction = obj.wind.direction;
+
+        // NDB
+        NDB.setPosition(obj.groundRadars.NDB.position.x, obj.groundRadars.NDB.position.y);
+        for (let i = 0; i < obj.groundRadars.NDB.radials.length; i++)
+            NDB.loadRadial(obj.groundRadars.NDB.radials[i].x, obj.groundRadars.NDB.radials[i].y);
+
+        // VORa
+        VORa.setPosition(obj.groundRadars.VORa.position.x, obj.groundRadars.VORa.position.y);
+        VORa.drawArcCurve(obj.groundRadars.VORa.arc.radius, obj.groundRadars.VORa.arc.start, obj.groundRadars.VORa.arc.length);
+        for (let i = 0; i < obj.groundRadars.VORa.radials.length; i++)
+            VORa.loadRadial(obj.groundRadars.VORa.radials[i].x, obj.groundRadars.VORa.radials[i].y);
+
+        // VORb
+        VORb.setPosition(obj.groundRadars.VORb.position.x, obj.groundRadars.VORb.position.y);
+        VORb.drawArcCurve(obj.groundRadars.VORb.arc.radius, obj.groundRadars.VORb.arc.start, obj.groundRadars.VORb.arc.length);
+        for (let i = 0; i < obj.groundRadars.VORb.radials.length; i++)
+            VORb.loadRadial(obj.groundRadars.VORb.radials[i].x, obj.groundRadars.VORb.radials[i].y);
+
+        updateEditorValues();
+
+        // Instruments
+        instrDG.setPosition(obj.instruments.DG.position.x, obj.instruments.DG.position.y);
+        instrDG.setVisible(obj.instruments.DG.visible);
+        instrRBI.setPosition(obj.instruments.RBI.position.x, obj.instruments.RBI.position.y);
+        instrRBI.setVisible(obj.instruments.RBI.visible);
+        instrRMI.setPosition(obj.instruments.RMI.position.x, obj.instruments.RMI.position.y);
+        instrRMI.setVisible(obj.instruments.RMI.visible);
+        instrHSI.setPosition(obj.instruments.HSI.position.x, obj.instruments.HSI.position.y);
+        instrHSI.setCRSAngle(obj.instruments.HSI.CRSAngle)
+        instrHSI.setVisible(obj.instruments.HSI.visible);
+        instrCDI.setPosition(obj.instruments.CDI.position.x, obj.instruments.CDI.position.y);
+        instrCDI.setOBSAngle(obj.instruments.CDI.OBSAngle)
+        instrCDI.setVisible(obj.instruments.CDI.visible);
+
+        // Other
+        setCourseLinesVisible(obj.courseLinesVisible);
+        mSetupInfo.value = obj.setupInfo;
+        return true;
+    }
+    catch {
+        alert('Invalid file provided!')
+        return false;
+    }
 }
 
 function loadSetupOld(lines) {
     const n = (value) => Number(value.replace(',', '.'));
     lines = lines.split('\n');
     if (lines.length < 186) {
-        alert('File not valid!');
+        alert('Invalid file provided!');
         return false;
     }
-
-    pauseMovement(true);
-    resetGroundRadars();
-    player.reset();
 
     player.setPosition(n(lines[3]), n(lines[4]));       // aircraft position
     NDB.setPosition(n(lines[5]), n(lines[6]));          // NDB position
@@ -225,14 +242,11 @@ function loadSetupOld(lines) {
     instrHSI.setVisible(lines[174].includes('True'));   // HSI
     instrCDI.setVisible(lines[175].includes('True'));   // CDI
 
-    if (lines[176].includes('True')) {                                  // Arc VORa visible
-        rbVORA.checked = true;
+    if (lines[176].includes('True'))                                    // Arc VORa visible
         VORa.drawArcCurve(n(lines[177]), n(lines[178]), n(lines[179])); // Arc VORa data
-    }
-    if (lines[180].includes('True')) {                                  // Arc VORb visible
-        rbVORB.checked = true;
+    if (lines[180].includes('True'))                                    // Arc VORb visible
         VORb.drawArcCurve(n(lines[181]), n(lines[182]), n(lines[183])); // Arc VORb data
-    }
+
     updateEditorValues();
 
     // setup information
@@ -244,6 +258,8 @@ function loadSetupOld(lines) {
         mSetupInfo.value = mSetupInfo.value + lines[i] + '\n';
         i++;
     };
+
+    return true;
 }
 
 /* HELPERS */

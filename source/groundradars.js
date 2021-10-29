@@ -32,7 +32,7 @@ class GroundRadar extends MovableSprite {
 
             if (btnDrawRadial.classList.contains('active'))
                 VORdrawingRadial = this;
-            else
+            else if (testModeState === testModeStates.none)
                 this.mouseMove = true;
         });
         this.on('mouseup', () => {

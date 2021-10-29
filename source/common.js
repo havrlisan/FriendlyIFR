@@ -19,6 +19,15 @@ const INSTR_DME_HEIGHT = 35;
 const INSTR_CRS_WIDTH = 35;
 const INSTR_CRS_HEIGHT = 35;
 
+const testModeStates = {
+    none: 0,
+    initiated: 1,
+    started: 2,
+    finished: 3
+};
+const testModeText = ['Test mode', 'Start', 'Finish', 'Practice mode'];
+const testModeStyle = ['btn-outline-secondary', 'btn-outline-success', 'btn-outline-danger', 'btn-outline-info'];
+
 /* VARS */
 let app;
 let appLoaded;
@@ -36,7 +45,7 @@ let instrRMI;
 let instrHSI;
 let instrCDI;
 let lblPause;
-let testModeEnabled;
+let testModeState = testModeStates.none;
 
 /* METHODS */
 const degrees_to_radians = deg => deg * (Math.PI / 180);

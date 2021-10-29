@@ -23,7 +23,7 @@
 <div class="d-flex noselect bg-secondary align-items-center justify-content-center" id="loadingScreen" style="height: calc(100vh - 50px)">
         <div class="d-flex flex-column align-items-center justify-content-center">
             <img src="../static/icon.png" alt="" width="96" height="96">
-            <h1 class="h4 text-centered">Loading app...</h1>
+            <h1 class="h4 text-centered">Loading...</h1>
         </div>
 </div>
 
@@ -62,7 +62,7 @@
                     <label for="edSpeed" class="h5 col-form-label text-centered">Airplane speed:</label>
                 </div>
                 <div class="col col-sm-3">
-                    <input type="text" id="edSpeed" class="form-control form-control-sm text-centered">
+                    <input type="text" id="edSpeed" class="form-control form-control-sm text-centered can-disable">
                 </div>
                 <div class="col col-sm-3">
                     <label for="edSpeed" id="edSpeedHint" class="col-form-label text-black-50">(0-999)</label>
@@ -75,7 +75,7 @@
                     <label for="edWindSpeed" class="h5 col-form-label">Wind speed:</label>
                 </div>
                 <div class="col col-sm-3">
-                    <input type="text" id="edWindSpeed" class="form-control form-control-sm text-centered">
+                    <input type="text" id="edWindSpeed" class="form-control form-control-sm text-centered can-disable">
                 </div>
                 <div class="col col-sm-3">
                     <label for="edWindSpeed" id="edWindSpeedHint" class="col-form-label text-black-50">(0-500)</label>
@@ -88,7 +88,7 @@
                     <label for="edWindDirection" class="h5 col-form-label">Wind direction:</label>
                 </div>
                 <div class="col col-sm-3">
-                    <input type="text" id="edWindDirection" class="form-control form-control-sm text-centered">
+                    <input type="text" id="edWindDirection" class="form-control form-control-sm text-centered can-disable">
                 </div>
                 <div class="col col-sm-3">
                     <label for="edWindDirection" id="edWindDirectionHint" class="col-form-label text-black-50">(0-360)</label>
@@ -111,25 +111,25 @@
                         <ul class="list-unstyled ps-2 pe-2 collapse show" id="row1-collapse">
                             <li>
                                 <div class="form-check form-switch">
-                                    <input class="form-check-input" type="checkbox" id="swAirplaneVisible" checked>
+                                    <input class="form-check-input can-disable" type="checkbox" id="swAirplaneVisible" checked>
                                     <label class="form-check-label" for="swAirplaneVisible">Show airplane</label>
                                 </div>
                             </li>
                             <li>
                                 <div class="form-check form-switch">
-                                    <input class="form-check-input" type="checkbox" id="swCourseLinesVisible" checked>
+                                    <input class="form-check-input can-disable" type="checkbox" id="swCourseLinesVisible" checked>
                                     <label class="form-check-label" for="swCourseLinesVisible">Show course lines</label>
                                 </div>
                             </li>
                             <li>
                                 <div class="form-check form-switch">
-                                    <input class="form-check-input" type="checkbox" id="swPaused">
+                                    <input class="form-check-input can-disable" type="checkbox" id="swPaused">
                                     <label class="form-check-label" for="swPaused">Paused</label>
                                 </div>
                             </li>
                             <li>
                                 <div class="row ps-3 pe-3 mt-3 justify-content-center">
-                                    <button type="button" class="btn btn-outline-danger btn-sm" id="btnClearTrail">Erase path</button>
+                                    <button type="button" class="btn btn-outline-danger btn-sm can-disable" id="btnClearTrail">Erase path</button>
                                 </div>
                             </li>
                         </ul>
@@ -151,31 +151,31 @@
                         <ul class="list-unstyled ps-2 pe-2 collapse show" id="row1-collapse">
                             <li>
                                 <div class="form-check form-switch">
-                                    <input class="form-check-input" type="checkbox" id="swInstrumentDG">
+                                    <input class="form-check-input can-disable" type="checkbox" id="swInstrumentDG">
                                     <label class="form-check-label" for="swInstrumentDG">DG</label>
                                 </div>
                             </li>
                             <li>
                                 <div class="form-check form-switch">
-                                    <input class="form-check-input" type="checkbox" id="swInstrumentRBI">
+                                    <input class="form-check-input can-disable" type="checkbox" id="swInstrumentRBI">
                                     <label class="form-check-label" for="swInstrumentRBI">RBI</label>
                                 </div>
                             </li>
                             <li>
                                 <div class="form-check form-switch">
-                                    <input class="form-check-input" type="checkbox" id="swInstrumentRMI">
+                                    <input class="form-check-input can-disable" type="checkbox" id="swInstrumentRMI">
                                     <label class="form-check-label" for="swInstrumentRMI">RMI</label>
                                 </div>
                             </li>
                             <li>
                                 <div class="form-check form-switch">
-                                    <input class="form-check-input" type="checkbox" id="swInstrumentHSI">
+                                    <input class="form-check-input can-disable" type="checkbox" id="swInstrumentHSI">
                                     <label class="form-check-label" for="swInstrumentHSI">HSI</label>
                                 </div>
                             </li>
                             <li>
                                 <div class="form-check form-switch">
-                                    <input class="form-check-input" type="checkbox" id="swInstrumentCDI">
+                                    <input class="form-check-input can-disable" type="checkbox" id="swInstrumentCDI">
                                     <label class="form-check-label" for="swInstrumentCDI">CDI</label>
                                 </div>
                             </li>
@@ -202,17 +202,17 @@
                         <ul class="list-unstyled ps-3 pe-3 collapse show" id="row2-collapse">
                             <li>
                                 <div class="row mt-1 justify-content-center">
-                                    <button type="button" class="btn btn-outline-secondary btn-sm" id="btnSaveImage">Save image</button>
+                                    <button type="button" class="btn btn-outline-secondary btn-sm can-disable" id="btnSaveImage">Save image</button>
                                 </div>
                             </li>
                             <li>
                                 <div class="row mt-1 justify-content-center">
-                                    <button type="button" class="btn btn-outline-secondary btn-sm" id="btnSaveSetup">Save setup</button>
+                                    <button type="button" class="btn btn-outline-secondary btn-sm can-disable" id="btnSaveSetup">Save setup</button>
                                 </div>
                             </li>
                             <li>
                                 <div class="row mt-1 justify-content-center">
-                                    <button type="button" class="btn btn-outline-secondary btn-sm" id="btnLoadSetup">Load setup</button>
+                                    <button type="button" class="btn btn-outline-secondary btn-sm can-disable" id="btnLoadSetup">Load setup</button>
                                 </div>
                             </li>
                             <li>
@@ -239,7 +239,7 @@
                         <ul class="list-unstyled ps-1 pe-1 collapse show" id="row2-collapse">
                             <li>
                                 <div class="mt-1 justify-content-center">
-                                    <textarea class="form-control form-control-sm" id="setupInformation" style="height: 136px; resize: none; font-size: small"></textarea>
+                                    <textarea class="form-control form-control-sm can-disable" id="setupInformation" style="height: 136px; resize: none; font-size: small"></textarea>
                                 </div>
                             </li>
                         </ul>
@@ -261,16 +261,16 @@
                         <ul class="list-unstyled ps-2 pe-2 collapse show" id="row3-collapse">
                             <li>
                                 <div class="row p-2 pt-1 justify-content-center">
-                                    <button type="button" class="btn btn-outline-danger btn-sm" id="btnDrawRadial" data-bs-toggle="button" autocomplete="off">Draw radial</button>
+                                    <button type="button" class="btn btn-outline-danger btn-sm can-disable" id="btnDrawRadial" data-bs-toggle="button" autocomplete="off">Draw radial</button>
                                 </div>
                             </li>
                             <li class="row row-cols-2 p-1 flex-fill justify-content-evenly align-items-center">
                                 <div class="col w-50">
-                                    <input class="form-check-input" type="radio" name="radioVOR" id="rbVORA" checked>
+                                    <input class="form-check-input can-disable" type="radio" name="radioVOR" id="rbVORA" checked>
                                     <label for="rbVORA">VOR A</label>
                                 </div>
                                 <div class="col w-50">
-                                    <input class="form-check-input" type="radio" name="radioVOR" id="rbVORB">
+                                    <input class="form-check-input can-disable" type="radio" name="radioVOR" id="rbVORB">
                                     <label for="rbVORB">VOR B</label>
                                 </div>
                             </li>
@@ -279,7 +279,7 @@
                                     <label for="edVORRadius">Radius:</label>
                                 </div>
                                 <div class="col w-50">
-                                    <input type="text" id="edVORRadius" class="form-control form-control-sm text-centered">
+                                    <input type="text" id="edVORRadius" class="form-control form-control-sm text-centered can-disable">
                                 </div>
                             </li>
                             <li class="row row-cols-2 pt-2 flex-fill justify-content-evenly align-items-center">
@@ -287,7 +287,7 @@
                                     <label for="edVORStart">Start:</label>
                                 </div>
                                 <div class="col w-50">
-                                    <input type="text" id="edVORStart" class="form-control form-control-sm text-centered">
+                                    <input type="text" id="edVORStart" class="form-control form-control-sm text-centered can-disable">
                                 </div>
                             </li>
                             <li class="row row-cols-2 pt-2 flex-fill justify-content-evenly align-items-center">
@@ -295,7 +295,7 @@
                                     <label for="edVORLength">Length:</label>
                                 </div>
                                 <div class="col w-50">
-                                    <input type="text" id="edVORLength" class="form-control form-control-sm text-centered">
+                                    <input type="text" id="edVORLength" class="form-control form-control-sm text-centered can-disable">
                                 </div>
                             </li>
                         </ul>
@@ -323,6 +323,7 @@
 <script type="text/javascript" src="../source/groundradars.js"></script>
 <script type="text/javascript" src="../source/instruments.js"></script>
 
+<script type="text/javascript" src="../source/testmode.js"></script>
 <script type="text/javascript" src="../source/files.js"></script>
 <script type="text/javascript" src="../source/events.js"></script>
 <script type="text/javascript" src="../source/application.js"></script>

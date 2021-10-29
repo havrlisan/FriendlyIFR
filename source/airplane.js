@@ -18,6 +18,11 @@ class Airplane extends MovableSprite {
         this.reset();
     };
 
+    assignEvents() {
+        super.assignEvents();
+        this.on('mousedown', () => { this.mouseMove = (testModeState === testModeStates.none) });
+    }
+
     setPosition(x, y) {
         super.setPosition(x, y);
         this.lastPosition = {

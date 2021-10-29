@@ -65,15 +65,33 @@ btnSaveSetup.onclick = () => {
 }
 
 btnLoadSetup.onclick = () => {
-    testModeEnabled = false;
+    testModeState = testModeStates.none;
     if (fileLoader)
         fileLoader.click();
 }
 
 btnTestMode.onclick = () => {
-    testModeEnabled = true;
-    if (fileLoader)
-        fileLoader.click();
+    if (testModeState === testModeStates.none) {
+        testModeState = testModeStates.initiated;
+        return fileLoader.click(); // update text and style after loaded
+    } else if (testModeState === testModeStates.initiated) {
+        testModeState = testModeStates.started;
+        pauseMovement(false);
+    } else if (testModeState === testModeStates.started) {
+        testModeState = testModeStates.finished;
+        pauseMovement(true);
+        btnSaveImage.removeAttribute('disabled');
+        player.setVisible(true);
+    } else if (testModeState === testModeStates.finished) {
+        testModeState = testModeStates.none;
+        updateTestMode();
+    }
+
+    btnTestMode.innerText = testModeText[testModeState];
+    if (testModeState === testModeStates.none)
+        btnTestMode.classList.replace(testModeStyle[testModeStates.finished], testModeStyle[testModeState]);
+    else
+        btnTestMode.classList.replace(testModeStyle[testModeState - 1], testModeStyle[testModeState]);
 }
 
 fileLoader.onchange = () => {
