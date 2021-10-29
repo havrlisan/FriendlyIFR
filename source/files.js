@@ -124,6 +124,8 @@ function loadSetup(file) {
             VORb.drawArcCurve(obj.groundRadars.VORb.arc.radius, obj.groundRadars.VORb.arc.start, obj.groundRadars.VORb.arc.length);
             for (let i = 0; i < obj.groundRadars.VORb.radials.length; i++)
                 VORb.loadRadial(obj.groundRadars.VORb.radials[i].x, obj.groundRadars.VORb.radials[i].y);
+            
+            updateEditorValues();
 
             // Instruments
             instrDG.setPosition(obj.instruments.DG.position.x, obj.instruments.DG.position.y);   
@@ -251,3 +253,4 @@ function saveFile(filename, text) {
     a.setAttribute('download', filename);
     a.click();
 }
+

@@ -1,4 +1,6 @@
-// Pixi container
+// Container
+const loadingScreen = document.getElementById('loadingScreen');
+const contentScreen = document.getElementById('contentScreen');
 const appParent = document.getElementById('pixi-app-container');
 
 // Time

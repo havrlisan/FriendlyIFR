@@ -102,6 +102,7 @@ function setup() {
 
     // Enable controls
     appLoaded = true;
+    showLoadingScreen(false);
 }
 
 /* RENDER LOOP */

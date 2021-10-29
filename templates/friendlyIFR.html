@@ -20,7 +20,14 @@
     </div>
 </nav>
 
-<div class="d-flex noselect" style="height: calc(100vh - 50px)" id="captureElement">
+<div class="d-flex noselect bg-secondary align-items-center justify-content-center" id="loadingScreen" style="height: calc(100vh - 50px)">
+        <div class="d-flex flex-column align-items-center justify-content-center">
+            <img src="../static/icon.png" alt="" width="96" height="96">
+            <h1 class="h4 text-centered">Loading app...</h1>
+        </div>
+</div>
+
+<div class="d-flex noselect" id="contentScreen" style="height: calc(100vh - 50px)">
 
     <!-- Pixi.js container -->
     <div class="w-75" id="pixi-app-container" style="background-color: rgb(200, 200, 200);"></div>
@@ -301,10 +308,10 @@
 </div>
 
 <!-- Libs -->
-<script src="../lib/pixi.min.js"></script>                      <!-- https://github.com/pixijs/pixijs -->
-<script src="../lib/pixi-graphics-smooth.umd.min.js"></script>  <!-- https://github.com/pixijs/graphics-smooth -->
-<script src="../lib/pixi-mousewheel.js"></script>               <!-- https://github.com/Mwni/pixi-mousewheel -->
-<script src="../lib/fps.min.js"></script>                       <!-- https://github.com/davidfig/fps -->
+<script src="../lib/pixi.min.js"></script> <!-- https://github.com/pixijs/pixijs -->
+<script src="../lib/pixi-graphics-smooth.umd.min.js"></script> <!-- https://github.com/pixijs/graphics-smooth -->
+<script src="../lib/pixi-mousewheel.js"></script> <!-- https://github.com/Mwni/pixi-mousewheel -->
+<script src="../lib/fps.min.js"></script> <!-- https://github.com/davidfig/fps -->
 <!-- General -->
 <script type="text/javascript" src="../source/elements.js"></script>
 <script type="text/javascript" src="../source/common.js"></script>
