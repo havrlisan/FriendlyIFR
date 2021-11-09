@@ -5,8 +5,8 @@ window.onbeforeunload = function () {
 
 /* AUTO PAUSE ON LOSE VISIBILITY */
 document.addEventListener("visibilitychange", () => {
-    if (document.hidden)
-        pauseMovement(true); // TODO: Different approach for Test mode
+    //if (document.hidden)
+    //    pauseMovement(true);
 });
 
 
@@ -49,7 +49,7 @@ function validateInput(value, max_value) {
 /* BLINK ERROR */
 function blinkInvalidInput(element) {
     if (element === undefined) { return false };
-    
+
     element.classList.remove('text-black-50');
     element.classList.add('text-danger');
     setTimeout(() => {

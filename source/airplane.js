@@ -80,7 +80,7 @@ class Airplane extends MovableSprite {
         };
 
         this.trail
-            .lineStyle(2, 0xFFFFFF, 1)
+            .lineStyle(2.5, 0x000000, 1)
             .moveTo(this.lastPosition.x, this.lastPosition.y)
             .lineTo(this.x, this.y);
 

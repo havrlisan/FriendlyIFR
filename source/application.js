@@ -167,7 +167,7 @@ window.addEventListener('keydown', (event) => {
     if (document.activeElement.nodeName === 'INPUT') { return false };
 
     let key = event.key.toUpperCase();
-    if (key == PAUSE_KEY)
+    if ((key == PAUSE_KEY) && (testModeState === testModeStates.none))
         pauseMovement()
     else if (key == VISIBILITY_KEY)
         player.setVisible(!player.visible)

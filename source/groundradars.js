@@ -16,7 +16,7 @@ class GroundRadar extends MovableSprite {
     /* CONSTRUCTOR */
     constructor(texture) {
         super(texture);
-
+        this.alpha = 0.9;
         this.width = BEACON_WIDTH;
         this.height = BEACON_HEIGHT;
         this.anchor.set(0.5, 0.5);
@@ -316,10 +316,10 @@ class Radial extends PIXI.smooth.SmoothGraphics {
 
     drawRadial() {
         this.clear()
-            .lineStyle({ width: 3, color: 0x000000, alpha: 0.6 })
+            .lineStyle({ width: 2, color: 0x000000, alpha: 0.3 })
             .moveTo(0, 0)
             .lineTo(this.#waypoint.x, this.#waypoint.y)
-            .lineStyle({ width: 2, color: 0x0000FF, alpha: 0.6 })
+            .lineStyle({ width: 2, color: 0x0000FF, alpha: 0.7 })
             .drawCircle(this.#waypoint.x, this.#waypoint.y, 6)
         this.hitArea = new PIXI.Rectangle(this.#waypoint.x - 6, this.#waypoint.y - 6, 12, 12);
     }
@@ -336,7 +336,7 @@ class Radial extends PIXI.smooth.SmoothGraphics {
 
         let angle = radians_to_degrees(Math.atan2(deltaY, deltaX) - Math.PI / 2);
         angle = angle < 0 ? angle + 360 : angle;
-        this.#lblAngle.text = Math.round(angle) + '°';
+        this.#lblAngle.text = Math.round(angle * 10) / 10 + '°';
 
         this.#lblDistance.position.set(this.#waypoint.x, this.#waypoint.y - 9); // -9 to seperate the text from waypoint circle
         this.#lblAngle.position.set(this.#waypoint.x / 2, this.#waypoint.y / 2);
@@ -344,7 +344,7 @@ class Radial extends PIXI.smooth.SmoothGraphics {
 
     finishMoving() {
         if (this.parent.containsPoint(this.toGlobal(this.#waypoint)))
-            this.destroy();
+            this.destroy()
     }
 
     /* PROPERTIES */
