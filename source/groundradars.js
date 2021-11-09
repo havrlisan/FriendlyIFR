@@ -338,8 +338,9 @@ class Radial extends PIXI.smooth.SmoothGraphics {
         angle = angle < 0 ? angle + 360 : angle;
         this.#lblAngle.text = Math.round(angle * 10) / 10 + '°';
 
-        this.#lblDistance.position.set(this.#waypoint.x, this.#waypoint.y - 9); // -9 to seperate the text from waypoint circle
-        this.#lblAngle.position.set(this.#waypoint.x / 2, this.#waypoint.y / 2);
+        // round coordinates to prevent blurring
+        this.#lblDistance.position.set(Math.round(this.#waypoint.x), Math.round(this.#waypoint.y - 9)); // -9 to seperate the text from waypoint circle
+        this.#lblAngle.position.set(Math.round(this.#waypoint.x / 2), Math.round(this.#waypoint.y / 2));
     }
 
     finishMoving() {
