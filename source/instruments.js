@@ -259,7 +259,6 @@ class HSI extends Instrument {
 
             let courseLinePoints = this.#CRSButton.beacon.courseLinePoints;
             let distance = calcDistance(player, courseLinePoints[0], courseLinePoints[1]);
-            distance *= 3; // multiply for scale
             distance = distance > INSTR_ARROW_CENTER_LIMIT ? INSTR_ARROW_CENTER_LIMIT : distance;
             distance = this.#CRSButton.beacon.isInNegativeDistance(player) ? -distance : distance;
             this.#compassArrowCenter.x = distance;
@@ -397,7 +396,6 @@ class CDI extends Instrument {
         if (this.#deviationArrow != null && this.#OBSButton != null) {
             let courseLinePoints = this.#OBSButton.beacon.courseLinePoints;
             let distance = calcDistance(player, courseLinePoints[0], courseLinePoints[1]);
-            distance *= 3; // multiply for scale
             distance = distance > INSTR_ARROW_CENTER_LIMIT ? INSTR_ARROW_CENTER_LIMIT : distance;
             distance = this.#OBSButton.beacon.isInNegativeDistance(player) ? -distance : distance;
             this.#deviationArrow.x = distance;
