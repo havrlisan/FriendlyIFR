@@ -1,7 +1,6 @@
 /* common.js contains root classes that should be accessible to everyone */
 
 /* CONSTANTS */
-const TRAIL_INTERVAL = 60;
 const MAX_SPEED = 999;
 const MAX_WIND_SPEED = 500;
 const MIN_SPEED = 0;

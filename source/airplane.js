@@ -6,6 +6,7 @@ class Airplane extends MovableSprite {
     #rotationSpeed = 0;
     #paused = false;
     #trail;
+    #trailCounter = 0;
     #lastPosition;
 
     /* CONSTRUCTOR */
@@ -36,25 +37,25 @@ class Airplane extends MovableSprite {
         this.angle = 45;
     }
 
-    advance() {
+    advance(delta) {
         if (!this.paused && !this.mouseMove) {
             // move depending on airplane rotation (Heading)
             if (this.speed > 0) {
-                this.x += (Math.sin(this.rotation) * this.speed) / 22100; // 22100 is scale
-                this.y -= (Math.cos(this.rotation) * this.speed) / 22100;
+                this.x += (Math.sin(this.rotation) * this.speed) / 9061 * delta; // 9061 is scale
+                this.y -= (Math.cos(this.rotation) * this.speed) / 9061 * delta;
             }
 
             if (wind.speed > 0) {
                 // move depending on wind
-                this.x += Math.sin(degrees_to_radians(-wind.direction)) * wind.speed / 22100;
-                this.y += Math.cos(degrees_to_radians(-wind.direction)) * wind.speed / 22100;
+                this.x += Math.sin(degrees_to_radians(-wind.direction)) * wind.speed / 9061 * delta;
+                this.y += Math.cos(degrees_to_radians(-wind.direction)) * wind.speed / 9061 * delta;
             }
         }
         return this;
     }
 
     rotate(delta) {
-        this.angle += this.rotationSpeed / 60 * delta; // 60 fps multiplied by delta in case of display frame rate difference
+        this.angle += this.rotationSpeed / 60 * delta;
         return this;
     }
 
@@ -74,6 +75,17 @@ class Airplane extends MovableSprite {
     }
 
     /* TRAIL METHODS */
+    renderTrail(delta) {
+        if (this.paused) { return this };
+
+        let trail_speed = (this.speed === 0) ? wind.speed : this.speed;
+
+        this.#trailCounter++;
+        if (this.#trailCounter > (60 / trail_speed) * 5000 * delta) {
+            this.drawTrail();
+            this.#trailCounter = 0;
+        }
+    }
     drawTrail() {
         if ((this.mouseMove) || ((this.lastPosition.x === this.x) && (this.lastPosition.y === this.y))) {
             return this

@@ -109,9 +109,9 @@ function setup() {
 function renderLoop(delta) {
     player
         .rotate(delta)
-        .advance();
+        .advance(delta)
+        .renderTrail(delta);
 
-    renderTrail();
     instrDG.renderCompass();
     instrRBI.renderCompass();
     instrRMI.renderCompass();
@@ -119,19 +119,6 @@ function renderLoop(delta) {
     instrCDI.renderCompass();
 
     fpsDisplay.frame()
-}
-
-let trailCounter = 0;
-function renderTrail() {
-    if (player.paused) { return false };
-
-    let trail_speed = (player.speed === 0) ? wind.speed : player.speed;
-
-    trailCounter++;
-    if (trailCounter > (TRAIL_INTERVAL / trail_speed) * 3000) { // 3000 is scale
-        player.drawTrail();
-        trailCounter = 0;
-    }
 }
 
 /* METHODS */
