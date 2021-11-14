@@ -40,9 +40,9 @@ class GroundRadar extends MovableSprite {
         });
         this.on('mousemove', (e) => {
             if (this.mouseMove)
-                this.position = new PIXI.Point(e.data.global.x, e.data.global.y);
+                this.position = new PIXI.Point(Math.round(e.data.global.x), Math.round(e.data.global.y));
             else if (VORdrawingRadial == this)
-                this.drawRadial(new PIXI.Point(e.data.global.x, e.data.global.y))
+                this.drawRadial(new PIXI.Point(Math.round(e.data.global.x), Math.round(e.data.global.y)))
         });
     }
 
@@ -203,7 +203,7 @@ class VORBeacon extends GroundRadar {
     updateArcCurve() {
         if (this.#arcCurve == null) { this.createArcCurve() };
 
-        let radius = this.#arcCurveData.radius * 20, // multiply for scale
+        let radius = this.#arcCurveData.radius * DISTANCE_SCALE - 1, // scale is off by 1 for some reason
             start = this.#arcCurveData.start,
             length = this.#arcCurveData.length;
 

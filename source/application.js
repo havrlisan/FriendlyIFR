@@ -132,7 +132,7 @@ function pauseMovement(value) {
     swPaused.checked = value;
 }
 
-function setCourseLinesVisible(value) {  
+function setCourseLinesVisible(value) {
     VORa.setLineVisibility(value);
     VORb.setLineVisibility(value);
     swCourseLinesVisible.checked = value;
@@ -142,9 +142,11 @@ function setCourseLinesVisible(value) {
 
 const PAUSE_KEY = 'P';
 const VISIBILITY_KEY = 'V';
-const keyBinds = {
+const rotationBinds = {
     'B': Airplane.rotations.LEFT(),
     'M': Airplane.rotations.RIGHT(),
+};
+const fastRotationBinds = {
     'A': Airplane.rotations.FAST_LEFT(),
     'D': Airplane.rotations.FAST_RIGHT(),
 };
@@ -156,17 +158,20 @@ window.addEventListener('keydown', (event) => {
     let key = event.key.toUpperCase();
     if ((key == PAUSE_KEY) && (testModeState === testModeStates.none))
         pauseMovement()
-    else if (key == VISIBILITY_KEY)
+    else if ((key == VISIBILITY_KEY) && (testModeState === testModeStates.none))
         player.setVisible(!player.visible)
-    else if (keyBinds.hasOwnProperty(key))
-        player.rotationSpeed = keyBinds[key];
+    else if (rotationBinds.hasOwnProperty(key))
+        player.rotationSpeed = rotationBinds[key]
+    else if (fastRotationBinds.hasOwnProperty(key) && (testModeState === testModeStates.none))
+        player.rotationSpeed = fastRotationBinds[key]
 });
 
 window.addEventListener('keyup', (event) => {
     if (!appLoaded) { return false };
 
     let key = event.key.toUpperCase();
-    // prevents short pause when two keys are pressed
-    if (keyBinds.hasOwnProperty(key) && player.rotationSpeed === keyBinds[key])
+    if (rotationBinds.hasOwnProperty(key) && player.rotationSpeed === rotationBinds[key])
+        player.rotationSpeed = 0
+    else if (fastRotationBinds.hasOwnProperty(key) && player.rotationSpeed === fastRotationBinds[key])
         player.rotationSpeed = 0;
 });
