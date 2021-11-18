@@ -81,7 +81,7 @@ class Airplane extends MovableSprite {
         let trail_speed = (this.speed === 0) ? wind.speed : this.speed;
 
         this.#trailCounter++;
-        if (this.#trailCounter > (60 / trail_speed) * 5000 * delta) {
+        if (this.#trailCounter > (60 / trail_speed) * 1200) {
             this.drawTrail();
             this.#trailCounter = 0;
         }
