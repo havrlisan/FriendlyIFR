@@ -1,5 +1,6 @@
 // Container
 const loadingScreen = document.getElementById('loadingScreen');
+const loadingText = document.getElementById('loadingText');
 const contentScreen = document.getElementById('contentScreen');
 const appParent = document.getElementById('pixi-app-container');
 

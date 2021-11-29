@@ -1,5 +1,12 @@
 /* INITIALIZATION */
 
+let isMobile = window.matchMedia("only screen and (max-width: 760px)").matches;
+
+if (isMobile) {
+    loadingText.innerText = 'Sorry, FriendlyIFR is not for mobile devices!';
+    throw new Error('Mobile devices not supported.');
+}
+
 PIXI.utils.skipHello();
 
 app = new PIXI.Application({ backgroundAlpha: 0 });
