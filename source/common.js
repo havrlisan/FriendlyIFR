@@ -1,6 +1,8 @@
 /* common.js contains root classes that should be accessible to everyone */
 
 /* CONSTANTS */
+const WORLD_WIDTH = 2000;
+const WORLD_HEIGHT = 2000;
 const MAX_SPEED = 999;
 const MAX_WIND_SPEED = 500;
 const MIN_SPEED = 0;
@@ -29,12 +31,11 @@ const testModeStyle = ['btn-outline-secondary', 'btn-outline-success', 'btn-outl
 
 /* VARS */
 let app;
+let viewport;
 let appLoaded;
 let fpsDisplay;
 let player;
 let wind;
-let VORdrawingRadial;
-let movingRadial;
 let NDB;
 let VORa;
 let VORb;
@@ -44,11 +45,38 @@ let instrRMI;
 let instrHSI;
 let instrCDI;
 let lblPause;
+let leftArrow, rightArrow;
 let testModeState = testModeStates.none;
+let objectMoving = null;
 
 /* METHODS */
+
+const setObjectMoving = (obj) => {
+    objectMoving = obj;
+    viewport.drag({ pressDrag: obj === null ? true : false });
+};
+/**
+* Transforms the point to viewport's local position
+* @param x X position of object OR PIXI.Point (in that case leave y undefined)
+* @param y Y position of object
+*/
+const _v = (x, y) => {
+    let point;
+    if (y === undefined)
+        point = x
+    else
+        point = new PIXI.Point(Math.round(x), Math.round(y));
+    return viewport.toLocal(point);
+};
+
+const isInTestMode = () => testModeState !== testModeStates.none;
 const degrees_to_radians = deg => deg * (Math.PI / 180);
 const radians_to_degrees = rad => rad * (180 / Math.PI);
+/**
+* Returns distance from obj to nearest point on line
+* @param p1 First endpoint of the line
+* @param p2 Second endpoint of the line
+*/
 const calcDistance = (obj, p1, p2) => pDistance(obj.x, obj.y, p1.x, p1.y, p2.x, p2.y);
 /* pDistance function - https://stackoverflow.com/a/6853926/6619251 */
 const pDistance = (x, y, x1, y1, x2, y2) => {
@@ -86,9 +114,6 @@ const pDistance = (x, y, x1, y1, x2, y2) => {
 /* CLASSES */
 
 class MovableSprite extends PIXI.Sprite {
-    /* VARS */
-    #mouseMove = false;
-
     /* CONSTRUCTOR */
     constructor(texture) {
         super(texture);
@@ -98,16 +123,18 @@ class MovableSprite extends PIXI.Sprite {
 
     /* METHODS */
     setPosition(x, y) {
-        this.position.set(x, y)
+        this.position = _v(x, y);
     };
 
     assignEvents() {
-        this.on('mousedown', () => { this.#mouseMove = true });
-        this.on('mouseup', () => { this.#mouseMove = false });
-        this.on('mousemove', (e) => { if (this.#mouseMove) this.setPosition(e.data.global.x, e.data.global.y) });
+        this.on('mousedown', () => {
+            if (objectMoving === null)
+                setObjectMoving(this);
+        });
+        this.on('mousemove', (e) => {
+            if (objectMoving === this) {
+                this.setPosition(e.data.global.x, e.data.global.y)
+            }
+        });
     }
-
-    /* PROPERTIES */
-    get mouseMove() { return this.#mouseMove };
-    set mouseMove(value) { this.#mouseMove = value };
 }
