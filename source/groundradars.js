@@ -37,7 +37,7 @@ class GroundRadar extends MovableSprite {
             if (this.canDraw())
                 this.drawRadial(new PIXI.Point(Math.round(e.data.global.x), Math.round(e.data.global.y)))
             else
-                this.setPosition(Math.round(e.data.global.x), Math.round(e.data.global.y));
+                this.setPosition(Math.round(e.data.global.x), Math.round(e.data.global.y), true);
         });
         this.on('mouseup', () => {
             this.#currentRadial = null;
@@ -56,7 +56,7 @@ class GroundRadar extends MovableSprite {
     }
 
     loadRadial(x, y) {
-        this.addChild(new Radial()).waypoint = new PIXI.Point(x, y);
+        this.addChild(new Radial()).waypoint = viewport.toGlobal(new PIXI.Point(x, y));
     }
 
     destroyRadials() {
@@ -70,7 +70,7 @@ class GroundRadar extends MovableSprite {
         let list = [];
         for (let i = this.children.length - 1; i >= 0; i--) {
             if (this.children[i] instanceof Radial) {
-                let position = this.children[i].toGlobal(this.children[i].waypoint);
+                let position = _v(this.children[i].toGlobal(this.children[i].waypoint));
                 list.push({
                     x: position.x,
                     y: position.y

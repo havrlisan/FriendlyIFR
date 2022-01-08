@@ -27,17 +27,19 @@ class Airplane extends MovableSprite {
         });
     }
 
-    setPosition(x, y) {
-        let point = _v(x, y);
-        this.position = point;
+    setPosition(x, y, needsConversion) {
+        let newPos = new PIXI.Point(x, y);
+        if (needsConversion)
+            newPos = _v(newPos)
+        this.position = newPos;
         this.lastPosition = {
-            x: point.x,
-            y: point.y,
+            x: newPos.x,
+            y: newPos.y,
         };
     }
 
     setStartPosition() {
-        this.setPosition((app.renderer.view.width / 2) - (this.width / 2), (app.renderer.view.height / 2) - (this.height / 2));
+        this.setPosition((app.renderer.view.width / 2) - (this.width / 2), (app.renderer.view.height / 2) - (this.height / 2), true);
         this.angle = 45;
     }
 

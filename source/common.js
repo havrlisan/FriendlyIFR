@@ -122,8 +122,11 @@ class MovableSprite extends PIXI.Sprite {
     }
 
     /* METHODS */
-    setPosition(x, y) {
-        this.position = _v(x, y);
+    setPosition(x, y, needsConversion) {
+        let newPos = new PIXI.Point(x, y);
+        if (needsConversion)
+            newPos = _v(newPos)
+        this.position = newPos;
     };
 
     assignEvents() {
@@ -133,7 +136,7 @@ class MovableSprite extends PIXI.Sprite {
         });
         this.on('mousemove', (e) => {
             if (objectMoving === this) {
-                this.setPosition(e.data.global.x, e.data.global.y)
+                this.setPosition(e.data.global.x, e.data.global.y, true)
             }
         });
     }
