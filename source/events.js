@@ -1,15 +1,3 @@
-// Specific
-window.onmouseup = (e) => {
-    if (VORdrawingRadial != null) {
-        VORdrawingRadial.finishRadial();
-        VORdrawingRadial = null;
-    }
-    if (movingRadial != null) {
-        movingRadial.finishMoving();
-        movingRadial = null;
-    }
-}
-
 // Stopwatch
 btnStartStopwatch.onclick = toggleStopwatch;
 btnResetStopwatch.onclick = resetStopwatch;

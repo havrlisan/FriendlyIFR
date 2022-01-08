@@ -3,10 +3,16 @@ window.onbeforeunload = function () {
     return 'Are you sure you want to leave?';
 };
 
+
 /* AUTO PAUSE ON LOSE VISIBILITY */
 document.addEventListener("visibilitychange", () => {
-    //if (document.hidden)
-    //    pauseMovement(true);
+    // TODO: Warn that if leaving page, app will be paused / test mode will be interrupted!
+    if (document.hidden) {
+        if (!isInTestMode())
+            pauseMovement(true)
+        //else
+            // TODO: Handle if in test mode
+    }
 });
 
 

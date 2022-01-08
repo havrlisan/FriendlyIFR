@@ -25,25 +25,27 @@ class GroundRadar extends MovableSprite {
     /* METHODS */
     assignEvents() {
         this.on('mousedown', (e) => {
-            // check if some radial is being moved
-            if (movingRadial != null) { return false };
+            if (objectMoving !== null) { return false };
             // ensure the actual sprite was clicked, not its children
             if (!this.containsPoint(new PIXI.Point(e.data.global.x, e.data.global.y))) { return false };
 
-            if (btnDrawRadial.classList.contains('active'))
-                VORdrawingRadial = this;
-            else if (testModeState === testModeStates.none)
-                this.mouseMove = true;
-        });
-        this.on('mouseup', () => {
-            this.mouseMove = false
+            if (this.canDraw() || !isInTestMode())
+                setObjectMoving(this);
         });
         this.on('mousemove', (e) => {
-            if (this.mouseMove)
-                this.position = new PIXI.Point(Math.round(e.data.global.x), Math.round(e.data.global.y));
-            else if (VORdrawingRadial == this)
+            if (objectMoving !== this) { return false };
+            if (this.canDraw())
                 this.drawRadial(new PIXI.Point(Math.round(e.data.global.x), Math.round(e.data.global.y)))
+            else
+                this.setPosition(Math.round(e.data.global.x), Math.round(e.data.global.y), true);
         });
+        this.on('mouseup', () => {
+            this.#currentRadial = null;
+        });
+    }
+
+    canDraw() {
+        return btnDrawRadial.classList.contains('active');
     }
 
     drawRadial(position) {
@@ -54,11 +56,7 @@ class GroundRadar extends MovableSprite {
     }
 
     loadRadial(x, y) {
-        this.addChild(new Radial()).waypoint = new PIXI.Point(x, y);
-    }
-
-    finishRadial() {
-        this.#currentRadial = null;
+        this.addChild(new Radial()).waypoint = viewport.toGlobal(new PIXI.Point(x, y));
     }
 
     destroyRadials() {
@@ -72,7 +70,7 @@ class GroundRadar extends MovableSprite {
         let list = [];
         for (let i = this.children.length - 1; i >= 0; i--) {
             if (this.children[i] instanceof Radial) {
-                let position = this.children[i].toGlobal(this.children[i].waypoint);
+                let position = _v(this.children[i].toGlobal(this.children[i].waypoint));
                 list.push({
                     x: position.x,
                     y: position.y
@@ -128,18 +126,6 @@ class VORBeacon extends GroundRadar {
 
     createCourseLines() {
         this.#courseLines = new PIXI.smooth.SmoothGraphics();
-        this.#courseLines.negativeArea = new PIXI.Polygon([
-            this.#courseLinePoints.topPoint.x, this.#courseLinePoints.topPoint.y,                       // up-center
-            this.#courseLinePoints.topPoint.x + this.#radius, this.#courseLinePoints.topPoint.y,        // up-right
-            this.#courseLinePoints.bottomPoint.x + this.#radius, this.#courseLinePoints.bottomPoint.y,  // down-right
-            this.#courseLinePoints.bottomPoint.x, this.#courseLinePoints.bottomPoint.y,                 // down-center
-        ]);
-        this.#courseLines.flagToArea = new PIXI.Polygon([
-            -this.#radius, 0,
-            this.#radius, 0,
-            this.#radius, this.#radius,
-            -this.#radius, this.#radius,
-        ]);
         this.#courseLines
             .lineStyle({ width: 2, color: 0xFF0000, alpha: 0.6 })  // red line
             .moveTo(this.#courseLinePoints.topPoint.x, this.#courseLinePoints.topPoint.y)
@@ -180,18 +166,20 @@ class VORBeacon extends GroundRadar {
         this.arcCurveLength = 0;
     }
 
-    isInNegativeDistance(obj) {
-        let position = this.#courseLines.toLocal(obj.position);
-        return this.#courseLines.negativeArea.contains(position.x, position.y);
+    isInNegativeDistance(point) {
+        let p1 = _v(this.#courseLines.toGlobal(new PIXI.Point(this.#courseLinePoints.topPoint.x, this.#courseLinePoints.topPoint.y)))
+        let p2 = _v(this.#courseLines.toGlobal(new PIXI.Point(this.#courseLinePoints.bottomPoint.x, this.#courseLinePoints.bottomPoint.y)))
+        return ((p2.x - p1.x) * (point.y - p1.y) - (p2.y - p1.y) * (point.x - p1.x)) > 0;
     }
 
-    isInFlagToArea(obj) {
-        let position = this.#courseLines.toLocal(obj.position);
-        return this.#courseLines.flagToArea.contains(position.x, position.y);
+    isInFlagToArea(point) {
+        let p1 = _v(this.#courseLines.toGlobal(new PIXI.Point(-this.#radius, 0)))
+        let p2 = _v(this.#courseLines.toGlobal(new PIXI.Point(this.#radius, 0)))
+        return ((p2.x - p1.x) * (point.y - p1.y) - (p2.y - p1.y) * (point.x - p1.x)) < 0;
     }
 
-    isInBlindCone(obj) {
-        let position = this.#blindCones.toLocal(obj.position);
+    isInBlindCone(point) {
+        let position = this.#blindCones.toLocal(viewport.toGlobal(point));
         return this.#blindCones.geometry.containsPoint(position);
     }
 
@@ -241,7 +229,7 @@ class VORBeacon extends GroundRadar {
             y: this.#courseLinePoints.bottomPoint.x * sin + (this.#courseLinePoints.bottomPoint.y) * cos,
         };
 
-        return [this.toGlobal(topPoint), this.toGlobal(bottomPoint)];
+        return [_v(this.toGlobal(topPoint)), _v(this.toGlobal(bottomPoint))];
     }
     get arcCurveData() {
         return this.#arcCurveData;
@@ -290,12 +278,16 @@ class Radial extends PIXI.smooth.SmoothGraphics {
     /* METHODS */
     assignEvents() {
         this.on('mousedown', () => {
-            if (btnDrawRadial.classList.contains('active'))
-                movingRadial = this;
+            if (btnDrawRadial.classList.contains('active') && objectMoving === null)
+                setObjectMoving(this);
         });
         this.on('mousemove', (e) => {
-            if (movingRadial == this)
+            if (objectMoving === this)
                 this.waypoint = new PIXI.Point(e.data.global.x, e.data.global.y);
+        });
+        this.on('mouseup', (e) => {
+            if (objectMoving === this)
+                this.finishMoving();
         });
     }
 
@@ -326,8 +318,8 @@ class Radial extends PIXI.smooth.SmoothGraphics {
 
     drawText() {
         // convert to global 
-        let thisPos = this.toGlobal(this.position);
-        let waypointPos = this.toGlobal(this.#waypoint);
+        let thisPos = _v(this.toGlobal(this.position));
+        let waypointPos = _v(this.toGlobal(this.#waypoint));
         let deltaX = thisPos.x - waypointPos.x;
         let deltaY = thisPos.y - waypointPos.y;
 

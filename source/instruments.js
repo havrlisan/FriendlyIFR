@@ -260,13 +260,13 @@ class HSI extends Instrument {
             let courseLinePoints = this.#CRSButton.beacon.courseLinePoints;
             let distance = calcDistance(player, courseLinePoints[0], courseLinePoints[1]);
             distance = distance > INSTR_ARROW_CENTER_LIMIT ? INSTR_ARROW_CENTER_LIMIT : distance;
-            distance = this.#CRSButton.beacon.isInNegativeDistance(player) ? -distance : distance;
+            distance = this.#CRSButton.beacon.isInNegativeDistance(player.position) ? -distance : distance;
             this.#compassArrowCenter.x = distance;
         }
 
         if (this.#flagOff != null) {
-            this.#flagOff.visible = this.#CRSButton.beacon.isInBlindCone(player);
-            this.#flagTo.visible = !this.#flagOff.visible && this.#CRSButton.beacon.isInFlagToArea(player);
+            this.#flagOff.visible = this.#CRSButton.beacon.isInBlindCone(player.position);
+            this.#flagTo.visible = !this.#flagOff.visible && this.#CRSButton.beacon.isInFlagToArea(player.position);
             this.#flagFrom.visible = !this.#flagOff.visible && !this.#flagTo.visible;
         }
     }
@@ -397,7 +397,7 @@ class CDI extends Instrument {
             let courseLinePoints = this.#OBSButton.beacon.courseLinePoints;
             let distance = calcDistance(player, courseLinePoints[0], courseLinePoints[1]);
             distance = distance > INSTR_ARROW_CENTER_LIMIT ? INSTR_ARROW_CENTER_LIMIT : distance;
-            distance = this.#OBSButton.beacon.isInNegativeDistance(player) ? -distance : distance;
+            distance = this.#OBSButton.beacon.isInNegativeDistance(player.position) ? -distance : distance;
             this.#deviationArrow.x = distance;
         }
 
@@ -408,9 +408,9 @@ class CDI extends Instrument {
             this.DMEDisplay.lblDistance.text = (Math.round(distance * 10) / 10).toFixed(1);
         }
   
-        if (this.#flagOff != null && this.#flagTo != null && this.#flagFrom != null) {
-            this.#flagOff.visible = this.#OBSButton.beacon.isInBlindCone(player);
-            this.#flagTo.visible = !this.#flagOff.visible && this.#OBSButton.beacon.isInFlagToArea(player);
+        if (this.#OBSButton != null && this.#flagOff != null && this.#flagTo != null && this.#flagFrom != null) {
+            this.#flagOff.visible = this.#OBSButton.beacon.isInBlindCone(player.position);
+            this.#flagTo.visible = !this.#flagOff.visible && this.#OBSButton.beacon.isInFlagToArea(player.position);
             this.#flagFrom.visible = !this.#flagOff.visible && !this.#flagTo.visible;
         }
     }

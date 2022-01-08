@@ -15,25 +15,31 @@ class Airplane extends MovableSprite {
         this.width = 30;
         this.height = 30;
         this.anchor.set(0.5, 0.5);
-        this.trail = app.stage.addChild(new PIXI.smooth.SmoothGraphics());
+        this.trail = viewport.addChild(new PIXI.smooth.SmoothGraphics());
         this.reset();
     };
 
     assignEvents() {
         super.assignEvents();
-        this.on('mousedown', () => { this.mouseMove = (testModeState === testModeStates.none) });
+        this.on('mousedown', () => {
+            if (!isInTestMode() && objectMoving === null)
+                setObjectMoving(this);
+        });
     }
 
-    setPosition(x, y) {
-        super.setPosition(x, y);
+    setPosition(x, y, needsConversion) {
+        let newPos = new PIXI.Point(x, y);
+        if (needsConversion)
+            newPos = _v(newPos)
+        this.position = newPos;
         this.lastPosition = {
-            x: x,
-            y: y,
+            x: newPos.x,
+            y: newPos.y,
         };
     }
 
     setStartPosition() {
-        this.setPosition((app.renderer.view.width / 2) - (this.width / 2), (app.renderer.view.height / 2) - (this.height / 2));
+        this.setPosition((app.renderer.view.width / 2) - (this.width / 2), (app.renderer.view.height / 2) - (this.height / 2), true);
         this.angle = 45;
     }
 
@@ -142,7 +148,7 @@ class Airplane extends MovableSprite {
     /* STATIC VARS */
     static rotations = {
         LEFT: () => {
-            return -3 // 3°/s
+            return -3 // 3 degrees per second
         },
         RIGHT: () => {
             return 3
