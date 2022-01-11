@@ -1,40 +1,41 @@
 /* INITIALIZATION */
 
-let isMobile = window.matchMedia("only screen and (max-width: 760px)").matches;
+let isMobile = window.matchMedia('only screen and (max-width: 760px)').matches;
 
 if (isMobile) {
     loadingText.innerText = 'Sorry, FriendlyIFR is not for mobile devices!';
     throw new Error('Mobile devices not supported.');
 }
 
-PIXI.utils.skipHello();
+// PIXI.utils.skipHello();
 
 app = new PIXI.Application({ backgroundAlpha: 0 });
 appParent.appendChild(app.view);
 
-PIXI.Loader.shared.onProgress.add((loader, resource) => { console.log("Loading " + Math.floor(loader.progress) + "%") }); // resource.url
+PIXI.Loader.shared.onProgress.add((loader, resource) => { console.log('Loading ' + Math.floor(loader.progress) + '%') }); // resource.url
 PIXI.Loader.shared
-    .add("airplaneImage", "static/airplane.png")
-    .add("leftArrow", "static/left_arrow.png")
-    .add("rightArrow", "static/right_arrow.png")
-    .add("NonDirectionalBeacon", "static/NDB.png")
-    .add("VORa", "static/VORa.png")
-    .add("VORb", "static/VORb.png")
-    .add("CompassRose", "static/compass_rose.png")
-    .add("CompassArrow", "static/compass_arrow.png")
-    .add("CompassArrowBroken", "static/compass_arrow_broken.png")
-    .add("CompassArrowCenter", "static/compass_arrow_center.png")
-    .add("CompassArrowCenterWhite", "static/compass_arrow_center_white.png")
-    .add("CompassDots", "static/compass_dots.png")
-    .add("DMEa", "static/DMEa.png")
-    .add("DMEb", "static/DMEb.png")
-    .add("FlagOff", "static/flag_off.png")
-    .add("FlagTo", "static/flag_to.png")
-    .add("FlagFrom", "static/flag_from.png")
-    .add("CRSBackground", "static/CRS_background.png")
-    .add("CRSArrow", "static/CRS_arrow.png")
-    .add("DirectionalGyro", "static/DG.png")
-    .add("RBIndicator", "static/RBI.png")
+    .add('background', 'static/background.jpg')
+    .add('airplane', 'static/airplane.png')
+    .add('leftArrow', 'static/left_arrow.png')
+    .add('rightArrow', 'static/right_arrow.png')
+    .add('NonDirectionalBeacon', 'static/NDB.png')
+    .add('VORa', 'static/VORa.png')
+    .add('VORb', 'static/VORb.png')
+    .add('CompassRose', 'static/compass_rose.png')
+    .add('CompassArrow', 'static/compass_arrow.png')
+    .add('CompassArrowBroken', 'static/compass_arrow_broken.png')
+    .add('CompassArrowCenter', 'static/compass_arrow_center.png')
+    .add('CompassArrowCenterWhite', 'static/compass_arrow_center_white.png')
+    .add('CompassDots', 'static/compass_dots.png')
+    .add('DMEa', 'static/DMEa.png')
+    .add('DMEb', 'static/DMEb.png')
+    .add('FlagOff', 'static/flag_off.png')
+    .add('FlagTo', 'static/flag_to.png')
+    .add('FlagFrom', 'static/flag_from.png')
+    .add('CRSBackground', 'static/CRS_background.png')
+    .add('CRSArrow', 'static/CRS_arrow.png')
+    .add('DirectionalGyro', 'static/DG.png')
+    .add('RBIndicator', 'static/RBI.png')
     .load(setup);
 
 /* SETUP */
@@ -44,29 +45,42 @@ function setup() {
     app.renderer.resize(appParent.offsetWidth, appParent.offsetHeight);
 
     // Viewport
-    viewport = new pixi_viewport.Viewport({ passiveWheel: false });
+    viewport = new pixi_viewport.Viewport({
+        passiveWheel: false,
+        divWheel: appParent,
+    });
     viewport.resize(appParent.offsetWidth, appParent.offsetHeight, WORLD_WIDTH, WORLD_HEIGHT)
-    viewport.drag()
-        .wheel()
+    viewport
+        .drag()
+        .wheel({
+            percent: 0.2,         
+            smooth: 10
+        })
+        .decelerate({ friction: 0.92 })
         .clamp({ direction: 'all' })
         .clampZoom({
             minWidth: appParent.offsetWidth,
             minHeight: appParent.offsetHeight,
-            maxWidth: WORLD_WIDTH,
-            maxHeight: WORLD_HEIGHT,
+            maxWidth: Math.min(appParent.offsetWidth * 3, WORLD_WIDTH),
+            maxHeight: Math.min(appParent.offsetHeight * 3, WORLD_HEIGHT),
         })
-        .on('mouseup', () => {
-            setObjectMoving(null)
-        });
+        .moveCenter(WORLD_WIDTH / 2, WORLD_HEIGHT / 2)
+        .on('mouseup', () => { setObjectMoving(null) });
     app.stage.addChild(viewport);
 
+    // Background
+    background = new PIXI.Sprite(PIXI.Loader.shared.resources.background.texture);
+    background.position = new PIXI.Point(0, 0);
+    background.width = WORLD_WIDTH;
+    background.height = WORLD_HEIGHT;
+    viewport.addChild(background);
+
     // Sprite creation
-    player = new Airplane(PIXI.Loader.shared.resources.airplaneImage.texture);
+    player = new Airplane(PIXI.Loader.shared.resources.airplane.texture);
     wind = new Wind(0, 0);
     NDB = new NonDirectionalBeacon(PIXI.Loader.shared.resources.NonDirectionalBeacon.texture);
     VORa = new VORBeacon(PIXI.Loader.shared.resources.VORa.texture);
     VORb = new VORBeacon(PIXI.Loader.shared.resources.VORb.texture);
-    VORb.position.set(500, 200);
     instrDG = new DirectionalGyro(PIXI.Loader.shared.resources.DirectionalGyro.texture);
     instrRBI = new RBI(PIXI.Loader.shared.resources.RBIndicator.texture);
     instrRMI = new RMI(PIXI.Loader.shared.resources.RBIndicator.texture);
@@ -74,10 +88,10 @@ function setup() {
     instrCDI = new CDI(PIXI.Loader.shared.resources.RBIndicator.texture);
 
     // Pause message
-    lblPause = new PIXI.Text("II", new PIXI.TextStyle({
-        fontFamily: "SF Pro Rounded",
+    lblPause = new PIXI.Text('II', new PIXI.TextStyle({
+        fontFamily: 'SF Pro Rounded',
         fontSize: 68,
-        fill: "white",
+        fill: 'white',
         stroke: 'black',
         strokeThickness: 6,
         letterSpacing: 2,

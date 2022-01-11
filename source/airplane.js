@@ -11,9 +11,9 @@ class Airplane extends MovableSprite {
 
     /* CONSTRUCTOR */
     constructor(texture) {
-        super(texture);
-        this.width = 30;
-        this.height = 30;
+            super(texture);
+        this.width = 64;
+        this.height = 64;
         this.anchor.set(0.5, 0.5);
         this.trail = viewport.addChild(new PIXI.smooth.SmoothGraphics());
         this.reset();
@@ -40,7 +40,7 @@ class Airplane extends MovableSprite {
 
     setStartPosition() {
         this.setPosition((app.renderer.view.width / 2) - (this.width / 2), (app.renderer.view.height / 2) - (this.height / 2), true);
-        this.angle = 45;
+        this.angle = random_int(0, 359);
     }
 
     advance(delta) {

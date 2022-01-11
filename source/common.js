@@ -1,8 +1,8 @@
 /* common.js contains root classes that should be accessible to everyone */
 
 /* CONSTANTS */
-const WORLD_WIDTH = 2000;
-const WORLD_HEIGHT = 2000;
+const WORLD_WIDTH = 6000;
+const WORLD_HEIGHT = 6000 * (appParent.offsetHeight / appParent.offsetWidth);
 const MAX_SPEED = 999;
 const MAX_WIND_SPEED = 500;
 const MIN_SPEED = 0;
@@ -34,6 +34,7 @@ let app;
 let viewport;
 let appLoaded;
 let fpsDisplay;
+let background;
 let player;
 let wind;
 let NDB;
@@ -70,6 +71,8 @@ const _v = (x, y) => {
 };
 
 const isInTestMode = () => testModeState !== testModeStates.none;
+
+const random_int = (min, max) => Math.floor(Math.random() * (max - min + 1)) + min;
 const degrees_to_radians = deg => deg * (Math.PI / 180);
 const radians_to_degrees = rad => rad * (180 / Math.PI);
 /**
