@@ -1,3 +1,26 @@
+// Sidebar
+let sidebarClosed = false;
+const openNav = () => {
+    sidebar.style.width = "370px";
+    appParent.style.width = 'calc(100vw - 370px)';
+    btnToggleSidebar.innerText = '>';
+    sidebarClosed = false;
+}
+
+const closeNav = () => {
+    sidebar.style.width = "0";
+    appParent.style.width = '100vw';
+    btnToggleSidebar.innerText = '<';
+    sidebarClosed = true;
+}
+
+btnToggleSidebar.onclick = () => {
+    if (sidebarClosed)
+        openNav()
+    else   
+        closeNav()
+}
+
 // Stopwatch
 btnStartStopwatch.onclick = toggleStopwatch;
 btnResetStopwatch.onclick = resetStopwatch;

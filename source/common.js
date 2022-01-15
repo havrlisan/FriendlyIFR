@@ -34,7 +34,6 @@ let app;
 let viewport;
 let appLoaded;
 let fpsDisplay;
-let background;
 let player;
 let wind;
 let NDB;
@@ -46,7 +45,6 @@ let instrRMI;
 let instrHSI;
 let instrCDI;
 let lblPause;
-let leftArrow, rightArrow;
 let testModeState = testModeStates.none;
 let objectMoving = null;
 
@@ -113,6 +111,12 @@ const pDistance = (x, y, x1, y1, x2, y2) => {
     var dy = y - yy;
     return Math.sqrt(dx * dx + dy * dy);
 }
+
+random_position = (margin) => {
+    let x = random_int(margin, WORLD_WIDTH - margin);
+    let y = random_int(margin, WORLD_HEIGHT - margin);
+    return new PIXI.Point(x, y)
+};
 
 /* CLASSES */
 

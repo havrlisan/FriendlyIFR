@@ -16,6 +16,8 @@ class GroundRadar extends MovableSprite {
     /* CONSTRUCTOR */
     constructor(texture) {
         super(texture);
+        let position = random_position(BEACON_WIDTH + BEACON_HEIGHT);
+        this.position.set(position.x, position.y);
         this.alpha = 0.9;
         this.width = BEACON_WIDTH;
         this.height = BEACON_HEIGHT;
@@ -87,7 +89,6 @@ class NonDirectionalBeacon extends GroundRadar {
     /* CONSTRUCTOR */
     constructor(texture) {
         super(texture);
-        this.position.set(700, 200);
     }
 }
 
@@ -118,7 +119,6 @@ class VORBeacon extends GroundRadar {
     /* CONSTRUCTOR */
     constructor(texture) {
         super(texture);
-        this.position.set(600, 200);
         this.createCourseLines();
         this.createBlindCones();
         this.createArcCurve();
@@ -139,7 +139,7 @@ class VORBeacon extends GroundRadar {
     createBlindCones() {
         this.#blindCones = new PIXI.smooth.SmoothGraphics();
         this.#blindCones
-            .beginFill(0x000000, 0.12)
+            .beginFill(0x000000, 0) // 0.12) // hide blind cones
             .moveTo(0, 0)
             .drawPolygon([
                 20000, -(20000 * Math.tan(degrees_to_radians(5))),  // right-up              

@@ -238,14 +238,18 @@ class HSI extends Instrument {
         this.#CRSArrow.anchor.set(0.5, 0.5);
         this.#CRSArrow.position.set(-19.5, -17.5);
 
-        this.on('mousewheel', (delta) => {
+        this.on('mousewheel', (delta, event) => {
+            event.stopPropagation();
             this.setCRSAngle(this.#CRSArrow.angle - delta * 1.1);
         });
+
+        this.setCRSAngle(random_int(0, 359));
 
         this.addChild(this.#CRSButton);
         this.#CRSButton.addChild(this.#CRSArrow);
     }
 
+    // move this to GroundRadar class
     setCRSAngle(value) {
         this.#CRSArrow.angle = value;
         this.#CRSButton.beacon.courseLines.angle = value;
@@ -375,9 +379,12 @@ class CDI extends Instrument {
         this.#OBSArrow.anchor.set(0.5, 0.5);
         this.#OBSArrow.position.set(-19.5, -17.5);
 
-        this.on('mousewheel', (delta) => {
+        this.on('mousewheel', (delta, event) => {
+            event.stopPropagation();
             this.setOBSAngle(this.#OBSArrow.angle - delta * 1.1);
         });
+
+        this.setOBSAngle(random_int(0, 359));
 
         this.addChild(this.#OBSButton);
         this.#OBSButton.addChild(this.#OBSArrow);

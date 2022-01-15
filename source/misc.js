@@ -32,6 +32,7 @@ const FLEX_CLASS = 'd-flex';
 function showLoadingScreen(value) {
     value ? loadingScreen.classList.add(FLEX_CLASS) : loadingScreen.classList.remove(FLEX_CLASS);
     loadingScreen.style.display = value ? 'block' : 'none';
+    loadingText.innerText = 'Loading...';
 }
 
 

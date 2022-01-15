@@ -3,6 +3,8 @@ const loadingScreen = document.getElementById('loadingScreen');
 const loadingText = document.getElementById('loadingText');
 const contentScreen = document.getElementById('contentScreen');
 const appParent = document.getElementById('pixi-app-container');
+const sidebar = document.getElementById('sidebar');
+const btnToggleSidebar = document.getElementById('btnToggleSidebar');
 
 // Time
 const lblCurrentTime = document.getElementById('lblCurrentTime');

@@ -1,23 +1,20 @@
 /* INITIALIZATION */
 
 let isMobile = window.matchMedia('only screen and (max-width: 760px)').matches;
-
 if (isMobile) {
     loadingText.innerText = 'Sorry, FriendlyIFR is not for mobile devices!';
     throw new Error('Mobile devices not supported.');
 }
 
-// PIXI.utils.skipHello();
-
-app = new PIXI.Application({ backgroundAlpha: 0 });
+app = new PIXI.Application({
+    backgroundColor: 0xDDDDDD,
+    resizeTo: appParent,
+});
 appParent.appendChild(app.view);
 
-PIXI.Loader.shared.onProgress.add((loader, resource) => { console.log('Loading ' + Math.floor(loader.progress) + '%') }); // resource.url
+PIXI.Loader.shared.onProgress.add(loader => { loadingText.innerText = 'Loading ' + Math.floor(loader.progress) + '%'; });
 PIXI.Loader.shared
-    .add('background', 'static/background.jpg')
     .add('airplane', 'static/airplane.png')
-    .add('leftArrow', 'static/left_arrow.png')
-    .add('rightArrow', 'static/right_arrow.png')
     .add('NonDirectionalBeacon', 'static/NDB.png')
     .add('VORa', 'static/VORa.png')
     .add('VORb', 'static/VORb.png')
@@ -41,39 +38,7 @@ PIXI.Loader.shared
 /* SETUP */
 
 function setup() {
-    // App
-    app.renderer.resize(appParent.offsetWidth, appParent.offsetHeight);
-
-    // Viewport
-    viewport = new pixi_viewport.Viewport({
-        passiveWheel: false,
-        divWheel: appParent,
-    });
-    viewport.resize(appParent.offsetWidth, appParent.offsetHeight, WORLD_WIDTH, WORLD_HEIGHT)
-    viewport
-        .drag()
-        .wheel({
-            percent: 0.2,         
-            smooth: 10
-        })
-        .decelerate({ friction: 0.92 })
-        .clamp({ direction: 'all' })
-        .clampZoom({
-            minWidth: appParent.offsetWidth,
-            minHeight: appParent.offsetHeight,
-            maxWidth: Math.min(appParent.offsetWidth * 3, WORLD_WIDTH),
-            maxHeight: Math.min(appParent.offsetHeight * 3, WORLD_HEIGHT),
-        })
-        .moveCenter(WORLD_WIDTH / 2, WORLD_HEIGHT / 2)
-        .on('mouseup', () => { setObjectMoving(null) });
-    app.stage.addChild(viewport);
-
-    // Background
-    background = new PIXI.Sprite(PIXI.Loader.shared.resources.background.texture);
-    background.position = new PIXI.Point(0, 0);
-    background.width = WORLD_WIDTH;
-    background.height = WORLD_HEIGHT;
-    viewport.addChild(background);
+    initiateViewport();
 
     // Sprite creation
     player = new Airplane(PIXI.Loader.shared.resources.airplane.texture);
@@ -99,18 +64,7 @@ function setup() {
     lblPause.visible = false;
     lblPause.position.set((app.renderer.view.width / 2) - (lblPause.width / 2), (app.renderer.view.height / 2) - (lblPause.height / 2));
 
-    // Movement arrows
-    leftArrow = new PIXI.Sprite(PIXI.Loader.shared.resources.leftArrow.texture);
-    leftArrow.visible = false;
-    leftArrow.height = 50;
-    leftArrow.width = 50;
-    leftArrow.position.set((app.renderer.view.width / 2) - (leftArrow.width), (app.renderer.view.height / 1.2) - (leftArrow.height / 2));
-    rightArrow = new PIXI.Sprite(PIXI.Loader.shared.resources.rightArrow.texture);
-    rightArrow.visible = false;
-    rightArrow.height = 50;
-    rightArrow.width = 50;
-    rightArrow.position.set((app.renderer.view.width / 2) + (leftArrow.width), (app.renderer.view.height / 1.2) - (rightArrow.height / 2));
-
+    // Add objects to viewport
     viewport.addChild(NDB);
     viewport.addChild(VORa);
     viewport.addChild(VORb);
@@ -121,8 +75,6 @@ function setup() {
     viewport.addChild(instrHSI);
     viewport.addChild(instrCDI);
     app.stage.addChild(lblPause);
-    app.stage.addChild(leftArrow);
-    app.stage.addChild(rightArrow);
 
     // Add FPS display
     fpsDisplay = new FPS.FPS({
@@ -180,6 +132,32 @@ function setCourseLinesVisible(value) {
     swCourseLinesVisible.checked = value;
 }
 
+function resizeToContent() {
+    if (!appLoaded)
+        return;
+        
+    // weird hack needed for flexbox to work correctly
+    app.renderer.resize(0, 0);
+    viewport.resize(appParent.offsetWidth, appParent.offsetHeight);
+    app.renderer.resize(appParent.offsetWidth, appParent.offsetHeight);
+    viewport.dirty = true;
+
+    // disabled until positioning fixed
+    // clampViewportZoom();
+
+    lblPause.position.set((app.renderer.view.width / 2) - (lblPause.width / 2), (app.renderer.view.height / 2) - (lblPause.height / 2));
+}
+
+/* RESIZING */
+
+// Resize app for sidebar toggling
+new ResizeObserver(resizeToContent).observe(appParent);
+
+// Resize app for whole page resizing
+window.addEventListener('resize', () => {
+    resizeToContent();
+});
+
 /* KEYBINDS */
 
 const PAUSE_KEY = 'P';
@@ -193,32 +171,10 @@ const fastRotationBinds = {
     'D': Airplane.rotations.FAST_RIGHT(),
 };
 
-/* EVENTS */
-
-window.addEventListener('resize', () => {
-    // weird hack needed for flexbox to work correctly
-    app.renderer.resize(0, 0);
-    viewport.resize(appParent.offsetWidth, appParent.offsetHeight);
-    app.renderer.resize(appParent.offsetWidth, appParent.offsetHeight);
-    viewport.dirty = true;
-
-    lblPause.position.set((app.renderer.view.width / 2) - (lblPause.width / 2), (app.renderer.view.height / 2) - (lblPause.height / 2));
-    leftArrow.position.set((app.renderer.view.width / 2) - (leftArrow.width), (app.renderer.view.height / 1.2) - (leftArrow.height / 2));
-    rightArrow.position.set((app.renderer.view.width / 2) + (leftArrow.width), (app.renderer.view.height / 1.2) - (rightArrow.height / 2));
-});
-
 window.addEventListener('keydown', (event) => {
     if (!appLoaded) { return false };
     if (document.activeElement.nodeName === 'INPUT') { return false };
     let key = event.key.toUpperCase();
-
-    // arrows
-    if (key === 'B') {
-        leftArrow.visible = true;
-    }
-    if (key === 'M') {
-        rightArrow.visible = true;
-    }
 
     // movement control
     if ((key == PAUSE_KEY) && !isInTestMode())
@@ -234,14 +190,6 @@ window.addEventListener('keydown', (event) => {
 window.addEventListener('keyup', (event) => {
     if (!appLoaded) { return false };
     let key = event.key.toUpperCase();
-
-    // arrows
-    if (key === 'B') {
-        leftArrow.visible = false;
-    }
-    if (key === 'M') {
-        rightArrow.visible = false;
-    }
 
     // movement control
     if (rotationBinds.hasOwnProperty(key) && player.rotationSpeed === rotationBinds[key])

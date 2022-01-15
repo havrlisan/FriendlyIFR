@@ -1,7 +1,5 @@
 body, html {
-    font-family: 'SF Pro Rounded';
-    margin: 0;
-    padding: 0;
+    font-family: 'Nunito', sans-serif;
     overflow: hidden;
 }
 
@@ -9,31 +7,65 @@ body, html {
     text-align: center;
 }
 
+.fullscreen-height {
+    height: calc(100vh - 50px);
+}
+
 .noselect {
-    -webkit-touch-callout: none;    /* iOS Safari */
-    -webkit-user-select: none;      /* Safari */
-    -khtml-user-select: none;       /* Konqueror HTML */
-    -moz-user-select: none;         /* Old versions of Firefox */
-    -ms-user-select: none;          /* Internet Explorer/Edge */
-    user-select: none;              /* Non-prefixed version, currently
-                                       supported by Chrome, Edge, Opera and Firefox */
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+#sidebar {
+    position: relative;
+    width: 370px;
+    height: 100%;
+    right: 0;
+    /* transition: 0.2s; */
+}
+
+#sidebarControls {
+    background-color: white;
+    padding-top: 10px;
+    overflow-x: hidden;
+    overflow-y: auto;
+}
+
+#btnToggleSidebar {
+    background-color: white;
+    position: absolute;
+    top: 4px;
+    left: -37px;
+    width: 40px;
+    outline: none;
+    box-shadow: none;
+}
+
+#pixi-app-container {
+    width: calc(100vw - 370px);
+    /* transition: width 0.2s; */
 }
 
 /* Custom scrollbar */
+
 ::-webkit-scrollbar {
     width: 4px;
     height: 4px;
 }
-  
+
 ::-webkit-scrollbar-track {
     background: #f1f1f1;
 }
-  
+
 ::-webkit-scrollbar-thumb {
     background: rgb(87, 87, 87);
     border-radius: 5px;
 }
-  
+
 ::-webkit-scrollbar-thumb:hover {
     background: rgb(41, 41, 41);
 }
