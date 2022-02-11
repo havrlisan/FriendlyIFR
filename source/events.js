@@ -1,16 +1,16 @@
 // Sidebar
 let sidebarClosed = false;
 const openNav = () => {
-    sidebar.style.width = "370px";
+    sidebar.style.width = '370px';
     appParent.style.width = 'calc(100vw - 370px)';
-    btnToggleSidebar.innerText = '>';
+    imgToggleSidebar.src = '../static/arrow-right.png';
     sidebarClosed = false;
 }
 
 const closeNav = () => {
-    sidebar.style.width = "0";
+    sidebar.style.width = '0';
     appParent.style.width = '100vw';
-    btnToggleSidebar.innerText = '<';
+    imgToggleSidebar.src = '../static/arrow-left.png';
     sidebarClosed = true;
 }
 

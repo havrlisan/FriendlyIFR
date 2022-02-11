@@ -5,6 +5,7 @@ const contentScreen = document.getElementById('contentScreen');
 const appParent = document.getElementById('pixi-app-container');
 const sidebar = document.getElementById('sidebar');
 const btnToggleSidebar = document.getElementById('btnToggleSidebar');
+const imgToggleSidebar = document.getElementById('imgToggleSidebar');
 
 // Time
 const lblCurrentTime = document.getElementById('lblCurrentTime');
