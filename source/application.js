@@ -39,6 +39,7 @@ PIXI.Loader.shared
 
 function setup() {
     initiateViewport();
+    initiateInstrumentPanel();
 
     // Sprite creation
     player = new Airplane(PIXI.Loader.shared.resources.airplane.texture);
@@ -69,11 +70,11 @@ function setup() {
     viewport.addChild(VORa);
     viewport.addChild(VORb);
     viewport.addChild(player);
-    viewport.addChild(instrDG);
-    viewport.addChild(instrRBI);
-    viewport.addChild(instrRMI);
-    viewport.addChild(instrHSI);
-    viewport.addChild(instrCDI);
+    instrPanel.addChild(instrDG);
+    instrPanel.addChild(instrRBI);
+    instrPanel.addChild(instrRMI);
+    instrPanel.addChild(instrHSI);
+    instrPanel.addChild(instrCDI);
     app.stage.addChild(lblPause);
 
     // Add FPS display
@@ -135,17 +136,18 @@ function setCourseLinesVisible(value) {
 function resizeToContent() {
     if (!appLoaded)
         return;
-        
+
     // weird hack needed for flexbox to work correctly
     app.renderer.resize(0, 0);
     viewport.resize(appParent.offsetWidth, appParent.offsetHeight);
     app.renderer.resize(appParent.offsetWidth, appParent.offsetHeight);
     viewport.dirty = true;
 
-    // disabled until positioning fixed
-    // clampViewportZoom();
-
+    instrPanel.updateInstrumentPositions();
     lblPause.position.set((app.renderer.view.width / 2) - (lblPause.width / 2), (app.renderer.view.height / 2) - (lblPause.height / 2));
+
+    /* disabled until positioning fixed */
+    //clampViewportZoom();
 }
 
 /* RESIZING */

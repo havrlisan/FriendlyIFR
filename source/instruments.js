@@ -1,5 +1,5 @@
 /* INSTRUMENT CLASS */
-class Instrument extends MovableSprite {
+class Instrument extends BaseSprite {
 
     /* VARS */
     #switchElement;
@@ -14,13 +14,13 @@ class Instrument extends MovableSprite {
         this.width = INSTR_WIDTH;
         this.height = INSTR_HEIGHT;
         this.anchor.set(0.5, 0.5);
-        this.position.set(100, 100);
     }
 
     /* METHODS */
     setVisible(value) {
         this.visible = value;
-        this.#switchElement.checked = value;
+        if (this.parent === instrPanel)
+            instrPanel.updateInstrumentPositions();
     }
 
     createCompassRose() {
@@ -56,7 +56,7 @@ class Instrument extends MovableSprite {
         this.#DMEDisplay.width = INSTR_DME_WIDTH;
         this.#DMEDisplay.height = INSTR_DME_HEIGHT;
         this.#DMEDisplay.anchor.set(0.5, 0.5);
-        this.#DMEDisplay.position.set(-this.width / 2 + INSTR_DME_WIDTH / 4, -this.height / 2 + INSTR_DME_HEIGHT / 4);
+        this.#DMEDisplay.position.set(-this.width / 2 + INSTR_DME_WIDTH / 2, -this.height / 2 + INSTR_DME_HEIGHT / 2);
         this.#DMEDisplay.beacon = beacon;
 
         this.#DMEDisplay.lblDistance = new PIXI.Text('', new PIXI.TextStyle({
@@ -99,7 +99,7 @@ class Instrument extends MovableSprite {
 
         this.#switchElement.checked = this.visible;
         this.#switchElement.onchange = () => {
-            this.visible = this.#switchElement.checked;
+            this.setVisible(this.#switchElement.checked);
         }
     };
     get compassArrow() {
@@ -132,7 +132,6 @@ class RBI extends Instrument {
     constructor(texture) {
         super(texture);
         this.switchElement = swInstrumentRBI;
-        this.position.set(100, 300);
 
         this.createCompassArrow(NDB);
     }
@@ -145,7 +144,6 @@ class RMI extends Instrument {
     constructor(texture) {
         super(texture);
         this.switchElement = swInstrumentRMI;
-        this.position.set(100, 500);
 
         this.createCompassRose();
         this.createCompassArrow(NDB);
@@ -167,7 +165,6 @@ class HSI extends Instrument {
     constructor(texture) {
         super(texture);
         this.switchElement = swInstrumentHSI;
-        this.position.set(300, 150);
         this.interactiveMousewheel = true;
 
         this.createCompassRose();
@@ -207,7 +204,7 @@ class HSI extends Instrument {
         this.#flagTo.height = 16;
         this.#flagTo.anchor = this.anchor;
         this.#flagTo.position.set(this.#compassArrowBroken.width / 4, - this.#compassArrowBroken.height / 7);
-        
+
         this.#flagFrom = new PIXI.Sprite(PIXI.Loader.shared.resources.FlagFrom.texture);
         this.#flagFrom.width = 34;
         this.#flagFrom.height = 16;
@@ -296,7 +293,6 @@ class CDI extends Instrument {
     constructor(texture) {
         super(texture);
         this.switchElement = swInstrumentCDI;
-        this.position.set(300, 350);
         this.interactiveMousewheel = true;
 
         this.createCompassDots();
@@ -316,7 +312,7 @@ class CDI extends Instrument {
 
         this.addChild(this.#compassDots);
     }
-    
+
     createCourseFlags() {
         this.#flagOff = new PIXI.Sprite(PIXI.Loader.shared.resources.FlagOff.texture);
         this.#flagOff.visible = false;
@@ -331,7 +327,7 @@ class CDI extends Instrument {
         this.#flagTo.height = 16;
         this.#flagTo.anchor = this.anchor;
         this.#flagTo.position.set(this.width / 6, - this.height / 8.5);
-        
+
         this.#flagFrom = new PIXI.Sprite(PIXI.Loader.shared.resources.FlagFrom.texture);
         this.#flagFrom.visible = false;
         this.#flagFrom.width = 34;
@@ -414,14 +410,14 @@ class CDI extends Instrument {
             let distance = Math.hypot(deltaX, deltaY) / 20; // 20 is scale
             this.DMEDisplay.lblDistance.text = (Math.round(distance * 10) / 10).toFixed(1);
         }
-  
+
         if (this.#OBSButton != null && this.#flagOff != null && this.#flagTo != null && this.#flagFrom != null) {
             this.#flagOff.visible = this.#OBSButton.beacon.isInBlindCone(player.position);
             this.#flagTo.visible = !this.#flagOff.visible && this.#OBSButton.beacon.isInFlagToArea(player.position);
             this.#flagFrom.visible = !this.#flagOff.visible && !this.#flagTo.visible;
         }
     }
-    
+
     /* PROPERTIES */
     get OBSArrowAngle() {
         return this.#OBSArrow.angle;

@@ -32,6 +32,7 @@ const testModeStyle = ['btn-outline-secondary', 'btn-outline-success', 'btn-outl
 /* VARS */
 let app;
 let viewport;
+let instrPanel;
 let appLoaded;
 let fpsDisplay;
 let player;
@@ -120,7 +121,17 @@ random_position = (margin) => {
 
 /* CLASSES */
 
-class MovableSprite extends PIXI.Sprite {
+class BaseSprite extends PIXI.Sprite {  
+    /* METHODS */
+    setPosition(x, y, needsConversion) {
+        let newPos = new PIXI.Point(x, y);
+        if (needsConversion)
+            newPos = _v(newPos)
+        this.position = newPos;
+    };
+}
+
+class MovableSprite extends BaseSprite {
     /* CONSTRUCTOR */
     constructor(texture) {
         super(texture);
@@ -129,13 +140,6 @@ class MovableSprite extends PIXI.Sprite {
     }
 
     /* METHODS */
-    setPosition(x, y, needsConversion) {
-        let newPos = new PIXI.Point(x, y);
-        if (needsConversion)
-            newPos = _v(newPos)
-        this.position = newPos;
-    };
-
     assignEvents() {
         this.on('mousedown', () => {
             if (objectMoving === null)
