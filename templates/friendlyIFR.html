@@ -35,7 +35,7 @@
     <!-- Controls container -->
     <div id="sidebar">
         <button class="btn btn-sm fs-6" id="btnToggleSidebar">
-            <img src="../static/arrow-right.png" alt="" width="26" height="26" class="d-inline-block" id="imgToggleSidebar">
+            <img src="../static/arrow-right.png" alt="" width="23" height="23" class="d-inline-block" id="imgToggleSidebar">
         </button>
 
         <div class="fullscreen-height" id="sidebarControls">
@@ -310,6 +310,9 @@
     </div>
 </div>
 
+<!-- Font workaround -->
+<link rel="stylesheet" href="../styles/digital-font.css">
+
 <!-- Libs -->
 <script src="../lib/pixi.min.js"></script> <!-- https://github.com/pixijs/pixijs -->
 <script src="../lib/pixi-graphics-smooth.umd.min.js"></script> <!-- https://github.com/pixijs/graphics-smooth -->
@@ -334,4 +337,5 @@
 <script type="text/javascript" src="../source/files.js"></script>
 <script type="text/javascript" src="../source/events.js"></script>
 <script type="text/javascript" src="../source/application.js"></script>
+
 {% endblock %}

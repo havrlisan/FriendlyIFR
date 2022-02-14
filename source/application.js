@@ -1,17 +1,20 @@
 /* INITIALIZATION */
 
+/* Disable application for mobile users */
 let isMobile = window.matchMedia('only screen and (max-width: 760px)').matches;
 if (isMobile) {
     loadingText.innerText = 'Sorry, FriendlyIFR is not for mobile devices!';
     throw new Error('Mobile devices not supported.');
 }
 
+/* Create PIXI application */
 app = new PIXI.Application({
     backgroundColor: 0xDDDDDD,
     resizeTo: appParent,
 });
 appParent.appendChild(app.view);
 
+/* Load files into shared app */
 PIXI.Loader.shared.onProgress.add(loader => { loadingText.innerText = 'Loading ' + Math.floor(loader.progress) + '%'; });
 PIXI.Loader.shared
     .add('airplane', 'static/application/airplane.png')

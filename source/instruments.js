@@ -59,14 +59,14 @@ class Instrument extends BaseSprite {
         this.#DMEDisplay.position.set(-this.width / 2 + INSTR_DME_WIDTH / 2, -this.height / 2 + INSTR_DME_HEIGHT / 2);
         this.#DMEDisplay.beacon = beacon;
 
-        this.#DMEDisplay.lblDistance = new PIXI.Text('', new PIXI.TextStyle({
-            fontFamily: 'SF Pro Rounded',
-            fontSize: 17,
+        this.#DMEDisplay.lblDistance = new PIXI.Text('0', new PIXI.TextStyle({
+            fontFamily: 'DS-Digital',
+            fontSize: 20,
             fill: '#dbc01e',
-            letterSpacing: 1,
+            letterSpacing: 0.5,
         }));
         this.#DMEDisplay.lblDistance.anchor.set(1, 0.5);
-        this.#DMEDisplay.lblDistance.position.set(INSTR_DME_WIDTH / 2.5, INSTR_DME_HEIGHT / 7);
+        this.#DMEDisplay.lblDistance.position.set(INSTR_DME_WIDTH / 2.3, INSTR_DME_HEIGHT / 7);
 
         this.addChild(this.#DMEDisplay);
         this.#DMEDisplay.addChild(this.#DMEDisplay.lblDistance);
@@ -86,6 +86,8 @@ class Instrument extends BaseSprite {
             let deltaX = this.#DMEDisplay.beacon.x - player.x;
             let deltaY = this.#DMEDisplay.beacon.y - player.y;
             let distance = Math.hypot(deltaX, deltaY) / DISTANCE_SCALE;
+
+            distance = distance > 199.9 ? 199.9 : distance;
             this.#DMEDisplay.lblDistance.text = (Math.round(distance * 10) / 10).toFixed(1);
         }
     }
@@ -408,6 +410,8 @@ class CDI extends Instrument {
             let deltaX = this.DMEDisplay.beacon.x - player.x;
             let deltaY = this.DMEDisplay.beacon.y - player.y;
             let distance = Math.hypot(deltaX, deltaY) / 20; // 20 is scale
+
+            distance = distance > 199.9 ? 199.9 : distance;
             this.DMEDisplay.lblDistance.text = (Math.round(distance * 10) / 10).toFixed(1);
         }
 
