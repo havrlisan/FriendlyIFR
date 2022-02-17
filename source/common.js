@@ -15,16 +15,16 @@ const INSTR_HEIGHT = 200;
 const INSTR_ARROW_WIDTH = 140;
 const INSTR_ARROW_HEIGHT = 140;
 const INSTR_ARROW_CENTER_LIMIT = 65;
-const INSTR_DME_WIDTH = 47;
+const INSTR_DME_WIDTH = 55;
 const INSTR_DME_HEIGHT = 35;
 const INSTR_CRS_WIDTH = 35;
 const INSTR_CRS_HEIGHT = 35;
 
 const testModeStates = {
-    none: 0,
-    initiated: 1,
-    started: 2,
-    finished: 3
+  none: 0,
+  initiated: 1,
+  started: 2,
+  finished: 3
 };
 const testModeText = ['Test mode', 'Start', 'Finish', 'Practice mode'];
 const testModeStyle = ['btn-outline-secondary', 'btn-outline-success', 'btn-outline-danger', 'btn-outline-info'];
@@ -52,8 +52,8 @@ let objectMoving = null;
 /* METHODS */
 
 const setObjectMoving = (obj) => {
-    objectMoving = obj;
-    viewport.drag({ pressDrag: obj === null ? true : false });
+  objectMoving = obj;
+  viewport.drag({ pressDrag: obj === null ? true : false });
 };
 /**
 * Transforms the point to viewport's local position
@@ -61,12 +61,12 @@ const setObjectMoving = (obj) => {
 * @param y Y position of object
 */
 const _v = (x, y) => {
-    let point;
-    if (y === undefined)
-        point = x
-    else
-        point = new PIXI.Point(Math.round(x), Math.round(y));
-    return viewport.toLocal(point);
+  let point;
+  if (y === undefined)
+    point = x
+  else
+    point = new PIXI.Point(Math.round(x), Math.round(y));
+  return viewport.toLocal(point);
 };
 
 const isInTestMode = () => testModeState !== testModeStates.none;
@@ -82,73 +82,73 @@ const radians_to_degrees = rad => rad * (180 / Math.PI);
 const calcDistance = (obj, p1, p2) => pDistance(obj.x, obj.y, p1.x, p1.y, p2.x, p2.y);
 /* pDistance function - https://stackoverflow.com/a/6853926/6619251 */
 const pDistance = (x, y, x1, y1, x2, y2) => {
-    var A = x - x1;
-    var B = y - y1;
-    var C = x2 - x1;
-    var D = y2 - y1;
+  var A = x - x1;
+  var B = y - y1;
+  var C = x2 - x1;
+  var D = y2 - y1;
 
-    var dot = A * C + B * D;
-    var len_sq = C * C + D * D;
-    var param = -1;
-    if (len_sq != 0) //in case of 0 length line
-        param = dot / len_sq;
+  var dot = A * C + B * D;
+  var len_sq = C * C + D * D;
+  var param = -1;
+  if (len_sq != 0) //in case of 0 length line
+    param = dot / len_sq;
 
-    var xx, yy;
+  var xx, yy;
 
-    if (param < 0) {
-        xx = x1;
-        yy = y1;
-    }
-    else if (param > 1) {
-        xx = x2;
-        yy = y2;
-    }
-    else {
-        xx = x1 + param * C;
-        yy = y1 + param * D;
-    }
+  if (param < 0) {
+    xx = x1;
+    yy = y1;
+  }
+  else if (param > 1) {
+    xx = x2;
+    yy = y2;
+  }
+  else {
+    xx = x1 + param * C;
+    yy = y1 + param * D;
+  }
 
-    var dx = x - xx;
-    var dy = y - yy;
-    return Math.sqrt(dx * dx + dy * dy);
+  var dx = x - xx;
+  var dy = y - yy;
+  return Math.sqrt(dx * dx + dy * dy);
 }
 
 random_position = (margin) => {
-    let x = random_int(margin, WORLD_WIDTH - margin);
-    let y = random_int(margin, WORLD_HEIGHT - margin);
-    return new PIXI.Point(x, y)
+  let x = random_int(margin, WORLD_WIDTH - margin);
+  let y = random_int(margin, WORLD_HEIGHT - margin);
+  return new PIXI.Point(x, y)
 };
 
 /* CLASSES */
 
-class BaseSprite extends PIXI.Sprite {  
-    /* METHODS */
-    setPosition(x, y, needsConversion) {
-        let newPos = new PIXI.Point(x, y);
-        if (needsConversion)
-            newPos = _v(newPos)
-        this.position = newPos;
-    };
+class BaseSprite extends PIXI.Sprite {
+  /* METHODS */
+  setPosition(x, y, needsConversion) {
+    let newPos = new PIXI.Point(x, y);
+    if (needsConversion)
+      newPos = _v(newPos)
+    this.position = newPos;
+  };
 }
 
 class MovableSprite extends BaseSprite {
-    /* CONSTRUCTOR */
-    constructor(texture) {
-        super(texture);
-        this.interactive = true;
-        this.assignEvents();
-    }
+  /* CONSTRUCTOR */
+  constructor(texture) {
+    super(texture);
+    this.interactive = true;
+    this.assignEvents();
+  }
 
-    /* METHODS */
-    assignEvents() {
-        this.on('mousedown', () => {
-            if (objectMoving === null)
-                setObjectMoving(this);
-        });
-        this.on('mousemove', (e) => {
-            if (objectMoving === this) {
-                this.setPosition(e.data.global.x, e.data.global.y, true)
-            }
-        });
-    }
+  /* METHODS */
+  assignEvents() {
+    this.on('mousedown', () => {
+      if (objectMoving === null)
+        setObjectMoving(this);
+    });
+    this.on('mousemove', (e) => {
+      if (objectMoving === this) {
+        this.setPosition(e.data.global.x, e.data.global.y, true)
+      }
+    });
+  }
 }

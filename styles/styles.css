@@ -1,71 +1,79 @@
+:root {
+  --nav-height: 48px;
+}
+
 body, html {
-    font-family: 'Nunito', sans-serif;
-    overflow: hidden;
+  font-family: 'Nunito', sans-serif;
+  overflow: hidden;
 }
 
 .text-centered {
-    text-align: center;
+  text-align: center;
 }
 
 .fullscreen-height {
-    height: calc(100vh - 50px);
+  height: calc(100vh - var(--nav-height));
+}
+
+.navbar-height {
+  height: var(--nav-height);
 }
 
 .noselect {
-    -webkit-touch-callout: none;
-    -webkit-user-select: none;
-    -khtml-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
-    user-select: none;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
 }
 
 #sidebar {
-    position: relative;
-    width: 370px;
-    height: 100%;
-    right: 0;
-    /* transition: 0.2s; */
+  position: relative;
+  width: 370px;
+  height: 100%;
+  right: 0;
+  /* transition: 0.2s; */
 }
 
 #sidebarControls {
-    background-color: white;
-    padding-top: 10px;
-    overflow-x: hidden;
-    overflow-y: auto;
+  background-color: white;
+  padding-top: 10px;
+  overflow-x: hidden;
+  overflow-y: auto;
 }
 
 #btnToggleSidebar {
-    background-color: white;
-    position: absolute;
-    top: 4px;
-    left: -37px;
-    width: 40px;
-    outline: none;
-    box-shadow: none;
+  background-color: white;
+  position: absolute;
+  top: 4px;
+  left: -37px;
+  width: 40px;
+  outline: none;
+  box-shadow: none;
 }
 
 #pixi-app-container {
-    width: calc(100vw - 370px);
-    /* transition: width 0.2s; */
+  width: calc(100vw - 370px);
+  /* transition: width 0.2s; */
 }
 
 /* Custom scrollbar */
 
 ::-webkit-scrollbar {
-    width: 4px;
-    height: 4px;
+  width: 4px;
+  height: 4px;
 }
 
 ::-webkit-scrollbar-track {
-    background: #f1f1f1;
+  background: #f1f1f1;
 }
 
 ::-webkit-scrollbar-thumb {
-    background: rgb(87, 87, 87);
-    border-radius: 5px;
+  background: rgb(87, 87, 87);
+  border-radius: 5px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-    background: rgb(41, 41, 41);
+  background: rgb(41, 41, 41);
 }

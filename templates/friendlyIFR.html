@@ -1,13 +1,13 @@
 {% extends 'layout.html' %}
 
 {% block body %}
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark noselect" style="height: 50px;">
-    <div class="container-fluid">
-        <a class="navbar-brand" href="#">
-            <img src="../static/favicon.ico" alt="" width="36" height="36" class="d-inline-block">
-            FriendlyIFR
-        </a>
-        <!--button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup"
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark noselect navbar-height">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="#">
+      <img src="../static/favicon.ico" alt="" width="36" height="36" class="d-inline-block">
+      FriendlyIFR
+    </a>
+    <!--button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup"
             aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
@@ -17,297 +17,297 @@
                 <a class="nav-link" href="/about">About</a>
             </div>
         </div-->
-    </div>
+  </div>
 </nav>
 
 <div class="d-flex noselect bg-secondary align-items-center justify-content-center fullscreen-height" id="loadingScreen">
-    <div class="d-flex flex-column align-items-center justify-content-center">
-        <img src="../static/icon.png" alt="" width="96" height="96">
-        <h1 class="h4 text-centered" id="loadingText">Loading...</h1>
-    </div>
+  <div class="d-flex flex-column align-items-center justify-content-center">
+    <img src="../static/icon.png" alt="" width="96" height="96">
+    <h1 class="h4 text-centered" id="loadingText">Loading...</h1>
+  </div>
 </div>
 
 <div class="d-flex noselect fullscreen-height" id="contentScreen">
 
-    <!-- Pixi.js container -->
-    <div id="pixi-app-container"></div>
+  <!-- Pixi.js container -->
+  <div id="pixi-app-container"></div>
 
-    <!-- Controls container -->
-    <div id="sidebar">
-        <button class="btn btn-sm fs-6" id="btnToggleSidebar">
-            <img src="../static/arrow-right.png" alt="" width="23" height="23" class="d-inline-block" id="imgToggleSidebar">
-        </button>
+  <!-- Controls container -->
+  <div id="sidebar">
+    <button class="btn btn-sm fs-6" id="btnToggleSidebar">
+      <img src="../static/arrow-right.png" alt="" width="23" height="23" class="d-inline-block" id="imgToggleSidebar">
+    </button>
 
-        <div class="fullscreen-height" id="sidebarControls">
-            <!-- Current time -->
-            <div class="mb-2 border-bottom">
-                <div class="col">
-                    <h1 class="h5 fw-normal text-centered" id="lblCurrentTime">11.12.1999. 11:00:00</h1>
-                </div>
-            </div>
-
-            <!-- Stopwatch -->
-            <div class="pb-2 mb-2 border-bottom" style="text-align: center; display: block;">
-                <h1 class="h5 mb-2 text-centered" id="lblStopwatch">00:00:00</h1>
-                <div style="display: inline-block;">
-                    <button class="btn btn-outline-secondary btn-sm" id="btnStartStopwatch">Start</button>
-                    <button class="btn btn-outline-danger btn-sm" id="btnResetStopwatch">Reset</button>
-                </div>
-            </div>
-
-            <!-- Inputs -->
-            <div class="row justify-content-evenly pb-2 mb-2 border-bottom">
-
-                <!-- Airplane speed -->
-                <div class="row justify-content-start align-items-center">
-                    <div class="col col-sm-5">
-                        <label for="edSpeed" class="h5 col-form-label text-centered">Airplane speed:</label>
-                    </div>
-                    <div class="col col-sm-3">
-                        <input type="text" id="edSpeed" class="form-control form-control-sm text-centered can-disable">
-                    </div>
-                    <div class="col col-sm-3">
-                        <label for="edSpeed" id="edSpeedHint" class="col-form-label text-black-50">(0-999)</label>
-                    </div>
-                </div>
-
-                <!-- Wind speed -->
-                <div class="row justify-content-start align-items-center">
-                    <div class="col col-sm-5">
-                        <label for="edWindSpeed" class="h5 col-form-label">Wind speed:</label>
-                    </div>
-                    <div class="col col-sm-3">
-                        <input type="text" id="edWindSpeed" class="form-control form-control-sm text-centered can-disable">
-                    </div>
-                    <div class="col col-sm-3">
-                        <label for="edWindSpeed" id="edWindSpeedHint" class="col-form-label text-black-50">(0-500)</label>
-                    </div>
-                </div>
-
-                <!-- Wind direction -->
-                <div class="row justify-content-start align-items-center">
-                    <div class="col col-sm-5">
-                        <label for="edWindDirection" class="h5 col-form-label">Wind direction:</label>
-                    </div>
-                    <div class="col col-sm-3">
-                        <input type="text" id="edWindDirection" class="form-control form-control-sm text-centered can-disable">
-                    </div>
-                    <div class="col col-sm-3">
-                        <label for="edWindDirection" id="edWindDirectionHint" class="col-form-label text-black-50">(0-360)</label>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Controls -->
-            <div class="row row-cols-2 p-1 g-1">
-                <!-- General -->
-                <div class="col" id="controls-row1">
-                    <ul class="list-unstyled small">
-                        <div class="d-grid gap-2">
-                            <button class="btn btn-dark mb-1 btn-block" data-bs-toggle="collapse" aria-expanded="true"
-                                data-bs-target="#row1-collapse" aria-controls="row1-collapse">
-                                General
-                            </button>
-                        </div>
-                        <li>
-                            <ul class="list-unstyled ps-2 pe-2 collapse show" id="row1-collapse">
-                                <li>
-                                    <div class="form-check form-switch">
-                                        <input class="form-check-input can-disable" type="checkbox" id="swAirplaneVisible" checked>
-                                        <label class="form-check-label" for="swAirplaneVisible">Show airplane</label>
-                                    </div>
-                                </li>
-                                <li>
-                                    <div class="form-check form-switch">
-                                        <input class="form-check-input can-disable" type="checkbox" id="swCourseLinesVisible" checked>
-                                        <label class="form-check-label" for="swCourseLinesVisible">Show course lines</label>
-                                    </div>
-                                </li>
-                                <li>
-                                    <div class="form-check form-switch">
-                                        <input class="form-check-input can-disable" type="checkbox" id="swPaused">
-                                        <label class="form-check-label" for="swPaused">Paused</label>
-                                    </div>
-                                </li>
-                                <li>
-                                    <div class="row ps-3 pe-3 mt-3 justify-content-center">
-                                        <button type="button" class="btn btn-outline-danger btn-sm can-disable" id="btnClearTrail">Erase path</button>
-                                    </div>
-                                </li>
-                            </ul>
-                        </li>
-
-                    </ul>
-                </div>
-
-                <!-- Instruments -->
-                <div class="col" id="controls-row1">
-                    <ul class="list-unstyled small">
-                        <div class="d-grid gap-2">
-                            <button class="btn btn-dark mb-1 btn-block" data-bs-toggle="collapse" aria-expanded="true"
-                                data-bs-target="#row1-collapse" aria-controls="row1-collapse">
-                                Instruments
-                            </button>
-                        </div>
-                        <li>
-                            <ul class="list-unstyled ps-2 pe-2 collapse show" id="row1-collapse">
-                                <li>
-                                    <div class="form-check form-switch">
-                                        <input class="form-check-input can-disable" type="checkbox" id="swInstrumentDG">
-                                        <label class="form-check-label" for="swInstrumentDG">DG</label>
-                                    </div>
-                                </li>
-                                <li>
-                                    <div class="form-check form-switch">
-                                        <input class="form-check-input can-disable" type="checkbox" id="swInstrumentRBI">
-                                        <label class="form-check-label" for="swInstrumentRBI">RBI</label>
-                                    </div>
-                                </li>
-                                <li>
-                                    <div class="form-check form-switch">
-                                        <input class="form-check-input can-disable" type="checkbox" id="swInstrumentRMI">
-                                        <label class="form-check-label" for="swInstrumentRMI">RMI</label>
-                                    </div>
-                                </li>
-                                <li>
-                                    <div class="form-check form-switch">
-                                        <input class="form-check-input can-disable" type="checkbox" id="swInstrumentHSI">
-                                        <label class="form-check-label" for="swInstrumentHSI">HSI</label>
-                                    </div>
-                                </li>
-                                <li>
-                                    <div class="form-check form-switch">
-                                        <input class="form-check-input can-disable" type="checkbox" id="swInstrumentCDI">
-                                        <label class="form-check-label" for="swInstrumentCDI">CDI</label>
-                                    </div>
-                                </li>
-                            </ul>
-                        </li>
-
-                    </ul>
-                </div>
-
-                <!-- Options -->
-                <div class="col" id="controls-row2">
-
-                    <!-- File loader for Load setup & Test mode -->
-                    <input type="file" id="fileLoader" accept=".nav" style="display:none">
-
-                    <ul class="list-unstyled small">
-                        <div class="d-grid gap-2">
-                            <button class="btn btn-dark mb-1 btn-block" data-bs-toggle="collapse" aria-expanded="true"
-                                data-bs-target="#row2-collapse" aria-controls="row2-collapse">
-                                Options
-                            </button>
-                        </div>
-                        <li>
-                            <ul class="list-unstyled ps-3 pe-3 collapse show" id="row2-collapse">
-                                <li>
-                                    <div class="row mt-1 justify-content-center">
-                                        <button type="button" class="btn btn-outline-secondary btn-sm can-disable" id="btnSaveImage">Save image</button>
-                                    </div>
-                                </li>
-                                <li>
-                                    <div class="row mt-1 justify-content-center">
-                                        <button type="button" class="btn btn-outline-secondary btn-sm can-disable" id="btnSaveSetup">Save setup</button>
-                                    </div>
-                                </li>
-                                <li>
-                                    <div class="row mt-1 justify-content-center">
-                                        <button type="button" class="btn btn-outline-secondary btn-sm can-disable" id="btnLoadSetup">Load setup</button>
-                                    </div>
-                                </li>
-                                <li>
-                                    <div class="row mt-1 justify-content-center">
-                                        <button type="button" class="btn btn-outline-secondary btn-sm" id="btnTestMode">Test mode</button>
-                                    </div>
-                                </li>
-                            </ul>
-                        </li>
-
-                    </ul>
-                </div>
-
-                <!-- Information -->
-                <div class="col" id="controls-row2">
-                    <ul class="list-unstyled small">
-                        <div class="d-grid gap-2">
-                            <button class="btn btn-dark mb-1 btn-block" data-bs-toggle="collapse" aria-expanded="true"
-                                data-bs-target="#row2-collapse" aria-controls="row2-collapse">
-                                Information
-                            </button>
-                        </div>
-                        <li>
-                            <ul class="list-unstyled ps-1 pe-1 collapse show" id="row2-collapse">
-                                <li>
-                                    <div class="mt-1 justify-content-center">
-                                        <textarea class="form-control form-control-sm can-disable" id="setupInformation" style="height: 136px; resize: none; font-size: small"></textarea>
-                                    </div>
-                                </li>
-                            </ul>
-                        </li>
-
-                    </ul>
-                </div>
-
-                <!-- Editor -->
-                <div class="col" id="controls-row3">
-                    <ul class="list-unstyled small">
-                        <div class="d-grid gap-2">
-                            <button class="btn btn-dark mb-1 btn-block" data-bs-toggle="collapse" aria-expanded="true"
-                                data-bs-target="#row3-collapse" aria-controls="row3-collapse">
-                                Editor
-                            </button>
-                        </div>
-                        <li>
-                            <ul class="list-unstyled ps-2 pe-2 collapse show" id="row3-collapse">
-                                <li>
-                                    <div class="row p-2 pt-1 justify-content-center">
-                                        <button type="button" class="btn btn-outline-danger btn-sm can-disable" id="btnDrawRadial" data-bs-toggle="button" autocomplete="off">Draw radial</button>
-                                    </div>
-                                </li>
-                                <li class="row row-cols-2 p-1 flex-fill justify-content-evenly align-items-center">
-                                    <div class="col w-50">
-                                        <input class="form-check-input can-disable" type="radio" name="radioVOR" id="rbVORA" checked>
-                                        <label for="rbVORA">VOR A</label>
-                                    </div>
-                                    <div class="col w-50">
-                                        <input class="form-check-input can-disable" type="radio" name="radioVOR" id="rbVORB">
-                                        <label for="rbVORB">VOR B</label>
-                                    </div>
-                                </li>
-                                <li class="row row-cols-2 pt-2 flex-fill justify-content-evenly align-items-center">
-                                    <div class="col w-25">
-                                        <label for="edVORRadius">Radius:</label>
-                                    </div>
-                                    <div class="col w-50">
-                                        <input type="text" id="edVORRadius" class="form-control form-control-sm text-centered can-disable">
-                                    </div>
-                                </li>
-                                <li class="row row-cols-2 pt-2 flex-fill justify-content-evenly align-items-center">
-                                    <div class="col w-25">
-                                        <label for="edVORStart">Start:</label>
-                                    </div>
-                                    <div class="col w-50">
-                                        <input type="text" id="edVORStart" class="form-control form-control-sm text-centered can-disable">
-                                    </div>
-                                </li>
-                                <li class="row row-cols-2 pt-2 flex-fill justify-content-evenly align-items-center">
-                                    <div class="col w-25">
-                                        <label for="edVORLength">Length:</label>
-                                    </div>
-                                    <div class="col w-50">
-                                        <input type="text" id="edVORLength" class="form-control form-control-sm text-centered can-disable">
-                                    </div>
-                                </li>
-                            </ul>
-                        </li>
-
-                    </ul>
-                </div>
-            </div>
+    <div class="fullscreen-height" id="sidebarControls">
+      <!-- Current time -->
+      <div class="mb-2 border-bottom">
+        <div class="col">
+          <h1 class="h5 fw-normal text-centered" id="lblCurrentTime">11.12.1999. 11:00:00</h1>
         </div>
+      </div>
+
+      <!-- Stopwatch -->
+      <div class="pb-2 mb-2 border-bottom" style="text-align: center; display: block;">
+        <h1 class="h5 mb-2 text-centered" id="lblStopwatch">00:00:00</h1>
+        <div style="display: inline-block;">
+          <button class="btn btn-outline-secondary btn-sm" id="btnStartStopwatch">Start</button>
+          <button class="btn btn-outline-danger btn-sm" id="btnResetStopwatch">Reset</button>
+        </div>
+      </div>
+
+      <!-- Inputs -->
+      <div class="row justify-content-evenly pb-2 mb-2 border-bottom">
+
+        <!-- Airplane speed -->
+        <div class="row justify-content-start align-items-center">
+          <div class="col col-sm-5">
+            <label for="edSpeed" class="h5 col-form-label text-centered">Airplane speed:</label>
+          </div>
+          <div class="col col-sm-3">
+            <input type="text" id="edSpeed" class="form-control form-control-sm text-centered can-disable">
+          </div>
+          <div class="col col-sm-3">
+            <label for="edSpeed" id="edSpeedHint" class="col-form-label text-black-50">(0-999)</label>
+          </div>
+        </div>
+
+        <!-- Wind speed -->
+        <div class="row justify-content-start align-items-center">
+          <div class="col col-sm-5">
+            <label for="edWindSpeed" class="h5 col-form-label">Wind speed:</label>
+          </div>
+          <div class="col col-sm-3">
+            <input type="text" id="edWindSpeed" class="form-control form-control-sm text-centered can-disable">
+          </div>
+          <div class="col col-sm-3">
+            <label for="edWindSpeed" id="edWindSpeedHint" class="col-form-label text-black-50">(0-500)</label>
+          </div>
+        </div>
+
+        <!-- Wind direction -->
+        <div class="row justify-content-start align-items-center">
+          <div class="col col-sm-5">
+            <label for="edWindDirection" class="h5 col-form-label">Wind direction:</label>
+          </div>
+          <div class="col col-sm-3">
+            <input type="text" id="edWindDirection" class="form-control form-control-sm text-centered can-disable">
+          </div>
+          <div class="col col-sm-3">
+            <label for="edWindDirection" id="edWindDirectionHint" class="col-form-label text-black-50">(0-360)</label>
+          </div>
+        </div>
+      </div>
+
+      <!-- Controls -->
+      <div class="row row-cols-2 p-1 g-1">
+        <!-- General -->
+        <div class="col" id="controls-row1">
+          <ul class="list-unstyled small">
+            <div class="d-grid gap-2">
+              <button class="btn btn-dark mb-1 btn-block" data-bs-toggle="collapse" aria-expanded="true"
+                data-bs-target="#row1-collapse" aria-controls="row1-collapse">
+                General
+              </button>
+            </div>
+            <li>
+              <ul class="list-unstyled ps-2 pe-2 collapse show" id="row1-collapse">
+                <li>
+                  <div class="form-check form-switch">
+                    <input class="form-check-input can-disable" type="checkbox" id="swAirplaneVisible" checked>
+                    <label class="form-check-label" for="swAirplaneVisible">Show airplane</label>
+                  </div>
+                </li>
+                <li>
+                  <div class="form-check form-switch">
+                    <input class="form-check-input can-disable" type="checkbox" id="swCourseLinesVisible" checked>
+                    <label class="form-check-label" for="swCourseLinesVisible">Show course lines</label>
+                  </div>
+                </li>
+                <li>
+                  <div class="form-check form-switch">
+                    <input class="form-check-input can-disable" type="checkbox" id="swPaused">
+                    <label class="form-check-label" for="swPaused">Paused</label>
+                  </div>
+                </li>
+                <li>
+                  <div class="row ps-3 pe-3 mt-3 justify-content-center">
+                    <button type="button" class="btn btn-outline-danger btn-sm can-disable" id="btnClearTrail">Erase path</button>
+                  </div>
+                </li>
+              </ul>
+            </li>
+
+          </ul>
+        </div>
+
+        <!-- Instruments -->
+        <div class="col" id="controls-row1">
+          <ul class="list-unstyled small">
+            <div class="d-grid gap-2">
+              <button class="btn btn-dark mb-1 btn-block" data-bs-toggle="collapse" aria-expanded="true"
+                data-bs-target="#row1-collapse" aria-controls="row1-collapse">
+                Instruments
+              </button>
+            </div>
+            <li>
+              <ul class="list-unstyled ps-2 pe-2 collapse show" id="row1-collapse">
+                <li>
+                  <div class="form-check form-switch">
+                    <input class="form-check-input can-disable" type="checkbox" id="swInstrumentDG">
+                    <label class="form-check-label" for="swInstrumentDG">DG</label>
+                  </div>
+                </li>
+                <li>
+                  <div class="form-check form-switch">
+                    <input class="form-check-input can-disable" type="checkbox" id="swInstrumentRBI">
+                    <label class="form-check-label" for="swInstrumentRBI">RBI</label>
+                  </div>
+                </li>
+                <li>
+                  <div class="form-check form-switch">
+                    <input class="form-check-input can-disable" type="checkbox" id="swInstrumentRMI">
+                    <label class="form-check-label" for="swInstrumentRMI">RMI</label>
+                  </div>
+                </li>
+                <li>
+                  <div class="form-check form-switch">
+                    <input class="form-check-input can-disable" type="checkbox" id="swInstrumentHSI">
+                    <label class="form-check-label" for="swInstrumentHSI">HSI</label>
+                  </div>
+                </li>
+                <li>
+                  <div class="form-check form-switch">
+                    <input class="form-check-input can-disable" type="checkbox" id="swInstrumentCDI">
+                    <label class="form-check-label" for="swInstrumentCDI">CDI</label>
+                  </div>
+                </li>
+              </ul>
+            </li>
+
+          </ul>
+        </div>
+
+        <!-- Options -->
+        <div class="col" id="controls-row2">
+
+          <!-- File loader for Load setup & Test mode -->
+          <input type="file" id="fileLoader" accept=".nav" style="display:none">
+
+          <ul class="list-unstyled small">
+            <div class="d-grid gap-2">
+              <button class="btn btn-dark mb-1 btn-block" data-bs-toggle="collapse" aria-expanded="true"
+                data-bs-target="#row2-collapse" aria-controls="row2-collapse">
+                Options
+              </button>
+            </div>
+            <li>
+              <ul class="list-unstyled ps-3 pe-3 collapse show" id="row2-collapse">
+                <li>
+                  <div class="row mt-1 justify-content-center">
+                    <button type="button" class="btn btn-outline-secondary btn-sm can-disable" id="btnSaveImage">Save image</button>
+                  </div>
+                </li>
+                <li>
+                  <div class="row mt-1 justify-content-center">
+                    <button type="button" class="btn btn-outline-secondary btn-sm can-disable" id="btnSaveSetup">Save setup</button>
+                  </div>
+                </li>
+                <li>
+                  <div class="row mt-1 justify-content-center">
+                    <button type="button" class="btn btn-outline-secondary btn-sm can-disable" id="btnLoadSetup">Load setup</button>
+                  </div>
+                </li>
+                <li>
+                  <div class="row mt-1 justify-content-center">
+                    <button type="button" class="btn btn-outline-secondary btn-sm" id="btnTestMode">Test mode</button>
+                  </div>
+                </li>
+              </ul>
+            </li>
+
+          </ul>
+        </div>
+
+        <!-- Information -->
+        <div class="col" id="controls-row2">
+          <ul class="list-unstyled small">
+            <div class="d-grid gap-2">
+              <button class="btn btn-dark mb-1 btn-block" data-bs-toggle="collapse" aria-expanded="true"
+                data-bs-target="#row2-collapse" aria-controls="row2-collapse">
+                Information
+              </button>
+            </div>
+            <li>
+              <ul class="list-unstyled ps-1 pe-1 collapse show" id="row2-collapse">
+                <li>
+                  <div class="mt-1 justify-content-center">
+                    <textarea class="form-control form-control-sm can-disable" id="setupInformation" style="height: 136px; resize: none; font-size: small"></textarea>
+                  </div>
+                </li>
+              </ul>
+            </li>
+
+          </ul>
+        </div>
+
+        <!-- Editor -->
+        <div class="col" id="controls-row3">
+          <ul class="list-unstyled small">
+            <div class="d-grid gap-2">
+              <button class="btn btn-dark mb-1 btn-block" data-bs-toggle="collapse" aria-expanded="true"
+                data-bs-target="#row3-collapse" aria-controls="row3-collapse">
+                Editor
+              </button>
+            </div>
+            <li>
+              <ul class="list-unstyled ps-2 pe-2 collapse show" id="row3-collapse">
+                <li>
+                  <div class="row p-2 pt-1 justify-content-center">
+                    <button type="button" class="btn btn-outline-danger btn-sm can-disable" id="btnDrawRadial" data-bs-toggle="button" autocomplete="off">Draw radial</button>
+                  </div>
+                </li>
+                <li class="row row-cols-2 p-1 flex-fill justify-content-evenly align-items-center">
+                  <div class="col w-50">
+                    <input class="form-check-input can-disable" type="radio" name="radioVOR" id="rbVORA" checked>
+                    <label for="rbVORA">VOR A</label>
+                  </div>
+                  <div class="col w-50">
+                    <input class="form-check-input can-disable" type="radio" name="radioVOR" id="rbVORB">
+                    <label for="rbVORB">VOR B</label>
+                  </div>
+                </li>
+                <li class="row row-cols-2 pt-2 flex-fill justify-content-evenly align-items-center">
+                  <div class="col w-25">
+                    <label for="edVORRadius">Radius:</label>
+                  </div>
+                  <div class="col w-50">
+                    <input type="text" id="edVORRadius" class="form-control form-control-sm text-centered can-disable">
+                  </div>
+                </li>
+                <li class="row row-cols-2 pt-2 flex-fill justify-content-evenly align-items-center">
+                  <div class="col w-25">
+                    <label for="edVORStart">Start:</label>
+                  </div>
+                  <div class="col w-50">
+                    <input type="text" id="edVORStart" class="form-control form-control-sm text-centered can-disable">
+                  </div>
+                </li>
+                <li class="row row-cols-2 pt-2 flex-fill justify-content-evenly align-items-center">
+                  <div class="col w-25">
+                    <label for="edVORLength">Length:</label>
+                  </div>
+                  <div class="col w-50">
+                    <input type="text" id="edVORLength" class="form-control form-control-sm text-centered can-disable">
+                  </div>
+                </li>
+              </ul>
+            </li>
+
+          </ul>
+        </div>
+      </div>
     </div>
+  </div>
 </div>
 
 <!-- Font workaround -->
