@@ -3,14 +3,14 @@ let sidebarClosed = false;
 const openNav = () => {
   sidebar.style.width = '370px';
   appParent.style.width = 'calc(100vw - 370px)';
-  imgToggleSidebar.src = '../static/arrow-right.png';
+  imgToggleSidebar.src = 'static/arrow-right.png';
   sidebarClosed = false;
 }
 
 const closeNav = () => {
   sidebar.style.width = '0';
   appParent.style.width = '100vw';
-  imgToggleSidebar.src = '../static/arrow-left.png';
+  imgToggleSidebar.src = 'static/arrow-left.png';
   sidebarClosed = true;
 }
 
