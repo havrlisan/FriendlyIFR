@@ -1,0 +1,562 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>FriendlyIFR – Documentation</title>
+  <link rel="shortcut icon" href="../static/favicon.ico">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,300;0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
+  <style>
+    body { font-family: 'Nunito', sans-serif; }
+    .docs-nav { position: sticky; top: 64px; max-height: calc(100vh - 80px); overflow-y: auto; font-size: .95rem; }
+    .docs-nav .nav-link { color: #495057; padding: .2rem .75rem; }
+    .docs-nav .nav-link.active { color: #212529; font-weight: 600; border-left: 3px solid #212529; }
+    .docs-nav .nav-link.sub { padding-left: 1.6rem; font-size: .9rem; }
+    section, h3[id] { scroll-margin-top: 64px; }
+    h2 { margin-top: 2.5rem; padding-bottom: .3rem; border-bottom: 1px solid #dee2e6; }
+    h3 { margin-top: 1.75rem; font-size: 1.25rem; }
+    figure { margin: 1rem 0; }
+    figure img { max-width: 100%; height: auto; border: 1px solid #dee2e6; border-radius: 4px; background: #e6e6e6; }
+    figure.instr { flex: 0 0 160px; }
+    figure.instr img { width: 100%; border: 0; background: transparent; }
+    figcaption { font-size: .85rem; color: #6c757d; margin-top: .3rem; }
+    kbd { background: #212529; }
+    .formula { font-family: 'Cambria Math', 'Times New Roman', serif; font-size: 1.1rem; margin: .5rem 0 .5rem 1.5rem; }
+    .label-key { font-size: .85rem; color: #6c757d; }
+    table td, table th { vertical-align: top; }
+  </style>
+</head>
+
+<body data-bs-spy="scroll" data-bs-target="#docsNav" data-bs-offset="80" tabindex="0">
+
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="../">
+        <img src="../static/favicon.ico" alt="" width="36" height="36" class="d-inline-block"> FriendlyIFR
+      </a>
+      <span class="navbar-text text-white-50 me-auto">Documentation</span>
+      <a class="btn btn-outline-light btn-sm me-2" href="../">Open the app</a>
+      <a class="btn btn-outline-secondary btn-sm" href="https://github.com/havrlisan/FriendlyIFR">GitHub</a>
+    </div>
+  </nav>
+
+  <div class="container-xl">
+    <div class="row">
+
+      <!-- TOC -->
+      <aside class="col-lg-3 d-none d-lg-block">
+        <nav id="docsNav" class="docs-nav nav flex-column mt-4">
+          <a class="nav-link" href="#about">What is FriendlyIFR</a>
+          <a class="nav-link" href="#quick-start">Quick start</a>
+          <a class="nav-link" href="#screen">The screen</a>
+          <a class="nav-link sub" href="#control-panel">Control panel</a>
+          <a class="nav-link sub" href="#map">Interactive map</a>
+          <a class="nav-link sub" href="#keys">Keyboard</a>
+          <a class="nav-link" href="#beacons">Beacons</a>
+          <a class="nav-link" href="#instruments">Instruments</a>
+          <a class="nav-link" href="#files">Save, load &amp; test mode</a>
+          <a class="nav-link" href="#theory">Navigation background</a>
+          <a class="nav-link sub" href="#wind">Wind</a>
+          <a class="nav-link sub" href="#navaids">NDB and VOR</a>
+          <a class="nav-link sub" href="#procedures">IFR procedures</a>
+          <a class="nav-link" href="#exercises">Exercises</a>
+          <a class="nav-link sub" href="#exercise-1">1 · Radial interception</a>
+          <a class="nav-link sub" href="#exercise-2">2 · Procedure turn &amp; holding</a>
+          <a class="nav-link" href="#credits">About</a>
+        </nav>
+      </aside>
+
+      <!-- CONTENT -->
+      <main class="col-lg-9 pb-5">
+
+        <section id="about">
+          <h1 class="mt-4">FriendlyIFR</h1>
+          <p class="lead">A browser-based trainer for practising instrument (IFR) radio-navigation procedures.</p>
+          <p>
+            FriendlyIFR shows an airplane on a 2D map together with radio-navigation beacons (one NDB, two VORs) and the
+            cockpit instruments that read them. You steer the airplane, set the wind, and watch how the instruments
+            react. The goal is to build a <em>mental picture</em> of where the airplane is relative to the beacons and to
+            practise the standard IFR procedures — radial interception, active tracking in wind, procedure turns and
+            holding patterns — until they become automatic.
+          </p>
+          <p>
+            It was built as a bachelor's thesis at the Faculty of Transport and Traffic Sciences, University of Zagreb,
+            for the Aeronautics department. It is a <strong>simple, self-study trainer</strong>: it deliberately leaves out
+            everything that isn't needed for the procedures (altitude, aircraft performance, ATC, weather other than wind)
+            so you can focus on one thing — reading the instruments and flying by them. It is not a certified training
+            device (BITD/FNPT/FTD/FFS) and does not replace flight training; it prepares you for it.
+          </p>
+          <div class="alert alert-secondary py-2">
+            <strong>Requirements:</strong> a desktop browser, keyboard and a mouse with a scroll wheel. Mobile devices are
+            not supported. Nothing is installed — open
+            <a href="https://havrlisan.github.io/FriendlyIFR/">havrlisan.github.io/FriendlyIFR</a> and fly.
+          </div>
+        </section>
+
+        <section id="quick-start">
+          <h2>Quick start</h2>
+          <ol>
+            <li>Open the app. The airplane appears in the middle of the map with a random heading; the simulation is
+              paused (pause symbol in the centre of the map).</li>
+            <li>In the control panel set <strong>Airplane speed</strong> (kn) and, if you want, <strong>Wind speed</strong>
+              (kn) and <strong>Wind direction</strong> (the direction the wind blows <em>from</em>).</li>
+            <li>Turn on the instruments you need in the <strong>Instruments</strong> box (DG, RBI, RMI, HSI, CDI). They
+              appear on the left and can be dragged anywhere.</li>
+            <li>Drag the beacons (NDB, VOR A, VOR B) and the airplane where you want them.</li>
+            <li>Un-pause with <kbd>P</kbd> or the <strong>Paused</strong> switch. Steer with <kbd>B</kbd> (left) and
+              <kbd>M</kbd> (right) — standard-rate turn, 3°/s. The airplane leaves a black trail.</li>
+            <li>Turn the HSI course knob (CRS) or the CDI OBS knob by rolling the mouse wheel over the instrument.</li>
+          </ol>
+          <p class="mb-0">The simulation runs in real time: one minute on the stopwatch is one minute of flight, so timed
+            legs (procedure turns, holding) can be flown with the built-in stopwatch.</p>
+        </section>
+
+        <section id="screen">
+          <h2>The screen</h2>
+          <figure>
+            <img src="img/app-overview.jpg" alt="FriendlyIFR main screen">
+            <figcaption>Main screen: instruments (left), interactive map with airplane, NDB, VOR A / VOR B and course lines
+              (centre), control panel (right).</figcaption>
+          </figure>
+          <p>The screen is split into the <strong>control panel</strong> on the right and the <strong>interactive map</strong>
+            that fills the rest. The arrow button at the top-left corner of the panel collapses it to give the map more
+            room.</p>
+
+          <h3 id="control-panel">Control panel</h3>
+          <div class="row">
+            <div class="col-md-5">
+              <figure><img src="img/sidebar.png" alt="Control panel"><figcaption>Control panel (scrolls if the window is short).</figcaption></figure>
+            </div>
+            <div class="col-md-7">
+              <table class="table table-sm">
+                <tbody>
+                  <tr><th colspan="2">Top</th></tr>
+                  <tr><td>Clock</td><td>Current date and time of your computer.</td></tr>
+                  <tr><td>Stopwatch</td><td><strong>Start</strong> starts it and turns into <strong>Stop</strong>; <strong>Reset</strong> zeroes it. Use it for timed legs.</td></tr>
+                  <tr><td>Airplane speed</td><td>True airspeed in knots, whole number 0–999. The wind is added on top.</td></tr>
+                  <tr><td>Wind speed / direction</td><td>Knots (0–500) and degrees (0–360). Direction is where the wind blows <em>from</em>, as in a METAR. Invalid input blinks red and is ignored.</td></tr>
+
+                  <tr><th colspan="2">General</th></tr>
+                  <tr><td>Show airplane</td><td>Shows/hides the airplane and its trail (<kbd>V</kbd>).</td></tr>
+                  <tr><td>Show course lines</td><td>Shows/hides the selected radial lines drawn through VOR A and VOR B.</td></tr>
+                  <tr><td>Paused</td><td>Freezes the airplane (<kbd>P</kbd>). Also engaged automatically when you switch to another tab.</td></tr>
+                  <tr><td>Erase path</td><td>Clears the trail.</td></tr>
+
+                  <tr><th colspan="2">Instruments</th></tr>
+                  <tr><td>DG, RBI, RMI, HSI, CDI</td><td>One switch per instrument. Visible instruments stack in a column on the left; drag them anywhere.</td></tr>
+
+                  <tr><th colspan="2">Options</th></tr>
+                  <tr><td>Save image</td><td>Reminds you to use your system's screenshot key (Print Screen).</td></tr>
+                  <tr><td>Save setup</td><td>Downloads the whole scenario as a <code>.nav</code> file (see <a href="#files">Save, load &amp; test mode</a>).</td></tr>
+                  <tr><td>Load setup</td><td>Loads a <code>.nav</code> file with everything visible and editable.</td></tr>
+                  <tr><td>Test mode</td><td>Loads a <code>.nav</code> file as an exam: airplane hidden, controls locked.</td></tr>
+
+                  <tr><th colspan="2">Information</th></tr>
+                  <tr><td>Text box</td><td>Free text — write the task for the exercise here. It is stored in the <code>.nav</code> file.</td></tr>
+
+                  <tr><th colspan="2">Editor</th></tr>
+                  <tr><td>Draw radial</td><td>Toggle. While it reads <em>Drawing radial</em>, dragging from the centre of any beacon draws a radial / bearing line on the map.</td></tr>
+                  <tr><td>VOR A / VOR B</td><td>Chooses which VOR the DME-arc fields below apply to.</td></tr>
+                  <tr><td>Radius, Start, Length</td><td>DME arc around the chosen VOR: radius in NM, start bearing in degrees, arc length in degrees (0 = no arc).</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <h3 id="map">Interactive map</h3>
+          <ul>
+            <li><strong>Pan</strong> by dragging empty map; <strong>zoom</strong> with the mouse wheel (limited range).</li>
+            <li><strong>Move</strong> the airplane, the beacons and the instruments by dragging them. In test mode only the
+              instruments can be moved.</li>
+            <li>The airplane moves according to its speed, heading and the wind, and draws a black <strong>trail</strong>
+              behind it. When paused, a pause symbol is shown in the centre of the map.</li>
+            <li>The map area is finite (about 250 NM wide); the view is clamped to it.</li>
+          </ul>
+
+          <h3 id="keys">Keyboard</h3>
+          <table class="table table-sm w-auto">
+            <thead><tr><th>Key</th><th>Action</th></tr></thead>
+            <tbody>
+              <tr><td><kbd>B</kbd> / <kbd>M</kbd></td><td>Turn left / right at standard rate (3°/s). Hold to keep turning.</td></tr>
+              <tr><td><kbd>A</kbd> / <kbd>D</kbd></td><td>Fast turn left / right — for setting up a scenario. Disabled in test mode.</td></tr>
+              <tr><td><kbd>P</kbd></td><td>Pause / resume (not in test mode — use the Test mode button).</td></tr>
+              <tr><td><kbd>V</kbd></td><td>Show / hide the airplane and trail (not in test mode).</td></tr>
+            </tbody>
+          </table>
+          <p class="text-muted small">Keys are ignored while an input field has focus — click on the map first.</p>
+        </section>
+
+        <section id="beacons">
+          <h2>Beacons</h2>
+          <p>Three ground stations are always present and drawn with their aeronautical-chart symbols. There is no
+            receiver tuning: each instrument is permanently bound to a beacon (RBI/RMI → NDB, HSI → VOR A, CDI → VOR B).</p>
+          <div class="row align-items-start">
+            <div class="col-sm-4">
+              <figure><img src="img/beacon-ndb.png" alt="NDB symbol" style="width:120px"><figcaption><strong>NDB</strong> — non-directional beacon. Only its position matters.</figcaption></figure>
+            </div>
+            <div class="col-sm-4">
+              <figure><img src="img/beacon-vor.png" alt="VOR symbol" style="width:120px"><figcaption><strong>VOR A / VOR B</strong> — VHF omnidirectional range, labelled inside the symbol.</figcaption></figure>
+            </div>
+          </div>
+
+          <h3>Selected radial (course lines)</h3>
+          <div class="row">
+            <div class="col-md-5">
+              <figure><img src="img/vor-course-lines-arc.png" alt="VOR with course lines and DME arc"><figcaption>VOR A with the selected radial (red), its reciprocal (blue) and a 5 NM DME arc, start 090°, length 180°.</figcaption></figure>
+            </div>
+            <div class="col-md-7">
+              <p>Each VOR draws the course selected on its instrument (HSI → VOR A, CDI → VOR B) as a line through the
+                station: the <span style="color:#d00">red</span> half is the selected radial (outbound from the station),
+                the <span style="color:#00c">blue</span> half is its reciprocal. Turning the CRS/OBS knob rotates the line.
+                The lines are a visual aid for building the mental picture; hide them with <strong>Show course lines</strong>
+                when you want to fly "blind". They are hidden automatically in test mode.</p>
+              <p>Within ±5° of the line perpendicular to the selected course the receiver cannot tell TO from FROM, and the
+                HSI/CDI show the <strong>OFF</strong> flag.</p>
+              <h3>DME arc</h3>
+              <p>An arc of constant distance around VOR A or VOR B, defined in the Editor by radius (NM), start bearing and
+                length (°). Use it to lay out DME-arc arrivals.</p>
+            </div>
+          </div>
+
+          <h3>Drawing radials and bearings</h3>
+          <div class="row">
+            <div class="col-md-6">
+              <figure><img src="img/ndb-radial.png" alt="Drawn radial from NDB"><figcaption>A drawn line from the NDB: bearing at the midpoint (069.4°), distance in NM at the end (17.8).</figcaption></figure>
+            </div>
+            <div class="col-md-6">
+              <p>Press <strong>Draw radial</strong>, then drag from the centre of a beacon out onto the map. The line shows
+                its bearing from the station (i.e. the radial / QDR) at the midpoint and the distance of the endpoint in NM.
+                Drag the endpoint circle to adjust it; drop it back onto the beacon to delete it. Any number of lines can be
+                drawn from any beacon, and they are saved with the setup — this is how you mark the radials, QDMs/QDRs
+                and fixes of an exercise.</p>
+            </div>
+          </div>
+        </section>
+
+        <section id="instruments">
+          <h2>Instruments</h2>
+          <p>Five instruments, all with the same look. Each is turned on with its switch and can be dragged anywhere on
+            the screen. Their readings are always live, even while paused.</p>
+
+          <div class="row row-cols-1 row-cols-md-2 g-4">
+            <div class="col">
+              <div class="d-flex">
+                <figure class="instr me-3 mb-0"><img src="img/instr-dg.png" alt="Directional gyro"></figure>
+                <div>
+                  <h5>DG — Directional Gyro</h5>
+                  <p class="mb-1">Fixed airplane silhouette, rotating compass card. Reads the airplane's <strong>heading</strong> under the top index.</p>
+                </div>
+              </div>
+            </div>
+            <div class="col">
+              <div class="d-flex">
+                <figure class="instr me-3 mb-0"><img src="img/instr-rbi.png" alt="Relative bearing indicator"></figure>
+                <div>
+                  <h5>RBI — Relative Bearing Indicator</h5>
+                  <p class="mb-1">Fixed card with N on top; the needle shows the <strong>relative bearing</strong> to the NDB (angle from the nose to the station). QDM = heading + relative bearing.</p>
+                </div>
+              </div>
+            </div>
+            <div class="col">
+              <div class="d-flex">
+                <figure class="instr me-3 mb-0"><img src="img/instr-rmi.png" alt="Radio magnetic indicator"></figure>
+                <div>
+                  <h5>RMI — Radio Magnetic Indicator</h5>
+                  <p class="mb-1">DG + RBI in one: the card shows heading, the needle points at the NDB, so the needle head reads the <strong>QDM</strong> and its tail the <strong>QDR</strong> directly.</p>
+                </div>
+              </div>
+            </div>
+            <div class="col">
+              <div class="d-flex">
+                <figure class="instr me-3 mb-0"><img src="img/instr-hsi.png" alt="Horizontal situation indicator"></figure>
+                <div>
+                  <h5>HSI — Horizontal Situation Indicator</h5>
+                  <p class="mb-1">Bound to <strong>VOR A</strong>. Rotating card shows heading; the course arrow shows the selected course; the centre bar slides left/right with the deviation from it (each dot 2°). Roll the <strong>mouse wheel over the instrument</strong> to turn the CRS knob (bottom-right). Shows TO / FROM / OFF and the DME distance to VOR A (top-left).</p>
+                </div>
+              </div>
+            </div>
+            <div class="col">
+              <div class="d-flex">
+                <figure class="instr me-3 mb-0"><img src="img/instr-cdi.png" alt="Course deviation indicator"></figure>
+                <div>
+                  <h5>CDI — Course Deviation Indicator</h5>
+                  <p class="mb-1">Bound to <strong>VOR B</strong>. Selected course under the top index, vertical needle deviates left/right (each dot 2°, full scale 10°). Roll the <strong>mouse wheel over the instrument</strong> to turn the OBS knob. Shows TO / FROM / OFF and the DME distance to VOR B.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <table class="table table-sm mt-4">
+            <thead><tr><th>Instrument</th><th>Beacon</th><th>Card</th><th>Needle / bar shows</th><th>Control</th></tr></thead>
+            <tbody>
+              <tr><td>DG</td><td>—</td><td>rotates (heading)</td><td>—</td><td>—</td></tr>
+              <tr><td>RBI</td><td>NDB</td><td>fixed</td><td>relative bearing to NDB</td><td>—</td></tr>
+              <tr><td>RMI</td><td>NDB</td><td>rotates (heading)</td><td>QDM / QDR to NDB</td><td>—</td></tr>
+              <tr><td>HSI</td><td>VOR A</td><td>rotates (heading)</td><td>selected course, deviation, TO/FROM, DME</td><td>CRS knob — mouse wheel</td></tr>
+              <tr><td>CDI</td><td>VOR B</td><td>set by OBS</td><td>deviation, TO/FROM, DME</td><td>OBS knob — mouse wheel</td></tr>
+            </tbody>
+          </table>
+          <p class="text-muted small">Not modelled: ADF frequency selection, altitude and glide-path indications on the HSI, aircraft performance.</p>
+        </section>
+
+        <section id="files">
+          <h2>Save, load &amp; test mode</h2>
+          <h3>Setup files (<code>.nav</code>)</h3>
+          <p><strong>Save setup</strong> downloads a <code>Setup1.nav</code> file (plain JSON) with the complete scenario:
+            airplane position, heading, speed and visibility; wind; positions of the beacons with all drawn radials and
+            DME arcs; which instruments are visible and where they are; the HSI course and CDI OBS setting; the course-line
+            switch; and the text from the Information box. <strong>Load setup</strong> restores it (paused). Files can be
+            shared between users — this is how an instructor hands out exercises. Files from the original desktop version
+            of the trainer are also accepted on a best-effort basis.</p>
+
+          <h3>Test mode</h3>
+          <p>Test mode loads a <code>.nav</code> file as an exam. The <strong>Test mode</strong> button cycles through four
+            states:</p>
+          <table class="table table-sm">
+            <thead><tr><th>Button reads</th><th>What happens</th></tr></thead>
+            <tbody>
+              <tr><td><span class="btn btn-outline-secondary btn-sm disabled">Test mode</span></td><td>Click → choose a <code>.nav</code> file. The scenario loads paused with the <strong>airplane and course lines hidden</strong>; speed, wind, switches, editor and fast turns are locked. Only the instruments (and the map view) can be moved. Determine your position from the instruments and prepare.</td></tr>
+              <tr><td><span class="btn btn-outline-success btn-sm disabled">Start</span></td><td>Click → the airplane starts moving. Fly the task by instruments only (<kbd>B</kbd>/<kbd>M</kbd>).</td></tr>
+              <tr><td><span class="btn btn-outline-danger btn-sm disabled">Finish</span></td><td>Click → the simulation pauses and the airplane and its trail become visible so the flown track can be reviewed.</td></tr>
+              <tr><td><span class="btn btn-outline-info btn-sm disabled">Practice mode</span></td><td>Click → controls are unlocked again and the button returns to <em>Test mode</em>.</td></tr>
+            </tbody>
+          </table>
+          <p class="text-muted small">Closing or reloading the page asks for confirmation; switching to another browser tab pauses the simulation (outside test mode).</p>
+        </section>
+
+        <section id="theory">
+          <h2>Navigation background</h2>
+          <p>The minimum theory needed to use the trainer well. Three directions must be kept apart:</p>
+          <ul>
+            <li><strong>Heading (HDG)</strong> — where the nose points; what the DG shows.</li>
+            <li><strong>Course</strong> — the intended path over the ground (a radial, a QDM…).</li>
+            <li><strong>Track</strong> — the path actually flown over the ground.</li>
+          </ul>
+          <p>Without wind, all three coincide. With wind, heading must be offset from the course so that the track equals the course.</p>
+
+          <h3 id="wind">Wind</h3>
+          <div class="row">
+            <div class="col-md-6">
+              <figure><img src="img/fig-crosswind.jpg" alt="Crosswind component"><figcaption>Crosswind: uncorrected (top) the track drifts off the course by the drift angle; corrected (bottom) the heading is offset by the correction angle so track = course.<br><span class="label-key">Vjetar = wind · Pravac leta = heading · Kurs leta = course · Smjer leta = track · Kut zanosa = drift angle · Kut ispravke = correction angle</span></figcaption></figure>
+            </div>
+            <div class="col-md-6">
+              <figure><img src="img/fig-headwind.jpg" alt="Head/tailwind component"><figcaption>Head/tail component changes ground speed: 100 kn airspeed with 20 kn headwind → 80 kn ground speed, with tailwind → 120 kn.<br><span class="label-key">Vjetar = wind · Čeona/leđna komponenta = headwind/tailwind component</span></figcaption></figure>
+            </div>
+          </div>
+          <p>Wind is split into a <em>crosswind</em> component (pushes you off course → needs a heading correction) and a
+            <em>head/tail</em> component (changes ground speed → changes leg times). The trainer models both: the wind
+            vector is simply added to the airplane's movement every frame.</p>
+
+          <h4 class="fs-6 fw-bold">Mental-math wind correction</h4>
+          <p>Take the <strong>wind angle β</strong> — the angle (0–90°) between the course and the wind line — round it
+            with the table, then:</p>
+          <div class="row">
+            <div class="col-md-5">
+              <table class="table table-sm table-bordered text-center">
+                <thead><tr><th>β</th><th>use</th><th>sin β</th><th>cos β</th></tr></thead>
+                <tbody>
+                  <tr><td>0–20°</td><td>0°</td><td>0</td><td>1</td></tr>
+                  <tr><td>21–35°</td><td>30°</td><td>0.5</td><td>0.9</td></tr>
+                  <tr><td>36–50°</td><td>45°</td><td>0.7</td><td>0.7</td></tr>
+                  <tr><td>51–70°</td><td>60°</td><td>0.9</td><td>0.5</td></tr>
+                  <tr><td>71–90°</td><td>90°</td><td>1</td><td>0</td></tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="col-md-7">
+              <div class="formula">crosswind = W · sin β</div>
+              <div class="formula">head/tail wind = W · cos β</div>
+              <div class="formula">correction angle α = crosswind / V × 60</div>
+              <div class="formula">ground speed = V ∓ head/tail wind</div>
+              <p class="small text-muted mb-0">W = wind speed, V = airplane speed (kn). Apply α to the heading <em>into</em> the wind. Timed legs are stretched or shortened by V / GS.</p>
+            </div>
+          </div>
+          <p><em>Example:</em> course 264°, wind 045°/30 kn, 170 kn. β = 39° → 45°, crosswind = 30 × 0.7 = 21 kn,
+            α = 21 / 170 × 60 ≈ 7°. Wind is from the right, so fly HDG 264 + 7 = 271°.</p>
+
+          <h3 id="navaids">NDB and VOR</h3>
+          <div class="row">
+            <div class="col-md-6">
+              <h5>NDB</h5>
+              <p>A non-directional beacon transmits an omnidirectional LF/MF signal. The aircraft's ADF finds the direction
+                to it and shows it as a relative bearing (RBI) or magnetic bearing (RMI). Terms: <strong>QDM</strong> —
+                magnetic bearing <em>to</em> the station; <strong>QDR</strong> — magnetic bearing <em>from</em> the station
+                (QDM ± 180°). Range up to about 400 NM, sensitive to atmospheric effects.</p>
+            </div>
+            <div class="col-md-6">
+              <h5>VOR</h5>
+              <p>A VHF omnidirectional range lets the receiver measure the <strong>radial</strong> — the magnetic bearing
+                from the station to the aircraft. More accurate than NDB and not weather-sensitive; standard IFR aid up
+                to ~200 NM. On the HSI/CDI you select a course; the deviation shows how far you are off the selected radial
+                (or its reciprocal), TO/FROM tells which side of the station you are on, and DME gives the slant distance
+                (here: ground distance) in NM.</p>
+            </div>
+          </div>
+          <p>Reading a VOR position: turn the CRS/OBS knob until the deviation is centred with FROM showing — the selected
+            course is your radial. Two radials from two stations, or a radial and a DME distance, fix your position.</p>
+
+          <h3 id="procedures">IFR procedures</h3>
+          <h5>Passive vs. active tracking</h5>
+          <div class="row">
+            <div class="col-md-5">
+              <figure><img src="img/fig-passive-active.jpg" alt="Passive and active tracking"><figcaption>Top: passive (homing) — heading kept on the needle, track curves in the wind. Bottom: active — heading corrected, track straight along the course.</figcaption></figure>
+            </div>
+            <div class="col-md-7">
+              <p><strong>Passive</strong> tracking (homing) ignores the wind: you keep the needle on the nose and the
+                aircraft is blown into a curved track. It cannot follow a published radial. <strong>Active</strong>
+                tracking applies the wind correction angle so the track coincides with the course. When drift is noticed
+                (needle moves off, say, 5°), re-intercept the course at a modest angle (e.g. 30° + 2× α) and, once back on
+                it, resume the corrected heading.</p>
+            </div>
+          </div>
+
+          <h5>Holding pattern</h5>
+          <div class="row">
+            <div class="col-md-6">
+              <figure><img src="img/fig-holding.jpg" alt="Holding pattern"><figcaption><span class="label-key">Točka preletišta = holding fix · Dolazni krak = inbound leg · Odlazni krak = outbound leg · Prvi/drugi zaokret = first/second turn · Traverza = abeam · Strana čekanja = holding side · Vanjska strana = non-holding side</span></figcaption></figure>
+            </div>
+            <div class="col-md-6">
+              <p>A racetrack used to keep the aircraft in a defined airspace while waiting for clearance. Defined by the
+                <strong>fix</strong>, the <strong>inbound course</strong>, the <strong>turn direction</strong> (standard =
+                right) and the <strong>outbound leg</strong> length — 1 min below 14 000 ft (1.5 min above), timed from
+                abeam the fix, or a distance/radial. Entries: direct, parallel, teardrop (offset). Wind is corrected on the
+                straight legs by heading (typically 3× α outbound to also compensate the uncorrected turns) and by adjusting
+                the outbound time for the head/tail component.</p>
+            </div>
+          </div>
+
+          <h5>Procedure turns</h5>
+          <p>Course reversals that start over a beacon or fix and bring the aircraft back onto the inbound course.</p>
+          <div class="row">
+            <div class="col-md-4">
+              <figure><img src="img/fig-pt-45-180.jpg" alt="45/180 procedure turn"><figcaption><strong>45°/180°</strong> — outbound leg (time/distance/radial), turn 45°, fly 1 min (cat. A/B; 1 min 15 s for C/D/E), turn 180° the other way, intercept inbound.<br><span class="label-key">Vrijeme ili udaljenost = time or distance</span></figcaption></figure>
+            </div>
+            <div class="col-md-4">
+              <figure><img src="img/fig-pt-80-260.jpg" alt="80/260 procedure turn"><figcaption><strong>80°/260°</strong> — like 45/180 but a 80° turn immediately followed by 260° the other way.</figcaption></figure>
+            </div>
+            <div class="col-md-4">
+              <figure><img src="img/fig-base-turn.jpg" alt="Base turn"><figcaption><strong>Base turn</strong> — outbound track from the fix (time/distance limited), then one turn onto the inbound track.</figcaption></figure>
+            </div>
+          </div>
+        </section>
+
+        <section id="exercises">
+          <h2>Exercises</h2>
+          <p>Two worked examples from the thesis that together use every feature of the trainer. Recreate them with the
+            Editor (or have an instructor hand you the <code>.nav</code> file and load it in <strong>Test mode</strong>).
+            Bearings on the map are read from the drawn radial lines; positions below are relative to the beacons only.</p>
+
+          <h3 id="exercise-1">Exercise 1 — Radial interception and active outbound tracking</h3>
+          <div class="row">
+            <div class="col-md-4">
+              <table class="table table-sm">
+                <tr><th>Instruments</th><td>DG, RBI, CDI</td></tr>
+                <tr><th>Speed</th><td>170 kn</td></tr>
+                <tr><th>Wind</th><td>045° / 30 kn</td></tr>
+                <tr><th>Beacons</th><td>VOR B (CDI) and NDB, NDB roughly south-west of the VOR</td></tr>
+                <tr><th>Drawn lines</th><td>R264 from VOR B; QDR 005° and QDR 100° from the NDB</td></tr>
+              </table>
+            </div>
+            <div class="col-md-8">
+              <p><strong>Task</strong></p>
+              <ol>
+                <li>Determine the airplane's position.</li>
+                <li>Intercept R264 outbound from the VOR at 45°.</li>
+                <li>On crossing QDR 005°, intercept it inbound to the NDB.</li>
+                <li>Over the NDB, intercept QDR 100° at 45°.</li>
+                <li>Demonstrate active outbound tracking from the NDB.</li>
+              </ol>
+            </div>
+          </div>
+          <p><strong>Solution</strong></p>
+          <ol>
+            <li><em>Position.</em> Turn the CDI OBS until the needle centres — the card reads the radial you are on
+              (R230 in the thesis run). The DG gives the heading (275°). The RBI shows a relative bearing to the NDB (325°),
+              which places the airplane in a small area at the intersection of "R230 from the VOR" and "NDB 35° left of the
+              nose".</li>
+            <li><em>Intercept R264 at 45°.</em> Set OBS 264, fly HDG 309. As the needle approaches centre, turn onto the
+              radial with the wind correction: wind 045° vs. course 264° gives β = 39° → 45°, crosswind 30 × 0.7 = 21 kn,
+              α = 21/170 × 60 ≈ 7°; wind from the right → <strong>HDG 271</strong>.</li>
+            <li><em>QDR 005 inbound to the NDB.</em> When the RBI shows you crossing QDR 005 (QDM 185), turn left onto the
+              inbound course 185° with correction → <strong>HDG 178</strong>, until station passage.</li>
+            <li><em>QDR 100 at 45°.</em> After the NDB, turn left to HDG 055 and intercept QDR 100 at 45°; on the
+              QDR the correction is α ≈ 9.5° (β = 55° → 60°, crosswind 27 kn).</li>
+            <li><em>Active outbound.</em> Deliberately fly HDG 100 (no correction). The wind pushes the airplane right of the
+              QDR and the RBI needle starts to move. When it is off by 5°, re-intercept at 30° plus twice the correction:
+              HDG 100 − 30 − 2 × 9.5 = <strong>051</strong>. Back on the QDR, hold the corrected heading
+              100 − 9.5 ≈ <strong>090</strong>.</li>
+          </ol>
+
+          <h3 id="exercise-2">Exercise 2 — Procedure turn and holding</h3>
+          <div class="row">
+            <div class="col-md-4">
+              <table class="table table-sm">
+                <tr><th>Instruments</th><td>RMI, HSI</td></tr>
+                <tr><th>Speed</th><td>240 kn</td></tr>
+                <tr><th>Wind</th><td>190° / 30 kn</td></tr>
+                <tr><th>Beacons</th><td>VOR A (HSI) and NDB</td></tr>
+                <tr><th>Drawn lines</th><td>QDR 300° / 120° through the NDB; R360 from VOR A with the holding fix at 16.6 NM</td></tr>
+              </table>
+            </div>
+            <div class="col-md-8">
+              <p><strong>Task</strong></p>
+              <ol>
+                <li>Determine the airplane's position.</li>
+                <li>Intercept QDR 300° inbound to the NDB.</li>
+                <li>2 minutes after passing the NDB fly a 45°/180° procedure turn to the left.</li>
+                <li>On the way back join a left-hand holding pattern with the fix at R360 / 16.6 NM from VOR A and inbound
+                  course 360°.</li>
+              </ol>
+            </div>
+          </div>
+          <p><strong>Solution</strong></p>
+          <ol>
+            <li><em>Position.</em> RMI and HSI cards read HDG 105. Turn the HSI CRS until the deviation bar lines up with the
+              course arrow (FROM) — R010 in the thesis run. The RMI needle points at 143°, i.e. the NDB is on QDM 143. The
+              airplane is near the intersection of R010 (VOR A) and QDM 143 (NDB).</li>
+            <li><em>QDR 300 inbound.</em> Turn right and intercept QDR 300 (inbound course 120°). On the QDR: β = 190 − 120 =
+              70° → 60°, crosswind 30 × 0.9 = 27 kn, α = 27/240 × 60 ≈ 7°; wind from the right → <strong>HDG 127</strong>.</li>
+            <li><em>45/180 to the left.</em> Over the NDB start the stopwatch; at 2:00 turn 45° left of the outbound course
+              (120 − 45 = <strong>075</strong>) and hold it for 1 minute; then turn <em>right</em> 180° onto
+              <strong>255</strong> and hold it until you re-intercept QDR 120 inbound to the NDB, then
+              <strong>HDG 293</strong> (300 − 7). Notice the wind: ground speed is higher on the first segment and lower
+              on the second, so the pattern is not symmetric.</li>
+            <li><em>Holding.</em> Continue on 293 to the fix (R360 / 16.6 NM DME on the HSI). Coming from that direction a
+              direct entry applies. Abeam the fix start the stopwatch and fly the outbound heading with 3× α:
+              180 + 3 × 1.3 ≈ <strong>184</strong>. Outbound the wind is on the nose (β = 10°): head component
+              30 × cos 10° ≈ 29 kn, GS = 240 − 29 = 211 kn, so the 1-minute leg becomes
+              240/211 × 60 s ≈ <strong>68 s</strong>. At 68 s turn left, intercept R360 inbound and fly course 360 with a
+              small (≈1°) correction to the fix. Fly the pattern once more; the exercise ends on the third fix passage.</li>
+          </ol>
+        </section>
+
+        <section id="credits">
+          <h2>About</h2>
+          <p>FriendlyIFR was developed by Luka Havrlišan as the bachelor's thesis <em>Development of an Instrument
+            Procedure Flying Training Device</em> (Faculty of Transport and Traffic Sciences, University of Zagreb, 2021;
+            mentor dr. sc. Tomislav Radišić). The navigation theory on this page follows D. Novak, <em>Zrakoplovna računska
+            navigacija</em> (FPZ, 2012) and T. Bucak &amp; I. Zorić, <em>Zrakoplovni instrumenti i prikaznici</em> (FPZ,
+            2002); the diagrams in the <a href="#theory">Navigation background</a> section are from the thesis.</p>
+          <p>The app is a static web page (HTML/CSS/JavaScript on PixiJS) published from the
+            <a href="https://github.com/havrlisan/FriendlyIFR">GitHub repository</a>. Issues and suggestions are welcome
+            there.</p>
+        </section>
+
+      </main>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+  <script>
+    // images shift the layout after load — recompute scrollspy offsets
+    window.addEventListener('load', () => bootstrap.ScrollSpy.getInstance(document.body).refresh());
+  </script>
+</body>
+
+</html>
